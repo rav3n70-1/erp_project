@@ -11,10 +11,11 @@ require_once 'permissions.php';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/erp_project/assets/css/style.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    
     <link rel="stylesheet" href="/erp_project/assets/css/style.css">
 </head>
 <body>
@@ -69,15 +70,15 @@ require_once 'permissions.php';
             <a href="/erp_project/modules/reports/purchase_history.php" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-bar-chart-line-fill me-2"></i>Reports</a>
             <?php endif; ?>
             
-            <?php if (has_permission('user_manage')): ?>
+            <?php if (has_permission('user_manage') || has_permission('supplier_info_approve')): ?>
             <a href="#adminSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-person-badge-fill me-2"></i>Administration</a>
             <div class="collapse" id="adminSubmenu">
-                <a href="/erp_project/modules/admin/manage_users.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Manage Users</a>
+                <?php if (has_permission('user_manage')): ?><a href="/erp_project/modules/admin/manage_users.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Manage Users</a><?php endif; ?>
+                <?php if (has_permission('supplier_info_approve')): ?><a href="/erp_project/modules/admin/review_supplier_changes.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Supplier Changes</a><?php endif; ?>
                 <a href="/erp_project/modules/admin/view_audit_log.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Audit Log</a>
                 <a href="/erp_project/modules/admin/import_products.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Import Products</a>
             </div>
             <?php endif; ?>
-
         </div>
     </div>
     <div id="page-content-wrapper" class="flex-grow-1">
@@ -98,8 +99,7 @@ require_once 'permissions.php';
                                 <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($_SESSION['username']); ?> (<?php echo htmlspecialchars($_SESSION['role_name']); ?>)
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#!">Profile</a>
-                                <a class="dropdown-item" href="#!">Settings</a>
+                                <a class="dropdown-item" href="/erp_project/modules/profile/">My Profile</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/erp_project/logout.php">Logout</a>
                             </div>

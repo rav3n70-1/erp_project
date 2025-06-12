@@ -47,6 +47,7 @@ $page_title = "Supplier Portal";
         if (isset($_GET['status'])) {
             $message = ''; $alert_type = 'info';
             if ($_GET['status'] == 'success_upload') { $message = 'Invoice uploaded successfully and is awaiting approval.'; $alert_type = 'success'; }
+            if ($_GET['status'] == 'change_request_success') { $message = 'Your change request has been submitted for review.'; $alert_type = 'success'; }
             if ($_GET['status'] == 'error_duplicate') { $message = 'Error: An invoice with that number has already been submitted.'; $alert_type = 'danger'; }
             if ($_GET['status'] == 'error_missing_file') { $message = 'Error: An invoice file attachment is required.'; $alert_type = 'danger'; }
             if ($message) { echo '<div class="alert alert-'. $alert_type .' alert-dismissible fade show" role="alert">'. htmlspecialchars($message) .'<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>'; }
@@ -54,9 +55,12 @@ $page_title = "Supplier Portal";
         ?>
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>Your Purchase Orders</h1>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadInvoiceModal">
-                <i class="bi bi-upload me-2"></i>Upload New Invoice
-            </button>
+            <div>
+                <a href="edit_my_details.php" class="btn btn-info text-white me-2"><i class="bi bi-person-lines-fill"></i> Update My Details</a>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadInvoiceModal">
+                    <i class="bi bi-upload me-2"></i>Upload New Invoice
+                </button>
+            </div>
         </div>
         <div class="card">
             <div class="card-body">
