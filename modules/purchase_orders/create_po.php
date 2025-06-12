@@ -5,11 +5,11 @@ include('../../includes/db.php');
 
 $conn = connect_db();
 
-// Fetch Suppliers
+// 1. Fetch Suppliers
 $sql_suppliers = "SELECT id, supplier_name FROM suppliers ORDER BY supplier_name ASC";
 $suppliers_result = $conn->query($sql_suppliers);
 
-// Fetch Products for JavaScript
+// 2. Fetch Products for JavaScript
 $sql_products = "SELECT id, product_name, price FROM products ORDER BY product_name ASC";
 $products_result = $conn->query($sql_products);
 $products = [];
@@ -18,7 +18,7 @@ while ($row = $products_result->fetch_assoc()) {
 }
 $products_json = json_encode($products);
 
-// Fetch Budgets with their spending data
+// 3. Fetch Budgets with their spending data
 $sql_budgets = "SELECT 
                     b.id, b.budget_name, b.allocated_amount,
                     ((SELECT COALESCE(SUM(po.total_amount), 0) FROM purchase_orders po WHERE po.budget_id = b.id AND po.status != 'Rejected') +
@@ -28,7 +28,7 @@ $sql_budgets = "SELECT
                 ORDER BY budget_name ASC";
 $budgets_result = $conn->query($sql_budgets);
 
-// Generate PO Number
+// 4. Generate PO Number
 $sql_last_po = "SELECT id FROM purchase_orders ORDER BY id DESC LIMIT 1";
 $last_po_result = $conn->query($sql_last_po);
 $last_po_id = 0;
@@ -53,7 +53,7 @@ $new_po_number = 'PO-' . date('Y') . '-' . str_pad($last_po_id + 1, 4, '0', STR_
         <div class="card-header"><h5>Purchase Order Details</h5></div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
                     <label for="supplier_id" class="form-label">Supplier <span class="text-danger">*</span></label>
                     <select class="form-select" id="supplier_id" name="supplier_id" required>
                         <option value="">Select Supplier</option>
@@ -62,11 +62,15 @@ $new_po_number = 'PO-' . date('Y') . '-' . str_pad($last_po_id + 1, 4, '0', STR_
                         <?php endwhile; ?>
                     </select>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
                     <label for="order_date" class="form-label">Order Date <span class="text-danger">*</span></label>
                     <input type="date" class="form-control" id="order_date" name="order_date" value="<?php echo date('Y-m-d'); ?>" required>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
+                    <label for="expected_delivery_date" class="form-label">Expected Delivery Date</label>
+                    <input type="date" class="form-control" id="expected_delivery_date" name="expected_delivery_date">
+                </div>
+                <div class="col-md-3 mb-3">
                     <label for="budget_id" class="form-label">Assign to Budget (Optional)</label>
                     <select class="form-select" id="budget_id" name="budget_id">
                         <option value="" data-remaining="0">None</option>
@@ -79,7 +83,7 @@ $new_po_number = 'PO-' . date('Y') . '-' . str_pad($last_po_id + 1, 4, '0', STR_
                         <?php endwhile; ?>
                     </select>
                     <div id="budget-info" class="form-text" style="display: none;">
-                        Remaining Budget: <strong id="remaining-budget-amount" class="text-success"></strong>
+                        Remaining: <strong id="remaining-budget-amount" class="text-success"></strong>
                     </div>
                 </div>
             </div>
@@ -138,8 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
         newRow.querySelectorAll('input').forEach(input => input.value = '');
         tableBody.appendChild(newRow);
     }
-
-    // THIS FUNCTION IS NEW/UPDATED
+    
     function updateRemainingDisplay() {
         const selectedBudget = budgetSelect.options[budgetSelect.selectedIndex];
         if (!selectedBudget || !selectedBudget.value) {
@@ -149,12 +152,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const originalRemaining = parseFloat(selectedBudget.dataset.remaining);
         const grandTotal = parseFloat(document.getElementById('grand-total').textContent);
-        
-        // Calculate what the budget will be *after* this PO
         const newRemaining = originalRemaining - grandTotal;
 
         remainingBudgetElement.textContent = '$' + newRemaining.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-
+        
         if (newRemaining < 0) {
             remainingBudgetElement.classList.remove('text-success');
             remainingBudgetElement.classList.add('text-danger');
@@ -176,8 +177,6 @@ document.addEventListener('DOMContentLoaded', function () {
             grandTotal += lineTotal;
         });
         document.getElementById('grand-total').textContent = grandTotal.toFixed(2);
-        
-        // THIS IS THE KEY CHANGE: Update the budget display every time the total changes
         updateRemainingDisplay();
     }
 
@@ -209,8 +208,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // Event listener for budget dropdown changes
     budgetSelect.addEventListener('change', updateRemainingDisplay);
     
+    // Event listener for form submission to prevent over-budget orders
     poForm.addEventListener('submit', function(e) {
         const selectedBudget = budgetSelect.options[budgetSelect.selectedIndex];
         if (selectedBudget && selectedBudget.value) {

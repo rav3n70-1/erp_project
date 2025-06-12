@@ -67,7 +67,11 @@ require_once 'permissions.php';
             <?php endif; ?>
 
             <?php if (has_permission('reports_full_access') || has_permission('reports_po_only')): ?>
-            <a href="/erp_project/modules/reports/purchase_history.php" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-bar-chart-line-fill me-2"></i>Reports</a>
+            <a href="#reportsSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-bar-chart-line-fill me-2"></i>Reports</a>
+            <div class="collapse" id="reportsSubmenu">
+                <a href="/erp_project/modules/reports/purchase_history.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Purchase History</a>
+                <a href="/erp_project/modules/reports/supplier_performance.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Supplier Performance</a>
+            </div>
             <?php endif; ?>
             
             <?php if (has_permission('user_manage') || has_permission('supplier_info_approve')): ?>

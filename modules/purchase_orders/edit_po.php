@@ -48,9 +48,13 @@ $budgets_result = $conn->query($sql_budgets);
         <div class="card-header"><h5>PO Details</h5></div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-4 mb-3"><label for="supplier_id" class="form-label">Supplier</label><select class="form-select" name="supplier_id" required><?php mysqli_data_seek($suppliers_result, 0); while($s = $suppliers_result->fetch_assoc()){ $sel = $s['id']==$po['supplier_id']?'selected':''; echo "<option value='{$s['id']}' {$sel}>".htmlspecialchars($s['supplier_name'])."</option>"; } ?></select></div>
-                <div class="col-md-4 mb-3"><label for="order_date" class="form-label">Order Date</label><input type="date" class="form-control" name="order_date" value="<?php echo htmlspecialchars($po['order_date']); ?>" required></div>
-                <div class="col-md-4 mb-3"><label for="budget_id" class="form-label">Budget</label><select class="form-select" name="budget_id"><option value="">None</option><?php while($b = $budgets_result->fetch_assoc()){ $sel = $b['id']==$po['budget_id']?'selected':''; echo "<option value='{$b['id']}' {$sel}>".htmlspecialchars($b['budget_name'])."</option>"; } ?></select></div>
+                <div class="col-md-3 mb-3"><label for="supplier_id" class="form-label">Supplier</label><select class="form-select" name="supplier_id" required><?php mysqli_data_seek($suppliers_result, 0); while($s = $suppliers_result->fetch_assoc()){ $sel = $s['id']==$po['supplier_id']?'selected':''; echo "<option value='{$s['id']}' {$sel}>".htmlspecialchars($s['supplier_name'])."</option>"; } ?></select></div>
+                <div class="col-md-3 mb-3"><label for="order_date" class="form-label">Order Date</label><input type="date" class="form-control" name="order_date" value="<?php echo htmlspecialchars($po['order_date']); ?>" required></div>
+                <div class="col-md-3 mb-3">
+                    <label for="expected_delivery_date" class="form-label">Expected Delivery Date</label>
+                    <input type="date" class="form-control" id="expected_delivery_date" name="expected_delivery_date" value="<?php echo htmlspecialchars($po['expected_delivery_date']); ?>">
+                </div>
+                <div class="col-md-3 mb-3"><label for="budget_id" class="form-label">Budget</label><select class="form-select" name="budget_id"><option value="">None</option><?php while($b = $budgets_result->fetch_assoc()){ $sel = $b['id']==$po['budget_id']?'selected':''; echo "<option value='{$b['id']}' {$sel}>".htmlspecialchars($b['budget_name'])."</option>"; } ?></select></div>
             </div>
         </div>
     </div>
@@ -64,15 +68,25 @@ $budgets_result = $conn->query($sql_budgets);
                 <table class="table table-bordered" id="po-items-table">
                     <thead><tr><th>Product</th><th>Quantity</th><th>Unit Price ($)</th><th>Total ($)</th><th>Action</th></tr></thead>
                     <tbody>
-                        <?php foreach($po_items as $item): ?>
-                        <tr>
-                            <td><select name="product_id[]" class="form-select product-select" required><option value="">Select</option><?php foreach ($products as $p) { $sel = $p['id']==$item['product_id']?'selected':''; echo "<option value='{$p['id']}' data-price='{$p['price']}' {$sel}>".htmlspecialchars($p['product_name'])."</option>"; } ?></select></td>
-                            <td><input type="number" name="quantity[]" class="form-control quantity" min="1" value="<?php echo $item['quantity']; ?>" required></td>
-                            <td><input type="number" name="unit_price[]" class="form-control unit-price" step="0.01" min="0" value="<?php echo $item['unit_price']; ?>" required></td>
-                            <td><input type="text" class="form-control line-total" value="<?php echo $item['total_price']; ?>" readonly></td>
-                            <td><button type="button" class="btn btn-danger btn-sm delete-row-btn"><i class="bi bi-trash"></i></button></td>
-                        </tr>
-                        <?php endforeach; ?>
+                        <?php if (empty($po_items)): ?>
+                            <tr>
+                                <td><select name="product_id[]" class="form-select product-select" required><option value="">Select</option><?php foreach ($products as $p) { echo "<option value='{$p['id']}' data-price='{$p['price']}'>".htmlspecialchars($p['product_name'])."</option>"; } ?></select></td>
+                                <td><input type="number" name="quantity[]" class="form-control quantity" min="1" required></td>
+                                <td><input type="number" name="unit_price[]" class="form-control unit-price" step="0.01" min="0" required></td>
+                                <td><input type="text" class="form-control line-total" readonly></td>
+                                <td><button type="button" class="btn btn-danger btn-sm delete-row-btn"><i class="bi bi-trash"></i></button></td>
+                            </tr>
+                        <?php else: ?>
+                            <?php foreach($po_items as $item): ?>
+                            <tr>
+                                <td><select name="product_id[]" class="form-select product-select" required><option value="">Select</option><?php foreach ($products as $p) { $sel = $p['id']==$item['product_id']?'selected':''; echo "<option value='{$p['id']}' data-price='{$p['price']}' {$sel}>".htmlspecialchars($p['product_name'])."</option>"; } ?></select></td>
+                                <td><input type="number" name="quantity[]" class="form-control quantity" min="1" value="<?php echo $item['quantity']; ?>" required></td>
+                                <td><input type="number" name="unit_price[]" class="form-control unit-price" step="0.01" min="0" value="<?php echo $item['unit_price']; ?>" required></td>
+                                <td><input type="text" class="form-control line-total" value="<?php echo $item['total_price']; ?>" readonly></td>
+                                <td><button type="button" class="btn btn-danger btn-sm delete-row-btn"><i class="bi bi-trash"></i></button></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
@@ -90,35 +104,59 @@ $conn->close();
 include('../../includes/footer.php');
 ?>
 <script>
-// The same dynamic row JavaScript from create_po.php
-const products = <?php echo $products_json; ?>;
-// (The full script to handle dynamic rows and totals should be included here)
-// For brevity, we are omitting it, but it's the same as in create_po.php
-// Crucially, we must call updateTotals() on page load to set the initial grand total.
-document.addEventListener('DOMContentLoaded', function () {
-    const tableBody = document.getElementById('po-items-table').querySelector('tbody');
-    const addRowBtn = document.getElementById('add-row-btn');
-    function addRow() {
-        // Your existing addRow function logic
-    }
-    function updateTotals() {
-        let grandTotal = 0;
-        tableBody.querySelectorAll('tr').forEach(row => {
-            const quantity = parseFloat(row.querySelector('.quantity').value) || 0;
-            const unitPrice = parseFloat(row.querySelector('.unit-price').value) || 0;
-            const lineTotal = quantity * unitPrice;
-            row.querySelector('.line-total').value = lineTotal.toFixed(2);
-            grandTotal += lineTotal;
-        });
-        document.getElementById('grand-total').textContent = grandTotal.toFixed(2);
-    }
-    addRowBtn.addEventListener('click', addRow);
-    tableBody.addEventListener('input', function (e) {
-        if (e.target.classList.contains('quantity') || e.target.classList.contains('unit-price')) {
-            updateTotals();
+    // The same dynamic row JavaScript from create_po.php
+    const products = <?php echo $products_json; ?>;
+    document.addEventListener('DOMContentLoaded', function () {
+        const tableBody = document.getElementById('po-items-table').querySelector('tbody');
+        const addRowBtn = document.getElementById('add-row-btn');
+        
+        function addRow() {
+            const newRow = tableBody.rows[0].cloneNode(true);
+            newRow.querySelector('select').value = '';
+            newRow.querySelectorAll('input').forEach(input => input.value = '');
+            tableBody.appendChild(newRow);
         }
+
+        function updateTotals() {
+            let grandTotal = 0;
+            tableBody.querySelectorAll('tr').forEach(row => {
+                const quantity = parseFloat(row.querySelector('.quantity').value) || 0;
+                const unitPrice = parseFloat(row.querySelector('.unit-price').value) || 0;
+                const lineTotal = quantity * unitPrice;
+                row.querySelector('.line-total').value = lineTotal.toFixed(2);
+                grandTotal += lineTotal;
+            });
+            document.getElementById('grand-total').textContent = grandTotal.toFixed(2);
+        }
+
+        addRowBtn.addEventListener('click', addRow);
+        
+        tableBody.addEventListener('input', function (e) {
+            if (e.target.classList.contains('quantity') || e.target.classList.contains('unit-price')) {
+                updateTotals();
+            }
+        });
+
+        tableBody.addEventListener('change', function (e) {
+            if (e.target.classList.contains('product-select')) {
+                const selectedOption = e.target.options[e.target.selectedIndex];
+                const price = selectedOption.dataset.price || 0;
+                e.target.closest('tr').querySelector('.unit-price').value = parseFloat(price).toFixed(2);
+                updateTotals();
+            }
+        });
+
+        tableBody.addEventListener('click', function(e) {
+            if (e.target.closest('.delete-row-btn')) {
+                if (tableBody.rows.length > 1) {
+                    e.target.closest('tr').remove();
+                    updateTotals();
+                } else {
+                    alert('You must have at least one item in the purchase order.');
+                }
+            }
+        });
+        
+        updateTotals(); // Call once on page load to set the initial total
     });
-    // Add other listeners from create_po.php here...
-    updateTotals(); // This line is important
-});
 </script>
