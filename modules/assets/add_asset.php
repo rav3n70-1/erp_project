@@ -93,8 +93,4 @@ $asset_statuses = ['In Stock', 'In Use', 'Under Maintenance', 'Retired'];
         </form>
     </div>
 </div>
-
-<?php
-$conn->close();
-include('../../includes/footer.php');
-?>
+<?php $conn->close(); include('../../includes/footer.php'); ?>
