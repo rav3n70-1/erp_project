@@ -17,11 +17,11 @@ $password = $_POST['password'];
 
 $conn = connect_db();
 
-// Fetch user and their role from the database
+// UPDATED QUERY: Now checks if the user is active (is_active = 1)
 $sql = "SELECT u.*, r.role_name 
         FROM users u 
         JOIN roles r ON u.role_id = r.id 
-        WHERE u.username = ?";
+        WHERE u.username = ? AND u.is_active = 1";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $username);
 $stmt->execute();
@@ -30,9 +30,7 @@ $result = $stmt->get_result();
 if ($result->num_rows === 1) {
     $user = $result->fetch_assoc();
 
-    // Verify the password against the stored hash
     if (password_verify($password, $user['password'])) {
-        // --- NEW PERMISSIONS LOGIC ---
         // Fetch all permission keys for this user's role
         $sql_permissions = "SELECT permission_key FROM role_permissions WHERE role_id = ?";
         $stmt_perms = $conn->prepare($sql_permissions);
@@ -49,15 +47,14 @@ if ($result->num_rows === 1) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['role_name'] = $user['role_name'];
-        $_SESSION['permissions'] = $permissions; // Store the array of permissions in the session
+        $_SESSION['permissions'] = $permissions;
 
-        // Redirect to the main dashboard
         header('Location: index.php');
         exit();
     }
 }
 
-// If we reach here, login was invalid
+// If we reach here, login was invalid (user not found, password wrong, or account inactive)
 header('Location: login.php?error=invalid');
 exit();
 ?>

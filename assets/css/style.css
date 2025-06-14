@@ -1,3 +1,4 @@
+/* --- GLOBAL STYLES --- */
 body {
     font-family: 'Poppins', sans-serif;
 }
@@ -33,56 +34,58 @@ body.toggled #sidebar-wrapper {
     #sidebar-wrapper {
         margin-left: 0;
     }
-
     #page-content-wrapper {
         min-width: 0;
         width: 100%;
     }
-    
     body.toggled #sidebar-wrapper {
         margin-left: -15rem;
     }
 }
 
-
-/* --- CORRECTED FADE-IN ANIMATION --- */
-
-/* 1. Define the keyframes for the animation */
+/* --- FADE-IN ANIMATION --- */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-
-/* 2. Create a reusable class that applies the animation */
 .fade-in {
     animation: fadeIn 0.5s ease-out forwards;
 }
 
-/* --- NEW DASHBOARD STYLES --- */
-.dashboard-wrapper {
+/* --- DASHBOARD CARD STYLES --- */
+.dashboard-card {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: transform 0.2s ease-in-out;
+}
+.dashboard-card:hover {
+    transform: translateY(-5px);
+}
+.dashboard-card .card-body {
     display: flex;
-    width: 100%;
-    height: 100vh;
+    justify-content: space-between;
+    align-items: center;
+}
+.dashboard-card .card-footer {
+    background-color: rgba(0, 0, 0, 0.075);
+    border-top: none;
+}
+.dashboard-card .stat-icon {
+    font-size: 3rem;
+    opacity: 0.5;
 }
 
-/* --- NEW LOGIN PAGE STYLES --- */
-
+/* --- LOGIN PAGE STYLES --- */
 .login-page-wrapper {
     display: flex;
     width: 100%;
     height: 100vh;
     overflow: hidden;
 }
-
 .login-image-side {
     flex: 1;
-    background: linear-gradient(to right, rgba(4, 38, 92, 0.8), rgba(2, 84, 163, 0.8)), url('https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?q=80&w=1974&auto=format&fit=crop') no-repeat center center;
+    background: linear-gradient(to right, rgba(4, 38, 92, 0.85), rgba(2, 84, 163, 0.85)), url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1974&auto=format&fit=crop') no-repeat center center;
     background-size: cover;
     color: white;
     display: flex;
@@ -90,17 +93,27 @@ body.toggled #sidebar-wrapper {
     justify-content: center;
     padding: 3rem;
 }
-
 .login-form-side {
     flex: 1;
-    background-color: #f8f9fa; /* Light Gray Background */
+    background-color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
 .login-form-container {
     width: 100%;
     max-width: 420px;
     padding: 2rem;
+}
+.input-group-text {
+    background-color: #e9ecef;
+    border: 1px solid #dee2e6;
+    border-right: none;
+}
+.login-form-side .form-control {
+    border-left: none;
+}
+.login-form-side .form-control:focus {
+    box-shadow: none;
+    border-color: #dee2e6;
 }

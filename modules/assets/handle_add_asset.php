@@ -21,6 +21,7 @@ foreach ($required_fields as $field) {
     }
 }
 
+// Capture all form data
 $asset_name = $_POST['asset_name'];
 $asset_tag = $_POST['asset_tag'];
 $asset_type_id = $_POST['asset_type_id'];
@@ -29,6 +30,10 @@ $purchase_date = !empty($_POST['purchase_date']) ? $_POST['purchase_date'] : NUL
 $purchase_cost = !empty($_POST['purchase_cost']) ? $_POST['purchase_cost'] : NULL;
 $assigned_to = !empty($_POST['assigned_to_employee_id']) ? $_POST['assigned_to_employee_id'] : NULL;
 $notes = $_POST['notes'] ?? NULL;
+
+// Capture new depreciation fields
+$useful_life_years = !empty($_POST['useful_life_years']) ? $_POST['useful_life_years'] : NULL;
+$salvage_value = !empty($_POST['salvage_value']) ? $_POST['salvage_value'] : 0.00;
 
 $conn = connect_db();
 
@@ -44,13 +49,12 @@ if ($stmt_check->num_rows > 0) {
 }
 $stmt_check->close();
 
-$sql = "INSERT INTO assets (asset_name, asset_tag, asset_type_id, purchase_date, purchase_cost, assigned_to_employee_id, status, notes) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+// Updated SQL query to include the new depreciation columns
+$sql = "INSERT INTO assets (asset_name, asset_tag, asset_type_id, purchase_date, purchase_cost, useful_life_years, salvage_value, assigned_to_employee_id, status, notes) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-
-// --- THIS IS THE CORRECTED LINE ---
-// The type string is now "ssisdiss" (8 characters for 8 variables).
-$stmt->bind_param("ssisdiss", $asset_name, $asset_tag, $asset_type_id, $purchase_date, $purchase_cost, $assigned_to, $status, $notes);
+// Update the bind_param string and variables
+$stmt->bind_param("ssisididss", $asset_name, $asset_tag, $asset_type_id, $purchase_date, $purchase_cost, $useful_life_years, $salvage_value, $assigned_to, $status, $notes);
 
 if ($stmt->execute()) {
     $asset_id = $conn->insert_id;

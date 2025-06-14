@@ -33,7 +33,9 @@ require_once 'permissions.php';
             <?php if (has_permission('supplier_view') || has_permission('po_create')): ?>
             <a href="/erp_project/modules/suppliers/view_suppliers.php" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-people-fill me-2"></i>Suppliers</a>
             <?php endif; ?>
-            
+            <?php if (has_permission('client_manage')): ?>
+            <a href="/erp_project/modules/clients/view_clients.php" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-person-square me-2"></i>Clients</a>
+            <?php endif; ?>
             <?php if (has_permission('inventory_view') || has_permission('asset_view') || has_permission('product_view') || has_permission('po_create')): ?>
             <a href="#productSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-box-seam me-2"></i>Products & Inventory</a>
             <div class="collapse" id="productSubmenu">

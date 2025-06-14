@@ -24,6 +24,9 @@ $sql_budgets = "SELECT
                 HAVING spent_amount < b.allocated_amount
                 ORDER BY budget_name ASC";
 $budgets_result = $conn->query($sql_budgets);
+
+$sql_clients = "SELECT id, client_name FROM clients WHERE is_active = 1 ORDER BY client_name ASC";
+$clients_result = $conn->query($sql_clients);
 ?>
 
 <nav aria-label="breadcrumb">
@@ -41,6 +44,15 @@ $budgets_result = $conn->query($sql_budgets);
     <div class="card-body">
         <form action="handle_add_project.php" method="POST" id="project-form">
             <div class="mb-3"><label for="project_name" class="form-label">Project Name <span class="text-danger">*</span></label><input type="text" class="form-control" id="project_name" name="project_name" required></div>
+            <div class="mb-3">
+                <label for="client_id" class="form-label">Assign to Client</label>
+                <select class="form-select" id="client_id" name="client_id">
+                    <option value="">None</option>
+                    <?php while($client = $clients_result->fetch_assoc()): ?>
+                        <option value="<?php echo $client['id']; ?>"><?php echo htmlspecialchars($client['client_name']); ?></option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
             <div class="mb-3"><label for="description" class="form-label">Description</label><textarea class="form-control" id="description" name="description" rows="3"></textarea></div>
             <div class="row">
                 <div class="col-md-6 mb-3"><label for="start_date" class="form-label">Start Date <span class="text-danger">*</span></label><input type="date" class="form-control" id="start_date" name="start_date" value="<?php echo date('Y-m-d'); ?>" required></div>
@@ -48,7 +60,7 @@ $budgets_result = $conn->query($sql_budgets);
             </div>
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="budget_id" class="form-label">Link to Department Budget (Optional)</label>
+                    <label for="budget_id" class="form-label">Link to Department Budget</label>
                     <select class="form-select" id="budget_id" name="budget_id">
                         <option value="" data-remaining="0">None</option>
                         <?php while($budget = $budgets_result->fetch_assoc()): 

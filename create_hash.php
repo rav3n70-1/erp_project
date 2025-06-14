@@ -2,7 +2,7 @@
 // This script is for debugging purposes only.
 // It generates a secure password hash for a given password.
 
-$passwordToHash = 'procofficer123';
+$passwordToHash = 'admin123';
 
 echo "<h1>Password Hash Generator</h1>";
 echo "<p><strong>Password:</strong> " . htmlspecialchars($passwordToHash) . "</p>";

@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('toggled'));
         });
     }
-
+    
     // --- 2. Initialize DataTables ---
     // Note: We use jQuery here because DataTables requires it.
     if (typeof $ === 'function' && $.fn.DataTable) {
@@ -33,17 +33,15 @@ function setupModalListener(modalId, inputId, isDelete = true) {
         modalElement.addEventListener('show.bs.modal', event => {
             const button = event.relatedTarget;
             const dataId = button.getAttribute('data-id');
+            const dataName = button.getAttribute('data-name'); // For modals that might show a name
             
             const modalInput = modalElement.querySelector(inputId);
             if (modalInput) modalInput.value = dataId;
 
-            // Special case for modals that also show a name
-            if (isDelete) {
-                 const dataName = button.getAttribute('data-name');
-                 const nameElement = modalElement.querySelector('.modal-data-name'); // Use a generic class
+            if (isDelete && dataName) {
+                 const nameElement = modalElement.querySelector('.modal-data-name');
                  if (nameElement) nameElement.textContent = dataName;
-            } else {
-                 const dataName = button.getAttribute('data-name');
+            } else if (!isDelete && dataName) {
                  const nameInput = modalElement.querySelector('.modal-data-name-input');
                  if (nameInput) nameInput.value = dataName;
             }
@@ -53,7 +51,7 @@ function setupModalListener(modalId, inputId, isDelete = true) {
 
 // Initialize all our modals
 setupModalListener('deleteConfirmationModal', '#supplierIdToDelete');
-setupModalListener('editCategoryModal', '#edit_category_id', false); // This is an edit modal
+setupModalListener('editCategoryModal', '#edit_category_id', false);
 setupModalListener('deleteCategoryModal', '#delete_category_id');
 setupModalListener('deleteProductModal', '#delete_product_id');
 setupModalListener('deleteBudgetModal', '#delete_budget_id');
@@ -64,15 +62,77 @@ setupModalListener('deleteInvoiceModal', '#delete_invoice_id');
 
 
 // --- AJAX EVENT LISTENERS ---
+// This 'change' listener handles all dropdown changes.
 document.addEventListener('change', function(event) {
     // Handle Compliance Status Update
     if (event.target.classList.contains('compliance-status-select')) {
-        // ... compliance status logic
+        // ... (compliance status logic)
     }
-
+    
     // Handle Project Task Status Update
     if (event.target.classList.contains('task-status-select')) {
-        // ... task status logic
+        // ... (task status logic)
+    }
+
+    // UPDATED: Handle Delivery Status CHANGE
+    // This part now ONLY shows the save button.
+    if (event.target.classList.contains('delivery-status-select')) {
+        const selectElement = event.target;
+        const saveButton = selectElement.parentElement.querySelector('.save-delivery-status');
+        if (saveButton) {
+            saveButton.style.display = 'inline-block';
+        }
+    }
+});
+
+// This 'click' listener handles all button clicks.
+document.addEventListener('click', function(event) {
+    // NEW: Handle Delivery Status SAVE button click
+    const saveButton = event.target.closest('.save-delivery-status');
+    if (saveButton) {
+        const wrapper = saveButton.parentElement;
+        const selectElement = wrapper.querySelector('.delivery-status-select');
+        const deliveryId = selectElement.dataset.deliveryId;
+        const newStatus = selectElement.value;
+
+        saveButton.disabled = true;
+        saveButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+
+        fetch('/erp_project/modules/deliveries/handle_update_delivery_status.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ delivery_id: deliveryId, new_status: newStatus })
+        })
+        .then(response => {
+            if (!response.ok) { throw new Error('Server responded with an error.'); }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === 'success') {
+                saveButton.classList.remove('btn-success');
+                saveButton.classList.add('btn-outline-success');
+                saveButton.innerHTML = '<i class="bi bi-check-lg"></i>';
+            } else {
+                saveButton.classList.remove('btn-success');
+                saveButton.classList.add('btn-danger');
+                saveButton.innerHTML = '<i class="bi bi-x-lg"></i>';
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            saveButton.classList.remove('btn-success');
+            saveButton.classList.add('btn-danger');
+            saveButton.innerHTML = '<i class="bi bi-x-lg"></i>';
+        })
+        .finally(() => {
+            setTimeout(() => {
+                saveButton.style.display = 'none';
+                saveButton.disabled = false;
+                saveButton.classList.remove('btn-outline-success', 'btn-danger');
+                saveButton.classList.add('btn-success');
+                saveButton.innerHTML = '<i class="bi bi-check-lg"></i>';
+            }, 1500);
+        });
     }
 });
 

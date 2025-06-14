@@ -5,37 +5,21 @@ include('includes/db.php');
 
 $conn = connect_db();
 
-// --- Fetch data for all 5 dynamic cards ---
-
-// 1. POs Awaiting Approval
+// --- Fetch data for all dynamic cards ---
 $sql_pending_pos = "SELECT COUNT(id) as pending_count FROM purchase_orders WHERE status = 'Pending'";
 $pending_pos_count = $conn->query($sql_pending_pos)->fetch_assoc()['pending_count'];
 
-// 2. Total Suppliers
 $sql_suppliers = "SELECT COUNT(id) as supplier_count FROM suppliers";
 $suppliers_count = $conn->query($sql_suppliers)->fetch_assoc()['supplier_count'];
 
-// 3. Total Products (Restored)
-$sql_products = "SELECT COUNT(id) as product_count FROM products";
-$products_count = $conn->query($sql_products)->fetch_assoc()['product_count'];
+$sql_projects = "SELECT COUNT(id) as project_count FROM projects WHERE status = 'In Progress'";
+$projects_count = $conn->query($sql_projects)->fetch_assoc()['project_count'];
 
-// 4. Deliveries This Month
-$sql_deliveries = "SELECT COUNT(id) as delivery_count FROM deliveries WHERE MONTH(delivery_date) = MONTH(CURDATE()) AND YEAR(delivery_date) = YEAR(CURDATE())";
-$deliveries_count = $conn->query($sql_deliveries)->fetch_assoc()['delivery_count'];
-
-// 5. Spend This Month
 $sql_spend = "SELECT SUM(total_amount) as month_spend FROM purchase_orders WHERE status IN ('Approved', 'Partially Delivered', 'Completed') AND MONTH(order_date) = MONTH(CURDATE()) AND YEAR(order_date) = YEAR(CURDATE())";
 $month_spend = $conn->query($sql_spend)->fetch_assoc()['month_spend'] ?? 0;
 
-
 // --- Fetch data for the Spend Analysis Chart ---
-$sql_chart = "SELECT s.supplier_name, SUM(po.total_amount) as total_spent
-              FROM purchase_orders po
-              JOIN suppliers s ON po.supplier_id = s.id
-              WHERE po.status IN ('Approved', 'Partially Delivered', 'Completed')
-              GROUP BY s.supplier_name
-              ORDER BY total_spent DESC
-              LIMIT 7"; 
+$sql_chart = "SELECT s.supplier_name, SUM(po.total_amount) as total_spent FROM purchase_orders po JOIN suppliers s ON po.supplier_id = s.id WHERE po.status IN ('Approved', 'Partially Delivered', 'Completed') GROUP BY s.supplier_name ORDER BY total_spent DESC LIMIT 7";
 $chart_result = $conn->query($sql_chart);
 $chart_labels = [];
 $chart_data = [];
@@ -47,51 +31,92 @@ $chart_labels_json = json_encode($chart_labels);
 $chart_data_json = json_encode($chart_data);
 ?>
 
-<h1 class="mt-4">Dashboard</h1>
-<p class="lead">Welcome back, <?php echo htmlspecialchars($_SESSION['username']); ?>! Here is a summary of the system activity.</p>
+<div class="d-flex justify-content-between align-items-center">
+    <h1 class="mt-4">Dashboard</h1>
+</div>
+<p class="lead mb-4">Welcome back, <?php echo htmlspecialchars($_SESSION['username']); ?>! Here is a summary of system activity.</p>
 
 <div class="row">
-    <div class="col-lg col-md-6 mb-4">
-        <div class="card bg-warning text-dark h-100">
-            <div class="card-body">
-                <div class="d-flex justify-content-between"><div><div class="fs-1 fw-bold"><?php echo $pending_pos_count; ?></div><div>POs Awaiting Approval</div></div><i class="bi bi-patch-question-fill fs-1 text-black-50"></i></div>
-            </div>
-            <div class="card-footer d-flex align-items-center justify-content-between"><a class="small text-dark stretched-link" href="/erp_project/modules/purchase_orders/view_pos.php">View Details</a><div class="small text-dark"><i class="bi bi-chevron-right"></i></div></div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card dashboard-card bg-warning text-dark h-100">
+            <div class="card-body"><div><div class="fs-1 fw-bold"><?php echo $pending_pos_count; ?></div><div class="text-uppercase">POs Awaiting Approval</div></div><i class="bi bi-patch-question-fill stat-icon"></i></div>
+            <a class="card-footer text-dark d-flex" href="/erp_project/modules/purchase_orders/view_pos.php?filter_status=Pending">View Details <i class="bi bi-arrow-right-short ms-auto"></i></a>
         </div>
     </div>
-    <div class="col-lg col-md-6 mb-4">
-        <div class="card bg-primary text-white h-100">
-             <div class="card-body">
-                <div class="d-flex justify-content-between"><div><div class="fs-1 fw-bold"><?php echo $suppliers_count; ?></div><div>Total Suppliers</div></div><i class="bi bi-people-fill fs-1 text-white-50"></i></div>
-            </div>
-            <div class="card-footer d-flex align-items-center justify-content-between"><a class="small text-white stretched-link" href="/erp_project/modules/suppliers/view_suppliers.php">View Details</a><div class="small text-white"><i class="bi bi-chevron-right"></i></div></div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card dashboard-card bg-primary text-white h-100">
+             <div class="card-body"><div><div class="fs-1 fw-bold"><?php echo $suppliers_count; ?></div><div class="text-uppercase">Total Suppliers</div></div><i class="bi bi-people-fill stat-icon"></i></div>
+            <a class="card-footer text-white d-flex" href="/erp_project/modules/suppliers/view_suppliers.php">View Details <i class="bi bi-arrow-right-short ms-auto"></i></a>
         </div>
     </div>
-    <div class="col-lg col-md-6 mb-4">
-        <div class="card bg-info text-white h-100">
-             <div class="card-body">
-                <div class="d-flex justify-content-between"><div><div class="fs-1 fw-bold"><?php echo $products_count; ?></div><div>Total Products</div></div><i class="bi bi-box-seam fs-1 text-white-50"></i></div>
-            </div>
-            <div class="card-footer d-flex align-items-center justify-content-between"><a class="small text-white stretched-link" href="/erp_project/modules/products/view_products.php">View Details</a><div class="small text-white"><i class="bi bi-chevron-right"></i></div></div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card dashboard-card bg-info text-white h-100">
+             <div class="card-body"><div><div class="fs-1 fw-bold"><?php echo $projects_count; ?></div><div class="text-uppercase">In-Progress Projects</div></div><i class="bi bi-kanban-fill stat-icon"></i></div>
+            <a class="card-footer text-white d-flex" href="/erp_project/modules/projects/view_projects.php">View Details <i class="bi bi-arrow-right-short ms-auto"></i></a>
         </div>
     </div>
-    <div class="col-lg col-md-6 mb-4">
-        <div class="card bg-secondary text-white h-100">
-             <div class="card-body">
-                <div class="d-flex justify-content-between"><div><div class="fs-1 fw-bold"><?php echo $deliveries_count; ?></div><div>Deliveries This Month</div></div><i class="bi bi-truck fs-1 text-white-50"></i></div>
-            </div>
-            <div class="card-footer d-flex align-items-center justify-content-between"><a class="small text-white stretched-link" href="/erp_project/modules/deliveries/view_deliveries.php">View Details</a><div class="small text-white"><i class="bi bi-chevron-right"></i></div></div>
-        </div>
-    </div>
-    <div class="col-lg col-md-6 mb-4">
-        <div class="card bg-success text-white h-100">
-             <div class="card-body">
-                <div class="d-flex justify-content-between"><div><div class="fs-1 fw-bold">$<?php echo number_format($month_spend, 2); ?></div><div>Spend This Month</div></div><i class="bi bi-currency-dollar fs-1 text-white-50"></i></div>
-            </div>
-            <div class="card-footer d-flex align-items-center justify-content-between"><a class="small text-white stretched-link" href="/erp_project/modules/reports/purchase_history.php">View Reports</a><div class="small text-white"><i class="bi bi-chevron-right"></i></div></div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card dashboard-card bg-success text-white h-100">
+             <div class="card-body"><div><div class="fs-1 fw-bold">$<?php echo number_format($month_spend, 2); ?></div><div class="text-uppercase">Spend This Month</div></div><i class="bi bi-currency-dollar stat-icon"></i></div>
+            <a class="card-footer text-white d-flex" href="/erp_project/modules/reports/purchase_history.php">View Reports <i class="bi bi-arrow-right-short ms-auto"></i></a>
         </div>
     </div>
 </div>
+
+<div class="card mb-4">
+    <div class="card-header"><i class="bi bi-lightning-charge-fill me-1"></i>Quick Actions</div>
+    <div class="card-body">
+        <div class="row text-center">
+            <?php if (has_permission('po_create')): ?>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <a href="/erp_project/modules/purchase_orders/create_po.php" class="text-decoration-none text-dark">
+                    <i class="bi bi-receipt-cutoff display-6"></i>
+                    <p class="mt-1 mb-0">New PO</p>
+                </a>
+            </div>
+            <?php endif; ?>
+             <?php if (has_permission('hr_manage')): ?>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <a href="/erp_project/modules/hr/add_employee.php" class="text-decoration-none text-dark">
+                    <i class="bi bi-person-plus-fill display-6"></i>
+                    <p class="mt-1 mb-0">Add Employee</p>
+                </a>
+            </div>
+            <?php endif; ?>
+            <?php if (has_permission('invoice_manage')): ?>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <a href="/erp_project/modules/finance/log_invoice.php" class="text-decoration-none text-dark">
+                    <i class="bi bi-journal-plus display-6"></i>
+                    <p class="mt-1 mb-0">Log Invoice</p>
+                </a>
+            </div>
+            <?php endif; ?>
+            <?php if (has_permission('project_create')): ?>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <a href="/erp_project/modules/projects/add_project.php" class="text-decoration-none text-dark">
+                    <i class="bi bi-folder-plus display-6"></i>
+                    <p class="mt-1 mb-0">New Project</p>
+                </a>
+            </div>
+            <?php endif; ?>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <a href="/erp_project/modules/reports/purchase_history.php" class="text-decoration-none text-dark">
+                    <i class="bi bi-file-earmark-bar-graph-fill display-6"></i>
+                    <p class="mt-1 mb-0">View Reports</p>
+                </a>
+            </div>
+             <?php if (has_permission('user_manage')): ?>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <a href="/erp_project/modules/admin/manage_users.php" class="text-decoration-none text-dark">
+                    <i class="bi bi-people-fill display-6"></i>
+                    <p class="mt-1 mb-0">Manage Users</p>
+                </a>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
 
 <div class="row">
     <div class="col-lg-12">

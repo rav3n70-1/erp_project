@@ -5,6 +5,7 @@ include('../../includes/header.php');
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) { die("Invalid Project ID."); }
 $project_id = $_GET['id'];
 
+// Check for a base level of permission to view this page
 if (!has_permission('project_full_access') && !has_permission('project_create') && !has_permission('project_my_tasks_view')) {
     header('Location: /erp_project/index.php?status=access_denied');
     exit();
@@ -29,11 +30,13 @@ $stmt_tasks->execute();
 $tasks_result = $stmt_tasks->get_result();
 
 // Fetch users for the 'assign task' dropdown
-$sql_users = "SELECT id, username FROM users ORDER BY username ASC";
+$sql_users = "SELECT id, username FROM users WHERE is_active = 1 ORDER BY username ASC";
 $users_result = $conn->query($sql_users);
 
+// Define the standard task statuses
 $task_statuses = ['To Do', 'In Progress', 'Done', 'Blocked'];
 ?>
+
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
@@ -44,7 +47,29 @@ $task_statuses = ['To Do', 'In Progress', 'Done', 'Blocked'];
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1><?php echo htmlspecialchars($project['project_name']); ?></h1>
+    <div class="btn-toolbar">
+        <div class="btn-group me-2">
+            <a href="print_project.php?id=<?php echo $project['id']; ?>" target="_blank" class="btn btn-secondary"><i class="bi bi-printer"></i> Print</a>
+        </div>
+        <div class="btn-group">
+            <?php 
+            // This is the logic for the Approve/Reject buttons
+            if ($project['status'] == 'Pending Approval' && has_permission('project_approve')): 
+            ?>
+                <form action="handle_project_status.php" method="POST" class="d-inline">
+                    <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>">
+                    <input type="hidden" name="new_status" value="Approved">
+                    <button type="submit" class="btn btn-success"><i class="bi bi-check-circle"></i> Approve Project</button>
+                </form>
+                <form action="handle_project_status.php" method="POST" class="d-inline">
+                    <input type="hidden" name="project_id" value="<?php echo $project['id']; ?>">
+                    <input type="hidden" name="new_status" value="Rejected">
+                    <button type="submit" class="btn btn-danger"><i class="bi bi-x-circle"></i> Reject</button>
+                </form>
+            <?php endif; ?>
+        </div>
     </div>
+</div>
 
 <div class="row">
     <div class="col-lg-8">
@@ -105,7 +130,17 @@ $task_statuses = ['To Do', 'In Progress', 'Done', 'Blocked'];
         <div class="card">
             <div class="card-header"><h5>Project Summary</h5></div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>Status:</strong> <span class="badge bg-warning text-dark"><?php echo htmlspecialchars($project['status']); ?></span></li>
+                <li class="list-group-item"><strong>Status:</strong> 
+                <?php
+                    $status = htmlspecialchars($project['status']);
+                    $badge_class = 'bg-secondary';
+                    if ($status == 'Approved' || $status == 'In Progress') $badge_class = 'bg-success';
+                    if ($status == 'Pending Approval') $badge_class = 'bg-warning text-dark';
+                    if ($status == 'Rejected' || $status == 'Canceled') $badge_class = 'bg-danger';
+                    if ($status == 'Completed') $badge_class = 'bg-info text-dark';
+                    echo '<span class="badge ' . $badge_class . '">' . $status . '</span>';
+                ?>
+                </li>
                 <li class="list-group-item"><strong>Manager:</strong> <?php echo htmlspecialchars($project['manager_name'] ?? 'N/A'); ?></li>
                 <li class="list-group-item"><strong>Department Budget:</strong> <?php echo htmlspecialchars($project['budget_name'] ?? 'N/A'); ?></li>
                 <li class="list-group-item"><strong>Project Budget:</strong> $<?php echo $project['project_budget'] ? number_format($project['project_budget'], 2) : 'N/A'; ?></li>

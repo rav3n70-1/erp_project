@@ -6,7 +6,7 @@ include('../../includes/db.php');
 $conn = connect_db();
 
 // 1. Fetch Suppliers
-$sql_suppliers = "SELECT id, supplier_name FROM suppliers ORDER BY supplier_name ASC";
+$sql_suppliers = "SELECT id, supplier_name FROM suppliers WHERE is_active = 1 ORDER BY supplier_name ASC";
 $suppliers_result = $conn->query($sql_suppliers);
 
 // 2. Fetch Products for JavaScript

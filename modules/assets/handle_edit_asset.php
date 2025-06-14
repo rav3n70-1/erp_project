@@ -21,6 +21,7 @@ foreach ($required_fields as $field) {
     }
 }
 
+// Capture all form data
 $asset_id = $_POST['asset_id'];
 $asset_name = $_POST['asset_name'];
 $asset_tag = $_POST['asset_tag'];
@@ -30,6 +31,10 @@ $purchase_date = !empty($_POST['purchase_date']) ? $_POST['purchase_date'] : NUL
 $purchase_cost = !empty($_POST['purchase_cost']) ? $_POST['purchase_cost'] : NULL;
 $assigned_to = !empty($_POST['assigned_to_employee_id']) ? $_POST['assigned_to_employee_id'] : NULL;
 $notes = $_POST['notes'] ?? NULL;
+
+// Capture new depreciation fields
+$useful_life_years = !empty($_POST['useful_life_years']) ? $_POST['useful_life_years'] : NULL;
+$salvage_value = !empty($_POST['salvage_value']) ? $_POST['salvage_value'] : 0.00;
 
 $conn = connect_db();
 
@@ -43,13 +48,17 @@ if ($stmt_check->num_rows > 0) {
     header("Location: edit_asset.php?id=" . $asset_id . "&status=error_exists");
     exit();
 }
+$stmt_check->close();
 
+// Update the SQL query to include the new depreciation columns
 $sql = "UPDATE assets SET 
             asset_name = ?, asset_tag = ?, asset_type_id = ?, purchase_date = ?, 
-            purchase_cost = ?, assigned_to_employee_id = ?, status = ?, notes = ?
+            purchase_cost = ?, useful_life_years = ?, salvage_value = ?, 
+            assigned_to_employee_id = ?, status = ?, notes = ?
         WHERE id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ssisdissi", $asset_name, $asset_tag, $asset_type_id, $purchase_date, $purchase_cost, $assigned_to, $status, $notes, $asset_id);
+// Update the bind_param string and variables
+$stmt->bind_param("ssisididssi", $asset_name, $asset_tag, $asset_type_id, $purchase_date, $purchase_cost, $useful_life_years, $salvage_value, $assigned_to, $status, $notes, $asset_id);
 
 if ($stmt->execute()) {
     log_audit_trail($conn, "Edited asset: " . $asset_name, 'Asset', $asset_id);
