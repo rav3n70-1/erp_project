@@ -124,7 +124,7 @@ composer install
 | Username        | Password   | Role               |
 |-----------------|------------|--------------------|
 | `admin`         | `admin123` | System Admin       |
-| `superadmin`    | `super123` | Super Admin / ED   |
+| `superadmin`    | `admin1234` | Super Admin / ED   |
 | `procofficer`   | `officer123` | Procurement Officer |
 | `your_supplier_user` | `password` | Vendor / Supplier   |
 | `your_client_user`   | `password` | Customer / Client   |
