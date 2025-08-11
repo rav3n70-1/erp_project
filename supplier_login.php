@@ -31,7 +31,7 @@ if (isset($_SESSION['supplier_id'])) {
             <p class="lead">Access your purchase orders and submit invoices directly to our finance team.</p>
         </div>
         <div class="login-form-side">
-            <div class="login-form-container">
+            <div class="login-form-container glass-card">
                 <h3 class="mb-4">Supplier Login</h3>
                 <?php if (isset($_GET['error'])) { echo '<div class="alert alert-danger">Invalid username or password.</div>'; } ?>
                 <form action="handle_supplier_login.php" method="POST">

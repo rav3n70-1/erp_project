@@ -79,6 +79,152 @@ document.addEventListener('DOMContentLoaded', function() {
     if (pageWrapper) {
         requestAnimationFrame(() => { pageWrapper.classList.add('page-ready'); });
     }
+
+    // --- TOP PROGRESS BAR ---
+    let topBar = document.getElementById('top-progress');
+    if (!topBar) {
+        topBar = document.createElement('div');
+        topBar.id = 'top-progress';
+        document.body.appendChild(topBar);
+    }
+    const TopProgress = {
+        start() { topBar.style.width = '15%'; requestAnimationFrame(() => topBar.style.width = '55%'); },
+        end() { topBar.style.width = '100%'; setTimeout(() => { topBar.style.width = '0'; }, 300); }
+    };
+
+    // --- BACK TO TOP BUTTON ---
+    let backTop = document.getElementById('back-to-top');
+    if (!backTop) {
+        backTop = document.createElement('button');
+        backTop.type = 'button';
+        backTop.id = 'back-to-top';
+        backTop.className = 'btn';
+        backTop.innerHTML = '<i class="bi bi-arrow-up"></i>';
+        document.body.appendChild(backTop);
+    }
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) backTop.classList.add('show'); else backTop.classList.remove('show');
+    });
+    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // --- Sidebar link tooltips (collapsed state aid) ---
+    try {
+        document.querySelectorAll('#sidebar-wrapper .list-group a').forEach(a => {
+            if (!a.getAttribute('title')) a.setAttribute('title', a.textContent.trim());
+            new bootstrap.Tooltip(a, { placement: 'right' });
+        });
+    } catch (e) {}
+
+    // --- Keyboard shortcuts ---
+    // Alt+K: focus search (if present), Alt+M: toggle menu, Alt+T: theme toggle
+    document.addEventListener('keydown', (e) => {
+        if (!e.altKey) return;
+        if (e.key.toLowerCase() === 'm') { e.preventDefault(); const btn = document.getElementById('menu-toggle'); if (btn) btn.click(); }
+        if (e.key.toLowerCase() === 't') { e.preventDefault(); const btn = document.getElementById('theme-toggle'); if (btn) btn.click(); }
+        if (e.key.toLowerCase() === 'k') {
+            const search = document.querySelector('input[type="search"], .dataTables_filter input');
+            if (search) { e.preventDefault(); search.focus(); search.select(); }
+        }
+        if (e.key.toLowerCase() === 'd') { e.preventDefault(); const btn = document.getElementById('density-toggle'); if (btn) btn.click(); }
+    });
+
+    // Density toggle
+    const densityToggleBtn = document.getElementById('density-toggle');
+    const setDensity = (mode) => {
+        document.body.classList.toggle('density-compact', mode === 'compact');
+        localStorage.setItem('erp|density', mode);
+    };
+    if (densityToggleBtn) {
+        const storedDensity = localStorage.getItem('erp|density');
+        setDensity(storedDensity === 'compact' ? 'compact' : 'comfortable');
+        densityToggleBtn.addEventListener('click', () => {
+            const current = document.body.classList.contains('density-compact') ? 'compact' : 'comfortable';
+            setDensity(current === 'compact' ? 'comfortable' : 'compact');
+        });
+    }
+
+    // --- Enhance fetchNotifications with mark-all UI ---
+    const notifList = document.getElementById('notification-list');
+    if (notifList) {
+        const header = document.createElement('li');
+        header.innerHTML = '<div class="d-flex align-items-center justify-content-between px-3 py-2"><strong>Notifications</strong><button class="btn btn-sm btn-link p-0" id="mark-all-read">Mark all</button></div>';
+        notifList.prepend(header);
+        notifList.addEventListener('click', (e) => {
+            const markAll = e.target.closest('#mark-all-read');
+            if (!markAll) return;
+            e.preventDefault();
+            TopProgress.start();
+            fetch('/erp_project/includes/mark_notifications_read.php', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({}) })
+                .finally(() => { TopProgress.end(); });
+        });
+    }
+
+    // --- Intercept anchor navigations to show top progress (same-origin only) ---
+    document.body.addEventListener('click', (e) => {
+        const link = e.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        // Ignore hashes, JS links, or external
+        if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
+        const isExternal = /^https?:\/\//i.test(href) && !href.includes(window.location.host);
+        if (isExternal) return;
+        TopProgress.start();
+    }, true);
+
+    window.addEventListener('pageshow', () => TopProgress.end());
+
+    // --- 7. Intersection-based reveal for cards/rows ---
+    try {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.card, .table, .list-group-item').forEach(el => observer.observe(el));
+    } catch (e) {}
+
+    // --- 8. Button ripple effect ---
+    document.body.addEventListener('click', function(e){
+        const button = e.target.closest('.btn');
+        if(!button) return;
+        const rect = button.getBoundingClientRect();
+        const circle = document.createElement('span');
+        circle.className = 'ripple-circle';
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        circle.style.width = circle.style.height = size + 'px';
+        circle.style.left = x + 'px';
+        circle.style.top = y + 'px';
+        button.appendChild(circle);
+        circle.addEventListener('animationend', () => circle.remove());
+    });
+
+    // --- 9. Count-up numbers for dashboard stats (optional) ---
+    try {
+        const counters = document.querySelectorAll('[data-count-up]');
+        counters.forEach((el) => {
+            const end = parseFloat(el.getAttribute('data-count-up'));
+            if (isNaN(end)) return;
+            const duration = 900; // ms
+            const startTime = performance.now();
+            const start = 0;
+            const formatter = (value) => {
+                if (el.hasAttribute('data-currency')) return '$' + value.toLocaleString();
+                return value.toLocaleString();
+            };
+            const tick = (now) => {
+                const progress = Math.min(1, (now - startTime) / duration);
+                const value = Math.floor(start + (end - start) * progress);
+                el.textContent = formatter(value);
+                if (progress < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+        });
+    } catch (e) {}
 });
 
 

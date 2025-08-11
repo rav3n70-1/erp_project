@@ -25,7 +25,7 @@ if (isset($_SESSION['client_id'])) {
             <p class="lead">Welcome. Please log in to view the status of your projects.</p>
         </div>
         <div class="login-form-side">
-            <div class="login-form-container">
+            <div class="login-form-container glass-card">
                 <h3 class="mb-4">Client Login</h3>
                 <?php if (isset($_GET['error'])) { echo '<div class="alert alert-danger">Invalid username or password.</div>'; } ?>
                 <form action="handle_client_login.php" method="POST">

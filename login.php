@@ -24,7 +24,7 @@ if (isset($_SESSION['user_id'])) {
             <p class="lead">Access your dashboard, manage tasks, and collaborate with your team.</p>
         </div>
         <div class="login-form-side">
-            <div class="login-form-container">
+            <div class="login-form-container glass-card">
                 <h3 class="mb-4">Internal User Login</h3>
                 <?php
                 if (isset($_GET['error'])) {

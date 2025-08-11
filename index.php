@@ -32,32 +32,32 @@ $chart_data_json = json_encode($chart_data);
 ?>
 
 <div class="d-flex justify-content-between align-items-center">
-    <h1 class="mt-4">Dashboard</h1>
+    <h1 class="mt-4 text-gradient">Dashboard</h1>
 </div>
 <p class="lead mb-4">Welcome back, <?php echo htmlspecialchars($_SESSION['username']); ?>! Here is a summary of system activity.</p>
 
 <div class="row">
     <div class="col-lg-3 col-md-6 mb-4">
         <div class="card dashboard-card bg-warning text-dark h-100">
-            <div class="card-body"><div><div class="fs-1 fw-bold"><?php echo $pending_pos_count; ?></div><div class="text-uppercase">POs Awaiting Approval</div></div><i class="bi bi-patch-question-fill stat-icon"></i></div>
+            <div class="card-body"><div><div class="fs-1 fw-bold" data-count-up="<?php echo $pending_pos_count; ?>">0</div><div class="text-uppercase">POs Awaiting Approval</div></div><i class="bi bi-patch-question-fill stat-icon"></i></div>
             <a class="card-footer text-dark d-flex" href="/erp_project/modules/purchase_orders/view_pos.php?filter_status=Pending">View Details <i class="bi bi-arrow-right-short ms-auto"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-md-6 mb-4">
         <div class="card dashboard-card bg-primary text-white h-100">
-             <div class="card-body"><div><div class="fs-1 fw-bold"><?php echo $suppliers_count; ?></div><div class="text-uppercase">Total Suppliers</div></div><i class="bi bi-people-fill stat-icon"></i></div>
+             <div class="card-body"><div><div class="fs-1 fw-bold" data-count-up="<?php echo $suppliers_count; ?>">0</div><div class="text-uppercase">Total Suppliers</div></div><i class="bi bi-people-fill stat-icon"></i></div>
             <a class="card-footer text-white d-flex" href="/erp_project/modules/suppliers/view_suppliers.php">View Details <i class="bi bi-arrow-right-short ms-auto"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-md-6 mb-4">
         <div class="card dashboard-card bg-info text-white h-100">
-             <div class="card-body"><div><div class="fs-1 fw-bold"><?php echo $projects_count; ?></div><div class="text-uppercase">In-Progress Projects</div></div><i class="bi bi-kanban-fill stat-icon"></i></div>
+             <div class="card-body"><div><div class="fs-1 fw-bold" data-count-up="<?php echo $projects_count; ?>">0</div><div class="text-uppercase">In-Progress Projects</div></div><i class="bi bi-kanban-fill stat-icon"></i></div>
             <a class="card-footer text-white d-flex" href="/erp_project/modules/projects/view_projects.php">View Details <i class="bi bi-arrow-right-short ms-auto"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-md-6 mb-4">
         <div class="card dashboard-card bg-success text-white h-100">
-             <div class="card-body"><div><div class="fs-1 fw-bold">$<?php echo number_format($month_spend, 2); ?></div><div class="text-uppercase">Spend This Month</div></div><i class="bi bi-currency-dollar stat-icon"></i></div>
+             <div class="card-body"><div><div class="fs-1 fw-bold" data-count-up="<?php echo (float)$month_spend; ?>" data-currency>0</div><div class="text-uppercase">Spend This Month</div></div><i class="bi bi-currency-dollar stat-icon"></i></div>
             <a class="card-footer text-white d-flex" href="/erp_project/modules/reports/purchase_history.php">View Reports <i class="bi bi-arrow-right-short ms-auto"></i></a>
         </div>
     </div>

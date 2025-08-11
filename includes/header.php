@@ -98,6 +98,9 @@ require_once 'permissions.php';
                         <li class="nav-item me-2 d-flex align-items-center">
                             <button class="btn btn-outline-secondary" id="theme-toggle" type="button" aria-label="Toggle theme"><i class="bi bi-moon-stars"></i></button>
                         </li>
+                        <li class="nav-item me-2 d-flex align-items-center">
+                            <button class="btn btn-outline-secondary" id="density-toggle" type="button" aria-label="Toggle density" data-bs-toggle="tooltip" title="Compact density (Alt+D)"><i class="bi bi-arrows-collapse"></i></button>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-bell-fill"></i><span class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger" id="notification-count" style="display: none;"></span></a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" id="notification-list">
@@ -119,3 +122,11 @@ require_once 'permissions.php';
             </div>
         </nav>
         <div class="container-fluid">
+            <div class="erp-breadcrumbs">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><?php echo isset($page_title) ? htmlspecialchars($page_title) : 'Dashboard'; ?></li>
+                    </ol>
+                </nav>
+            </div>
