@@ -6,6 +6,12 @@
   --erp-brand-accent: #00c4b3; /* teal accent */
   --erp-shadow-sm: 0 0.125rem 0.25rem rgba(0,0,0,.06);
   --erp-shadow-md: 0 0.5rem 1rem rgba(0,0,0,.12);
+  
+  /* Dashboard gradient colors */
+  --gradient-blue: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-orange: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-green: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --gradient-purple: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
 }
 
 html[data-bs-theme="dark"] {
@@ -116,6 +122,31 @@ body.toggled #sidebar-wrapper { margin-left: 0; }
 .dashboard-card .card-body { display: flex; justify-content: space-between; align-items: center; }
 .dashboard-card .card-footer { background-color: rgba(0, 0, 0, 0.075); border-top: none; }
 .dashboard-card .stat-icon { font-size: 3rem; opacity: .5; }
+
+/* Dashboard gradient backgrounds */
+.bg-gradient-blue {
+  background: var(--gradient-blue) !important;
+}
+
+.bg-gradient-orange {
+  background: var(--gradient-orange) !important;
+}
+
+.bg-gradient-green {
+  background: var(--gradient-green) !important;
+}
+
+.bg-gradient-purple {
+  background: var(--gradient-purple) !important;
+}
+
+/* Ensure gradient cards have proper footer styling */
+.bg-gradient-blue .card-footer,
+.bg-gradient-orange .card-footer,
+.bg-gradient-green .card-footer,
+.bg-gradient-purple .card-footer {
+  background-color: rgba(0, 0, 0, 0.15) !important;
+}
 
 /* --- TABLES / DATATABLES --- */
 .table { border-radius: .5rem; overflow: hidden; }
