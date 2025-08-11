@@ -400,3 +400,75 @@ if (notificationCountElement) {
     fetchNotifications();
     setInterval(fetchNotifications, 20000);
 }
+
+// Global UI utilities
+(function(){
+  // Toast API
+  window.erpToast = function(message, type = 'info'){
+    const container = document.getElementById('toast-container');
+    if(!container) return;
+    const toastEl = document.createElement('div');
+    toastEl.className = 'toast align-items-center show glass border-0';
+    toastEl.setAttribute('role', 'alert');
+    toastEl.setAttribute('aria-live', 'assertive');
+    toastEl.setAttribute('aria-atomic', 'true');
+    toastEl.innerHTML = `<div class="d-flex"><div class="toast-body"><span class="badge me-2 bg-${type === 'success' ? 'success' : type === 'danger' ? 'danger' : type === 'warning' ? 'warning' : 'primary'}"></span>${message}</div><button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button></div>`;
+    container.appendChild(toastEl);
+    setTimeout(() => toastEl.remove(), 4000);
+  };
+
+  // Generic confirm via [data-confirm]
+  document.addEventListener('click', function(e){
+    const activator = e.target.closest('[data-confirm]');
+    if(!activator) return;
+    e.preventDefault();
+    const modalEl = document.getElementById('genericConfirmModal');
+    const bsModal = new bootstrap.Modal(modalEl);
+    document.getElementById('genericConfirmTitle').textContent = activator.getAttribute('data-confirm-title') || 'Please Confirm';
+    document.getElementById('genericConfirmBody').textContent = activator.getAttribute('data-confirm') || 'Are you sure?';
+    const okBtn = document.getElementById('genericConfirmOk');
+    const href = activator.getAttribute('href');
+    const form = activator.closest('form');
+    const callback = activator.getAttribute('data-confirm-callback');
+    const submitSelector = activator.getAttribute('data-confirm-submit');
+    const cleanup = () => okBtn.replaceWith(okBtn.cloneNode(true));
+    okBtn.addEventListener('click', function handler(){
+      bsModal.hide();
+      // navigate, submit or callback
+      if (callback && window[callback]) { window[callback](); }
+      else if (submitSelector) { const toSubmit = document.querySelector(submitSelector); if (toSubmit) toSubmit.submit(); }
+      else if (form && activator.type === 'submit') { form.submit(); }
+      else if (href) { window.location.href = href; }
+      cleanup();
+    }, { once: true });
+    bsModal.show();
+  });
+
+  // DataTables defaults
+  if (typeof $ === 'function' && $.fn.DataTable) {
+    $.extend(true, $.fn.dataTable.defaults, {
+      language: { search: '', searchPlaceholder: 'Search…' },
+      pageLength: 10,
+      lengthMenu: [ [10, 25, 50, 100], [10, 25, 50, 100] ],
+      responsive: true,
+      dom: '<"row align-items-center"<"col-sm-6"l><"col-sm-6"f>>t<"row align-items-center"<"col-sm-6"i><"col-sm-6"p>>'
+    });
+  }
+
+  // Simple HTML5 validation helper
+  document.addEventListener('submit', function(e){
+    const form = e.target.closest('form');
+    if (!form) return;
+    if (!form.checkValidity()) {
+      e.preventDefault(); e.stopPropagation();
+      form.classList.add('was-validated');
+      erpToast('Please fill in the required fields', 'warning');
+    }
+  }, true);
+
+  // Loading overlay controls
+  window.erpLoading = {
+    show(){ const el = document.getElementById('loading-overlay'); if(el) el.classList.add('show'); },
+    hide(){ const el = document.getElementById('loading-overlay'); if(el) el.classList.remove('show'); }
+  };
+})();

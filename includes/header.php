@@ -65,6 +65,20 @@ require_once 'permissions.php';
             </div>
             <?php endif; ?>
             
+            <?php if (has_permission('finance_view') || has_permission('reports_full_access')): ?>
+            <a href="#accountsSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-bank me-2"></i>Accounts</a>
+            <div class="collapse" id="accountsSubmenu">
+                <a href="/erp_project/modules/accounts/chart_of_accounts.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Chart of Accounts</a>
+                <a href="/erp_project/modules/accounts/journal_entries.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Journal Entries</a>
+                <a href="/erp_project/modules/accounts/general_ledger.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">General Ledger</a>
+                <a href="/erp_project/modules/accounts/accounts_receivable.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Accounts Receivable</a>
+                <a href="/erp_project/modules/accounts/accounts_payable.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Accounts Payable</a>
+                <a href="/erp_project/modules/accounts/bank_accounts.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Bank & Cash</a>
+                <a href="/erp_project/modules/accounts/taxes.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Taxes</a>
+                <a href="/erp_project/modules/accounts/financial_reports.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Financial Reports</a>
+            </div>
+            <?php endif; ?>
+            
             <?php if (has_permission('project_full_access') || has_permission('project_create')): ?>
             <a href="/erp_project/modules/projects/view_projects.php" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-kanban-fill me-2"></i>Projects</a>
             <?php endif; ?>

@@ -44,12 +44,46 @@ if ($stmt_check->num_rows > 0) {
     exit();
 }
 
+// Insert employee (without employee_id initially)
 $sql = "INSERT INTO employees (first_name, last_name, email, phone_number, hire_date, job_title, salary, department_id, user_id) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ssssssdii", $first_name, $last_name, $email, $phone_number, $hire_date, $job_title, $salary, $department_id, $user_id);
 
 if ($stmt->execute()) {
+    $newId = $stmt->insert_id;
+
+    // Ensure employee_id column exists; add if missing
+    $columnExists = false;
+    if ($result = $conn->query("SHOW COLUMNS FROM employees LIKE 'employee_id'")) {
+        $columnExists = ($result->num_rows > 0);
+        $result->free();
+    }
+    if (!$columnExists) {
+        // Attempt to add the column; ignore errors if another process added it meanwhile
+        $conn->query("ALTER TABLE employees ADD COLUMN employee_id VARCHAR(32) UNIQUE NULL AFTER id");
+    }
+
+    // Generate a unique employee code EMP-YYYY-#####
+    $year = date('Y');
+    $code = sprintf('EMP-%s-%05d', $year, $newId);
+
+    // Try to set; in the unlikely event of collision, append random suffix
+    $updateSql = "UPDATE employees SET employee_id = ? WHERE id = ?";
+    $updateStmt = $conn->prepare($updateSql);
+    $tryCode = $code;
+    $updated = false;
+    for ($i = 0; $i < 3 && !$updated; $i++) {
+        $updateStmt->bind_param("si", $tryCode, $newId);
+        if ($updateStmt->execute()) {
+            $updated = true;
+        } else if ($conn->errno == 1062) { // duplicate
+            $tryCode = $code . '-' . substr(uniqid('', true), -3);
+        } else {
+            break;
+        }
+    }
+
     header("Location: view_employees.php?status=success");
 } else {
     header("Location: add_employee.php?status=error");

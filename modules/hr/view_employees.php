@@ -44,7 +44,7 @@ $is_super_admin = ($_SESSION['role_name'] == 'System Admin');
             <table class="table table-hover data-table">
                 <thead class="table-dark">
                     <tr>
-                        <th>Name</th><th>Job Title</th><th>Department</th><th>Status</th>
+                        <th>Employee ID</th><th>Name</th><th>Job Title</th><th>Department</th><th>Status</th>
                         <?php if ($can_view_payroll): ?><th class="text-end">Salary</th><?php endif; ?>
                         <?php if ($can_manage_hr): ?><th>Actions</th><?php endif; ?>
                     </tr>
@@ -53,6 +53,7 @@ $is_super_admin = ($_SESSION['role_name'] == 'System Admin');
                     <?php if ($result && $result->num_rows > 0): ?>
                         <?php while($row = $result->fetch_assoc()): ?>
                             <tr class="<?php echo $row['is_active'] ? '' : 'table-secondary text-muted'; ?>">
+                                <td><span class="badge badge-soft-primary"><?php echo htmlspecialchars($row['employee_id'] ?? '—'); ?></span></td>
                                 <td><?php echo htmlspecialchars($row['first_name'] . ' ' . $row['last_name']); ?></td>
                                 <td><?php echo htmlspecialchars($row['job_title']); ?></td>
                                 <td><?php echo htmlspecialchars($row['department_name']); ?></td>

@@ -13,6 +13,27 @@
     </div>
   </div>
 </div>
+
+<!-- Generic Confirm Modal -->
+<div class="modal fade" id="genericConfirmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title" id="genericConfirmTitle">Please Confirm</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body" id="genericConfirmBody">Are you sure?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="genericConfirmOk">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay"><div class="spinner-border" role="status" aria-label="Loading"></div></div>
+
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
