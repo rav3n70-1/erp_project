@@ -2,9 +2,19 @@
 // We will put all our page initializations inside this one listener.
 document.addEventListener('DOMContentLoaded', function() {
 
+    // Apply persisted theme early
+    const storedTheme = localStorage.getItem('erp|theme');
+    if (storedTheme === 'dark' || storedTheme === 'light') {
+        document.documentElement.setAttribute('data-bs-theme', storedTheme);
+    }
+
     // --- 1. Sidebar Toggle Functionality ---
     const sidebarToggle = document.body.querySelector('#menu-toggle');
     if (sidebarToggle) {
+        // restore persisted toggle state
+        const persisted = localStorage.getItem('sb|sidebar-toggle');
+        if (persisted === 'true') { document.body.classList.add('toggled'); }
+
         sidebarToggle.addEventListener('click', event => {
             event.preventDefault();
             document.body.classList.toggle('toggled');
@@ -22,6 +32,53 @@ document.addEventListener('DOMContentLoaded', function() {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
+    // --- 4. Active link highlighting in sidebar based on location ---
+    try {
+        const currentPath = window.location.pathname.replace(/\/?$/, '');
+        const sidebarLinks = document.querySelectorAll('#sidebar-wrapper .list-group a');
+        sidebarLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (!href) return;
+            const normalized = href.replace(/\/?$/, '');
+            if (normalized === currentPath) {
+                link.classList.add('active');
+                link.setAttribute('aria-current', 'page');
+                // expand parent collapse if inside submenu
+                const collapseParent = link.closest('.collapse');
+                if (collapseParent && typeof bootstrap !== 'undefined') {
+                    const bsCollapse = new bootstrap.Collapse(collapseParent, { toggle: false });
+                    bsCollapse.show();
+                }
+            }
+        });
+    } catch (e) { /* no-op */ }
+
+    // --- 5. Theme toggle ---
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const setTheme = (theme) => {
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        localStorage.setItem('erp|theme', theme);
+        if (themeToggleBtn) {
+            themeToggleBtn.innerHTML = theme === 'dark' ? '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon-stars"></i>';
+            themeToggleBtn.classList.toggle('btn-warning', theme === 'dark');
+            themeToggleBtn.classList.toggle('btn-outline-secondary', theme !== 'dark');
+        }
+    };
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'dark' : 'light';
+            setTheme(current === 'dark' ? 'light' : 'dark');
+        });
+        // initialize icon/state
+        const initial = document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'dark' : 'light';
+        setTheme(initial);
+    }
+
+    // --- 6. Page fade-in once ready ---
+    const pageWrapper = document.getElementById('page-content-wrapper');
+    if (pageWrapper) {
+        requestAnimationFrame(() => { pageWrapper.classList.add('page-ready'); });
+    }
 });
 
 
