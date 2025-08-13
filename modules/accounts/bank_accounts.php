@@ -42,7 +42,7 @@ $res = $conn->query("SELECT * FROM bank_accounts ORDER BY account_name ASC");
             <td><?php echo htmlspecialchars($row['account_name']); ?></td>
             <td><?php echo htmlspecialchars($row['bank_name']); ?></td>
             <td><?php echo htmlspecialchars($row['account_number']); ?></td>
-            <td class="text-end">$<?php echo number_format($row['balance'],2); ?></td>
+            <td class="text-end">৳<?php echo number_format($row['balance'],2); ?></td>
             <td><?php echo htmlspecialchars($row['created_at']); ?></td>
             <?php if (has_permission('budget_manage')): ?>
             <td>

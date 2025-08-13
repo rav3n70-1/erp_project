@@ -49,9 +49,9 @@ $res = $conn->query("SELECT i.*, c.customer_name FROM ar_invoices i JOIN ar_cust
             <td><?php echo htmlspecialchars($row['customer_name']); ?></td>
             <td><?php echo htmlspecialchars($row['invoice_date']); ?></td>
             <td><?php echo htmlspecialchars($row['due_date']); ?></td>
-            <td class="text-end">$<?php echo number_format($row['total'],2); ?></td>
-            <td class="text-end">$<?php echo number_format($row['paid'],2); ?></td>
-            <td class="text-end">$<?php echo number_format($bal,2); ?></td>
+            <td class="text-end">৳<?php echo number_format($row['total'],2); ?></td>
+            <td class="text-end">৳<?php echo number_format($row['paid'],2); ?></td>
+            <td class="text-end">৳<?php echo number_format($bal,2); ?></td>
             <td>
               <span class="badge bg-<?php echo $row['status']==='Paid'?'success':($row['status']==='Overdue'?'danger':'warning'); ?>">
                 <?php echo htmlspecialchars($row['status']); ?>

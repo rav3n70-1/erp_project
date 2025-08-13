@@ -89,8 +89,8 @@ usort($rows, function($a,$b){ return strcmp($a['code'],$b['code']); });
           <tr>
             <td><span class="badge bg-light text-dark border"><?php echo htmlspecialchars($r['code']); ?></span></td>
             <td><?php echo htmlspecialchars($r['name']); ?></td>
-            <td class="text-end">$<?php echo number_format($r['debit'],2); ?></td>
-            <td class="text-end">$<?php echo number_format($r['credit'],2); ?></td>
+            <td class="text-end">৳<?php echo number_format($r['debit'],2); ?></td>
+            <td class="text-end">৳<?php echo number_format($r['credit'],2); ?></td>
           </tr>
           <?php endforeach; else: ?>
           <tr><td colspan="4"><div class="empty-state"><i class="bi bi-table"></i><div class="mt-2">No data.</div></div></td></tr>
@@ -98,7 +98,7 @@ usort($rows, function($a,$b){ return strcmp($a['code'],$b['code']); });
         </tbody>
         <?php if (count($rows)): ?>
         <tfoot>
-          <tr class="fw-semibold"><td colspan="2" class="text-end">Total</td><td class="text-end">$<?php echo number_format($total_debit,2); ?></td><td class="text-end">$<?php echo number_format($total_credit,2); ?></td></tr>
+          <tr class="fw-semibold"><td colspan="2" class="text-end">Total</td><td class="text-end">৳<?php echo number_format($total_debit,2); ?></td><td class="text-end">৳<?php echo number_format($total_credit,2); ?></td></tr>
         </tfoot>
         <?php endif; ?>
       </table>

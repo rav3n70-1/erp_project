@@ -79,9 +79,9 @@ $res = $stmt->get_result();
           <?php if ($res && $res->num_rows): while($row=$res->fetch_assoc()): $bal = (float)($row['debits'] ?? 0) - (float)($row['credits'] ?? 0); ?>
             <tr>
               <td><?php echo htmlspecialchars($row['account_code']); ?></td>
-              <td class="text-end">$<?php echo number_format($row['debits'] ?? 0,2); ?></td>
-              <td class="text-end">$<?php echo number_format($row['credits'] ?? 0,2); ?></td>
-              <td class="text-end fw-semibold <?php echo $bal<0?'text-danger':'text-success'; ?>">$<?php echo number_format($bal,2); ?></td>
+              <td class="text-end">৳<?php echo number_format($row['debits'] ?? 0,2); ?></td>
+              <td class="text-end">৳<?php echo number_format($row['credits'] ?? 0,2); ?></td>
+              <td class="text-end fw-semibold <?php echo $bal<0?'text-danger':'text-success'; ?>">৳<?php echo number_format($bal,2); ?></td>
               <?php if (has_permission('budget_manage')): ?>
               <td>
                 <a href="/erp_project/modules/accounts/view_ledger_account.php?account_code=<?php echo urlencode($row['account_code']); ?>&from_date=<?php echo urlencode($from_date); ?>&to_date=<?php echo urlencode($to_date); ?>" class="btn btn-sm btn-info" title="View Account Details"><i class="bi bi-eye"></i></a>

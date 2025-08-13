@@ -42,7 +42,7 @@ $tx_res = $tx->get_result();
 			<div class="col-md-4"><strong>Number:</strong> <?php echo htmlspecialchars($account['account_number']); ?></div>
 		</div>
 		<div class="row mt-2">
-			<div class="col-md-4"><strong>Balance:</strong> $<?php echo number_format($account['balance'],2); ?></div>
+			<div class="col-md-4"><strong>Balance:</strong> ৳<?php echo number_format($account['balance'],2); ?></div>
 			<div class="col-md-8"><strong>Created:</strong> <?php echo htmlspecialchars($account['created_at']); ?></div>
 		</div>
 	</div>
@@ -58,7 +58,7 @@ $tx_res = $tx->get_result();
 					<tr>
 						<td><?php echo htmlspecialchars($row['txn_date']); ?></td>
 						<td><?php echo htmlspecialchars($row['type']); ?></td>
-						<td class="text-end">$<?php echo number_format($row['amount'],2); ?></td>
+						<td class="text-end">৳<?php echo number_format($row['amount'],2); ?></td>
 						<td><?php echo htmlspecialchars($row['memo']); ?></td>
 					</tr>
 					<?php endwhile; else: ?>

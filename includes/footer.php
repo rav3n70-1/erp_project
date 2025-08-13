@@ -40,5 +40,6 @@
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 <script src="/erp_project/assets/js/script.js"></script>
 
+<?php ob_end_flush(); ?>
 </body>
 </html>

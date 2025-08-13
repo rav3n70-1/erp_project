@@ -156,7 +156,7 @@ $account_type_colors_json = json_encode(array_values(array_intersect_key($accoun
     </div>
     <div class="col-lg-3 col-md-6 mb-4">
         <div class="card dashboard-card bg-success text-white h-100">
-             <div class="card-body"><div><div class="fs-1 fw-bold" data-count-up="<?php echo (float)$month_spend; ?>" data-currency>0</div><div class="text-uppercase">Spend This Month</div></div><i class="bi bi-currency-dollar stat-icon"></i></div>
+             <div class="card-body"><div><div class="fs-1 fw-bold" data-count-up="<?php echo (float)$month_spend; ?>" data-currency>0</div><div class="text-uppercase">Spend This Month</div></div><i class="bi bi-cash-coin stat-icon"></i></div>
             <a class="card-footer text-white d-flex" href="/erp_project/modules/reports/purchase_history.php">View Reports <i class="bi bi-arrow-right-short ms-auto"></i></a>
         </div>
     </div>
@@ -296,7 +296,7 @@ new Chart(spendCtx, {
     data: { 
         labels: <?php echo $chart_labels_json; ?>, 
         datasets: [{ 
-            label: 'Total Spend ($)', 
+            label: 'Total Spend (৳)', 
             data: <?php echo $chart_data_json; ?>, 
             backgroundColor: 'rgba(0, 123, 255, 0.7)', 
             borderColor: 'rgba(0, 123, 255, 1)', 
@@ -310,7 +310,7 @@ new Chart(spendCtx, {
                 beginAtZero: true, 
                 ticks: { 
                     callback: function(value) { 
-                        return '$' + value.toLocaleString(); 
+                        return '৳' + value.toLocaleString(); 
                     } 
                 } 
             } 
@@ -349,14 +349,14 @@ new Chart(arApCtx, {
     data: {
         labels: <?php echo $ar_ap_labels_json; ?>,
         datasets: [{
-            label: 'Accounts Receivable ($)',
+            label: 'Accounts Receivable (৳)',
             data: <?php echo $ar_data_json; ?>,
             borderColor: '#28a745',
             backgroundColor: 'rgba(40, 167, 69, 0.1)',
             tension: 0.4,
             fill: true
         }, {
-            label: 'Accounts Payable ($)',
+            label: 'Accounts Payable (৳)',
             data: <?php echo $ap_data_json; ?>,
             borderColor: '#dc3545',
             backgroundColor: 'rgba(220, 53, 69, 0.1)',
@@ -371,7 +371,7 @@ new Chart(arApCtx, {
                 beginAtZero: true,
                 ticks: {
                     callback: function(value) {
-                        return '$' + value.toLocaleString();
+                        return '৳' + value.toLocaleString();
                     }
                 }
             }

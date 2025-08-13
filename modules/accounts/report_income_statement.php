@@ -46,16 +46,16 @@ $net_income = $total_rev - $total_exp;
 <div class="card mb-3"><div class="card-header"><h5>Revenue</h5></div><div class="card-body">
   <div class="table-responsive"><table class="table"><thead class="table-light"><tr><th>Account</th><th>Name</th><th class="text-end">Amount</th></tr></thead><tbody>
     <?php if (count($revenues)): foreach($revenues as $r): ?>
-    <tr><td><?php echo htmlspecialchars($r['code']); ?></td><td><?php echo htmlspecialchars($r['name']); ?></td><td class="text-end">$<?php echo number_format($r['amount'],2); ?></td></tr>
+    <tr><td><?php echo htmlspecialchars($r['code']); ?></td><td><?php echo htmlspecialchars($r['name']); ?></td><td class="text-end">৳<?php echo number_format($r['amount'],2); ?></td></tr>
     <?php endforeach; else: ?><tr><td colspan="3"><div class="text-secondary">No revenue.</div></td></tr><?php endif; ?>
-  </tbody><tfoot><tr class="fw-semibold"><td colspan="2" class="text-end">Total Revenue</td><td class="text-end">$<?php echo number_format($total_rev,2); ?></td></tr></tfoot></table></div>
+  </tbody><tfoot><tr class="fw-semibold"><td colspan="2" class="text-end">Total Revenue</td><td class="text-end">৳<?php echo number_format($total_rev,2); ?></td></tr></tfoot></table></div>
 </div></div>
 <div class="card"><div class="card-header"><h5>Expenses</h5></div><div class="card-body">
   <div class="table-responsive"><table class="table"><thead class="table-light"><tr><th>Account</th><th>Name</th><th class="text-end">Amount</th></tr></thead><tbody>
     <?php if (count($expenses)): foreach($expenses as $r): ?>
-    <tr><td><?php echo htmlspecialchars($r['code']); ?></td><td><?php echo htmlspecialchars($r['name']); ?></td><td class="text-end">$<?php echo number_format($r['amount'],2); ?></td></tr>
+    <tr><td><?php echo htmlspecialchars($r['code']); ?></td><td><?php echo htmlspecialchars($r['name']); ?></td><td class="text-end">৳<?php echo number_format($r['amount'],2); ?></td></tr>
     <?php endforeach; else: ?><tr><td colspan="3"><div class="text-secondary">No expenses.</div></td></tr><?php endif; ?>
-  </tbody><tfoot><tr class="fw-semibold"><td colspan="2" class="text-end">Total Expenses</td><td class="text-end">$<?php echo number_format($total_exp,2); ?></td></tr>
-  <tr class="fw-semibold"><td colspan="2" class="text-end">Net Income</td><td class="text-end <?php echo $net_income<0?'text-danger':'text-success'; ?>">$<?php echo number_format($net_income,2); ?></td></tr></tfoot></table></div>
+  </tbody><tfoot><tr class="fw-semibold"><td colspan="2" class="text-end">Total Expenses</td><td class="text-end">৳<?php echo number_format($total_exp,2); ?></td></tr>
+  <tr class="fw-semibold"><td colspan="2" class="text-end">Net Income</td><td class="text-end <?php echo $net_income<0?'text-danger':'text-success'; ?>">৳<?php echo number_format($net_income,2); ?></td></tr></tfoot></table></div>
 </div></div>
 <?php include('../../includes/footer.php'); ?> 

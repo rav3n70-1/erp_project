@@ -37,9 +37,9 @@ $payments=$pay->get_result();
 		<div class="col-md-3"><strong>Due</strong> <?php echo htmlspecialchars($bill['due_date']); ?></div>
 	</div>
 	<div class="row mt-2">
-		<div class="col-md-3"><strong>Subtotal</strong> $<?php echo number_format($bill['subtotal'],2); ?></div>
-		<div class="col-md-3"><strong>Tax</strong> $<?php echo number_format($bill['tax_amount'],2); ?></div>
-		<div class="col-md-3"><strong>Total</strong> $<?php echo number_format($bill['total'],2); ?></div>
+		<div class="col-md-3"><strong>Subtotal</strong> ৳<?php echo number_format($bill['subtotal'],2); ?></div>
+		<div class="col-md-3"><strong>Tax</strong> ৳<?php echo number_format($bill['tax_amount'],2); ?></div>
+		<div class="col-md-3"><strong>Total</strong> ৳<?php echo number_format($bill['total'],2); ?></div>
 		<div class="col-md-3"><strong>Status</strong> <span class="badge bg-<?php echo $bill['status']==='Paid'?'success':($bill['status']==='Overdue'?'danger':'warning'); ?>"><?php echo htmlspecialchars($bill['status']); ?></span></div>
 	</div>
 </div></div>
@@ -49,7 +49,7 @@ $payments=$pay->get_result();
 			<thead><tr><th>Date</th><th class="text-end">Amount</th><th>Method</th><th>Reference</th></tr></thead>
 			<tbody>
 				<?php if ($payments->num_rows): while($p=$payments->fetch_assoc()): ?>
-				<tr><td><?php echo htmlspecialchars($p['payment_date']); ?></td><td class="text-end">$<?php echo number_format($p['amount'],2); ?></td><td><?php echo htmlspecialchars($p['method']); ?></td><td><?php echo htmlspecialchars($p['reference']); ?></td></tr>
+				<tr><td><?php echo htmlspecialchars($p['payment_date']); ?></td><td class="text-end">৳<?php echo number_format($p['amount'],2); ?></td><td><?php echo htmlspecialchars($p['method']); ?></td><td><?php echo htmlspecialchars($p['reference']); ?></td></tr>
 				<?php endwhile; else: ?>
 				<tr><td colspan="4"><div class="empty-state"><i class="bi bi-cash"></i><div class="mt-2">No payments.</div></div></td></tr>
 				<?php endif; ?>

@@ -1,6 +1,7 @@
 <?php
 require_once 'session_check.php';
 require_once 'permissions.php';
+ob_start(function($buffer){ return preg_replace('/\$(?=\d)/u', '৳', $buffer); });
 ?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">

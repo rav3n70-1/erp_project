@@ -46,32 +46,32 @@ usort($equity, fn($a,$b)=>strcmp($a['code'],$b['code']));
     <div class="card h-100"><div class="card-header"><h5>Assets</h5></div><div class="card-body">
       <div class="table-responsive"><table class="table"><thead class="table-light"><tr><th>Account</th><th>Name</th><th class="text-end">Amount</th></tr></thead><tbody>
         <?php if (count($assets)): foreach($assets as $a): ?>
-        <tr><td><?php echo htmlspecialchars($a['code']); ?></td><td><?php echo htmlspecialchars($a['name']); ?></td><td class="text-end">$<?php echo number_format($a['amount'],2); ?></td></tr>
+        <tr><td><?php echo htmlspecialchars($a['code']); ?></td><td><?php echo htmlspecialchars($a['name']); ?></td><td class="text-end">৳<?php echo number_format($a['amount'],2); ?></td></tr>
         <?php endforeach; else: ?><tr><td colspan="3"><div class="text-secondary">No assets.</div></td></tr><?php endif; ?>
-      </tbody><tfoot><tr class="fw-semibold"><td colspan="2" class="text-end">Total Assets</td><td class="text-end">$<?php echo number_format($totA,2); ?></td></tr></tfoot></table></div>
+      </tbody><tfoot><tr class="fw-semibold"><td colspan="2" class="text-end">Total Assets</td><td class="text-end">৳<?php echo number_format($totA,2); ?></td></tr></tfoot></table></div>
     </div></div>
   </div>
   <div class="col-md-4">
     <div class="card h-100"><div class="card-header"><h5>Liabilities</h5></div><div class="card-body">
       <div class="table-responsive"><table class="table"><thead class="table-light"><tr><th>Account</th><th>Name</th><th class="text-end">Amount</th></tr></thead><tbody>
         <?php if (count($liab)): foreach($liab as $a): ?>
-        <tr><td><?php echo htmlspecialchars($a['code']); ?></td><td><?php echo htmlspecialchars($a['name']); ?></td><td class="text-end">$<?php echo number_format($a['amount'],2); ?></td></tr>
+        <tr><td><?php echo htmlspecialchars($a['code']); ?></td><td><?php echo htmlspecialchars($a['name']); ?></td><td class="text-end">৳<?php echo number_format($a['amount'],2); ?></td></tr>
         <?php endforeach; else: ?><tr><td colspan="3"><div class="text-secondary">No liabilities.</div></td></tr><?php endif; ?>
-      </tbody><tfoot><tr class="fw-semibold"><td colspan="2" class="text-end">Total Liabilities</td><td class="text-end">$<?php echo number_format($totL,2); ?></td></tr></tfoot></table></div>
+      </tbody><tfoot><tr class="fw-semibold"><td colspan="2" class="text-end">Total Liabilities</td><td class="text-end">৳<?php echo number_format($totL,2); ?></td></tr></tfoot></table></div>
     </div></div>
   </div>
   <div class="col-md-4">
     <div class="card h-100"><div class="card-header"><h5>Equity</h5></div><div class="card-body">
       <div class="table-responsive"><table class="table"><thead class="table-light"><tr><th>Account</th><th>Name</th><th class="text-end">Amount</th></tr></thead><tbody>
         <?php if (count($equity)): foreach($equity as $a): ?>
-        <tr><td><?php echo htmlspecialchars($a['code']); ?></td><td><?php echo htmlspecialchars($a['name']); ?></td><td class="text-end">$<?php echo number_format($a['amount'],2); ?></td></tr>
+        <tr><td><?php echo htmlspecialchars($a['code']); ?></td><td><?php echo htmlspecialchars($a['name']); ?></td><td class="text-end">৳<?php echo number_format($a['amount'],2); ?></td></tr>
         <?php endforeach; else: ?><tr><td colspan="3"><div class="text-secondary">No equity.</div></td></tr><?php endif; ?>
-      </tbody><tfoot><tr class="fw-semibold"><td colspan="2" class="text-end">Total Equity</td><td class="text-end">$<?php echo number_format($totE,2); ?></td></tr></tfoot></table></div>
+      </tbody><tfoot><tr class="fw-semibold"><td colspan="2" class="text-end">Total Equity</td><td class="text-end">৳<?php echo number_format($totE,2); ?></td></tr></tfoot></table></div>
     </div></div>
   </div>
 </div>
 <div class="card mt-3"><div class="card-body">
-  <div class="d-flex justify-content-between"><div class="fw-semibold">Assets</div><div>$<?php echo number_format($totA,2); ?></div></div>
-  <div class="d-flex justify-content-between"><div class="fw-semibold">Liabilities + Equity</div><div>$<?php echo number_format($totL+$totE,2); ?></div></div>
+  <div class="d-flex justify-content-between"><div class="fw-semibold">Assets</div><div>৳<?php echo number_format($totA,2); ?></div></div>
+  <div class="d-flex justify-content-between"><div class="fw-semibold">Liabilities + Equity</div><div>৳<?php echo number_format($totL+$totE,2); ?></div></div>
 </div></div>
 <?php include('../../includes/footer.php'); ?> 

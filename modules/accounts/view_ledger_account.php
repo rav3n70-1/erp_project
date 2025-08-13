@@ -63,8 +63,8 @@ $res = $stmt->get_result();
             <td><?php echo htmlspecialchars($row['reference']); ?></td>
             <td><?php echo htmlspecialchars($row['memo']); ?></td>
             <td><?php echo htmlspecialchars($row['description']); ?></td>
-            <td class="text-end">$<?php echo number_format($row['debit'],2); ?></td>
-            <td class="text-end">$<?php echo number_format($row['credit'],2); ?></td>
+            <td class="text-end">৳<?php echo number_format($row['debit'],2); ?></td>
+            <td class="text-end">৳<?php echo number_format($row['credit'],2); ?></td>
           </tr>
           <?php endwhile; else: ?>
           <tr>
@@ -81,8 +81,8 @@ $res = $stmt->get_result();
         <tfoot>
           <tr class="fw-semibold">
             <td colspan="4" class="text-end">Total</td>
-            <td class="text-end">$<?php echo number_format($td,2); ?></td>
-            <td class="text-end">$<?php echo number_format($tc,2); ?></td>
+            <td class="text-end">৳<?php echo number_format($td,2); ?></td>
+            <td class="text-end">৳<?php echo number_format($tc,2); ?></td>
           </tr>
         </tfoot>
         <?php endif; ?>

@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const startTime = performance.now();
             const start = 0;
             const formatter = (value) => {
-                if (el.hasAttribute('data-currency')) return '$' + value.toLocaleString();
+                if (el.hasAttribute('data-currency')) return '৳' + value.toLocaleString();
                 return value.toLocaleString();
             };
             const tick = (now) => {
