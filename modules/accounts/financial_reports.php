@@ -10,7 +10,7 @@ if (!has_permission('finance_view')) { header('Location: /erp_project/index.php?
       <div class="card-body">
         <h5>Trial Balance</h5>
         <p class="text-secondary">Assets, liabilities, equity, revenues, and expenses consolidated by account.</p>
-        <a class="btn btn-outline-primary disabled" href="#">View</a>
+        <a class="btn btn-outline-primary" href="/erp_project/modules/accounts/report_trial_balance.php">View</a>
       </div>
     </div>
   </div>
@@ -19,7 +19,7 @@ if (!has_permission('finance_view')) { header('Location: /erp_project/index.php?
       <div class="card-body">
         <h5>Income Statement</h5>
         <p class="text-secondary">Revenue and expense summary to compute net income for a period.</p>
-        <a class="btn btn-outline-primary disabled" href="#">View</a>
+        <a class="btn btn-outline-primary" href="/erp_project/modules/accounts/report_income_statement.php">View</a>
       </div>
     </div>
   </div>
@@ -28,7 +28,7 @@ if (!has_permission('finance_view')) { header('Location: /erp_project/index.php?
       <div class="card-body">
         <h5>Balance Sheet</h5>
         <p class="text-secondary">Financial position snapshot: assets, liabilities, equity.</p>
-        <a class="btn btn-outline-primary disabled" href="#">View</a>
+        <a class="btn btn-outline-primary" href="/erp_project/modules/accounts/report_balance_sheet.php">View</a>
       </div>
     </div>
   </div>
