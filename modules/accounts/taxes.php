@@ -46,8 +46,8 @@ $res = $conn->query("SELECT * FROM tax_codes ORDER BY tax_code ASC");
             <td><?php echo htmlspecialchars($row['created_at']); ?></td>
             <?php if (has_permission('budget_manage')): ?>
             <td>
-              <a href="#" class="btn btn-sm btn-warning disabled" title="Edit"><i class="bi bi-pencil-square"></i></a>
-              <a href="#" class="btn btn-sm btn-<?php echo $row['is_active'] ? 'danger' : 'success'; ?> disabled" title="<?php echo $row['is_active'] ? 'Deactivate' : 'Activate'; ?>">
+              <a href="/erp_project/modules/accounts/edit_tax_code.php?id=<?php echo (int)$row['id']; ?>" class="btn btn-sm btn-warning" title="Edit"><i class="bi bi-pencil-square"></i></a>
+              <a href="/erp_project/modules/accounts/handle_toggle_tax_code.php?id=<?php echo (int)$row['id']; ?>&state=<?php echo $row['is_active']?0:1; ?>" class="btn btn-sm btn-<?php echo $row['is_active'] ? 'danger' : 'success'; ?>" title="<?php echo $row['is_active'] ? 'Deactivate' : 'Activate'; ?>">
                 <i class="bi bi-<?php echo $row['is_active'] ? 'x-circle' : 'check-circle'; ?>"></i>
               </a>
             </td>

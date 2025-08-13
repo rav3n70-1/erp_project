@@ -14,7 +14,7 @@ $res = $conn->query("SELECT * FROM journal_entries ORDER BY entry_date DESC, id 
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h1><?php echo $page_title; ?></h1>
   <?php if (has_permission('budget_manage')): ?>
-  <a href="#" class="btn btn-primary disabled"><i class="bi bi-plus-circle me-2"></i>New Journal Entry</a>
+  <a href="/erp_project/modules/accounts/new_journal_entry.php" class="btn btn-primary"><i class="bi bi-plus-circle me-2"></i>New Journal Entry</a>
   <?php endif; ?>
 </div>
 
@@ -43,9 +43,9 @@ $res = $conn->query("SELECT * FROM journal_entries ORDER BY entry_date DESC, id 
             <td><?php echo htmlspecialchars($row['created_at']); ?></td>
             <?php if (has_permission('budget_manage')): ?>
             <td>
-              <a href="#" class="btn btn-sm btn-info disabled" title="View Details"><i class="bi bi-eye"></i></a>
-              <a href="#" class="btn btn-sm btn-warning disabled" title="Edit"><i class="bi bi-pencil-square"></i></a>
-              <a href="#" class="btn btn-sm btn-danger disabled" title="Delete"><i class="bi bi-trash"></i></a>
+              <a href="/erp_project/modules/accounts/view_journal_entry.php?id=<?php echo (int)$row['id']; ?>" class="btn btn-sm btn-info" title="View Details"><i class="bi bi-eye"></i></a>
+              <a href="/erp_project/modules/accounts/edit_journal_entry.php?id=<?php echo (int)$row['id']; ?>" class="btn btn-sm btn-warning" title="Edit"><i class="bi bi-pencil-square"></i></a>
+              <a href="/erp_project/modules/accounts/handle_delete_journal_entry.php?id=<?php echo (int)$row['id']; ?>" class="btn btn-sm btn-danger" title="Delete" onclick="return confirm('Delete this journal entry? This cannot be undone.');"><i class="bi bi-trash"></i></a>
             </td>
             <?php endif; ?>
           </tr>

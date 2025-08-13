@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1><?php echo $page_title; ?></h1>
     <a href="/erp_project/modules/accounts/chart_of_accounts.php" class="btn btn-secondary">
-        <i class="bi bi-arrow-left me-2"></i>Back to Chart of Accounts
+        <i class="bi bi-arrow-left me-2"></i>Back to Accounts
     </a>
 </div>
 
@@ -68,88 +68,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php endif; ?>
 
 <div class="card">
-    <div class="card-header">
-        <h5>Account Information</h5>
-    </div>
-    <div class="card-body">
-        <form method="POST">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="account_code" class="form-label">Account Code *</label>
-                        <input type="text" class="form-control" id="account_code" name="account_code" 
-                               value="<?php echo htmlspecialchars($account_code ?? ''); ?>" required>
-                        <div class="form-text">Unique identifier for the account</div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="account_name" class="form-label">Account Name *</label>
-                        <input type="text" class="form-control" id="account_name" name="account_name" 
-                               value="<?php echo htmlspecialchars($account_name ?? ''); ?>" required>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="account_type" class="form-label">Account Type *</label>
-                        <select class="form-select" id="account_type" name="account_type" required>
-                            <option value="">Select Type</option>
-                            <option value="Asset" <?php echo ($account_type ?? '') === 'Asset' ? 'selected' : ''; ?>>Asset</option>
-                            <option value="Liability" <?php echo ($account_type ?? '') === 'Liability' ? 'selected' : ''; ?>>Liability</option>
-                            <option value="Equity" <?php echo ($account_type ?? '') === 'Equity' ? 'selected' : ''; ?>>Equity</option>
-                            <option value="Revenue" <?php echo ($account_type ?? '') === 'Revenue' ? 'selected' : ''; ?>>Revenue</option>
-                            <option value="Expense" <?php echo ($account_type ?? '') === 'Expense' ? 'selected' : ''; ?>>Expense</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="parent_account_code" class="form-label">Parent Account</label>
-                        <select class="form-select" id="parent_account_code" name="parent_account_code">
-                            <option value="">None (Top Level)</option>
-                            <?php if ($parent_accounts && $parent_accounts->num_rows > 0): ?>
-                                <?php while($row = $parent_accounts->fetch_assoc()): ?>
-                                    <option value="<?php echo htmlspecialchars($row['account_code']); ?>" 
-                                            <?php echo ($parent_account_code ?? '') === $row['account_code'] ? 'selected' : ''; ?>>
-                                        <?php echo htmlspecialchars($row['account_code'] . ' - ' . $row['account_name']); ?>
-                                    </option>
-                                <?php endwhile; ?>
-                            <?php endif; ?>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="opening_balance" class="form-label">Opening Balance</label>
-                        <input type="number" step="0.01" class="form-control" id="opening_balance" name="opening_balance" 
-                               value="<?php echo htmlspecialchars($opening_balance ?? 0); ?>">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <div class="form-check mt-4">
-                            <input class="form-check-input" type="checkbox" id="is_posting" name="is_posting" 
-                                   <?php echo ($is_posting ?? 1) ? 'checked' : ''; ?>>
-                            <label class="form-check-label" for="is_posting">
-                                Allow posting to this account
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="reset" class="btn btn-secondary me-md-2">Reset</button>
-                <button type="submit" class="btn btn-primary">Create Account</button>
-            </div>
-        </form>
-    </div>
+  <div class="card-header"><h5>Account Information</h5></div>
+  <div class="card-body">
+<form method="POST">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="mb-3">
+				<label class="form-label">Account Code *</label>
+				<input type="text" name="account_code" class="form-control" value="<?php echo htmlspecialchars($account_code ?? ''); ?>" required>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="mb-3">
+				<label class="form-label">Account Name *</label>
+				<input type="text" name="account_name" class="form-control" value="<?php echo htmlspecialchars($account_name ?? ''); ?>" required>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="mb-3">
+				<label class="form-label">Type *</label>
+				<select name="account_type" class="form-select" required>
+					<option value="">Select</option>
+					<?php $types=['Asset','Liability','Equity','Revenue','Expense']; foreach($types as $t): ?>
+					<option value="<?php echo $t; ?>" <?php echo (($account_type ?? '')===$t)?'selected':''; ?>><?php echo $t; ?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="mb-3">
+				<label class="form-label">Parent Account</label>
+				<select name="parent_account_code" class="form-select">
+					<option value="">None</option>
+					<?php if ($parent_accounts): while($pa=$parent_accounts->fetch_assoc()): ?>
+					<option value="<?php echo htmlspecialchars($pa['account_code']); ?>" <?php echo (($parent_account_code ?? '')===$pa['account_code'])?'selected':''; ?>><?php echo htmlspecialchars($pa['account_code'].' - '.$pa['account_name']); ?></option>
+					<?php endwhile; endif; ?>
+				</select>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="mb-3 form-check mt-4">
+				<input type="checkbox" name="is_posting" class="form-check-input" id="is_posting" <?php echo (($is_posting ?? 1)?'checked':''); ?>>
+				<label for="is_posting" class="form-check-label">Posting Account</label>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="mb-3">
+				<label class="form-label">Opening Balance</label>
+				<input type="number" step="0.01" name="opening_balance" class="form-control" value="<?php echo htmlspecialchars($opening_balance ?? 0); ?>">
+			</div>
+		</div>
+	</div>
+	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+		<button type="reset" class="btn btn-secondary me-md-2">Reset</button>
+		<button type="submit" class="btn btn-primary">Create Account</button>
+	</div>
+</form>
+  </div>
 </div>
 
 <?php include('../../includes/footer.php'); ?> 

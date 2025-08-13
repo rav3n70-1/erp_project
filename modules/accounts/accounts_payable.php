@@ -16,8 +16,8 @@ $res = $conn->query("SELECT b.*, v.vendor_name FROM ap_bills b JOIN ap_vendors v
   <h1><?php echo $page_title; ?></h1>
   <?php if (has_permission('budget_manage')): ?>
   <div>
-    <a href="#" class="btn btn-primary disabled"><i class="bi bi-plus-circle me-2"></i>New Vendor</a>
-    <a href="#" class="btn btn-success disabled"><i class="bi bi-receipt-cutoff me-2"></i>New Bill</a>
+    <a href="/erp_project/modules/accounts/ap_add_vendor.php" class="btn btn-primary"><i class="bi bi-plus-circle me-2"></i>New Vendor</a>
+    <a href="/erp_project/modules/accounts/ap_add_bill.php" class="btn btn-success"><i class="bi bi-receipt-cutoff me-2"></i>New Bill</a>
   </div>
   <?php endif; ?>
 </div>
@@ -59,9 +59,9 @@ $res = $conn->query("SELECT b.*, v.vendor_name FROM ap_bills b JOIN ap_vendors v
             </td>
             <?php if (has_permission('budget_manage')): ?>
             <td>
-              <a href="#" class="btn btn-sm btn-info disabled" title="View Details"><i class="bi bi-eye"></i></a>
-              <a href="#" class="btn btn-sm btn-success disabled" title="Record Payment"><i class="bi bi-cash"></i></a>
-              <a href="#" class="btn btn-sm btn-warning disabled" title="Edit"><i class="bi bi-pencil-square"></i></a>
+              <a href="/erp_project/modules/accounts/ap_view_bill.php?id=<?php echo (int)$row['id']; ?>" class="btn btn-sm btn-info" title="View Details"><i class="bi bi-eye"></i></a>
+              <a href="/erp_project/modules/accounts/ap_record_payment.php?bill_id=<?php echo (int)$row['id']; ?>" class="btn btn-sm btn-success" title="Record Payment"><i class="bi bi-cash"></i></a>
+              <a href="/erp_project/modules/accounts/ap_edit_bill.php?id=<?php echo (int)$row['id']; ?>" class="btn btn-sm btn-warning" title="Edit"><i class="bi bi-pencil-square"></i></a>
             </td>
             <?php endif; ?>
           </tr>

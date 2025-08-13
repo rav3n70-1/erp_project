@@ -16,8 +16,8 @@ $res = $conn->query("SELECT i.*, c.customer_name FROM ar_invoices i JOIN ar_cust
   <h1><?php echo $page_title; ?></h1>
   <?php if (has_permission('budget_manage')): ?>
   <div>
-    <a href="#" class="btn btn-primary disabled"><i class="bi bi-plus-circle me-2"></i>New Customer</a>
-    <a href="#" class="btn btn-success disabled"><i class="bi bi-receipt me-2"></i>New Invoice</a>
+    <a href="/erp_project/modules/accounts/ar_add_customer.php" class="btn btn-primary"><i class="bi bi-plus-circle me-2"></i>New Customer</a>
+    <a href="/erp_project/modules/accounts/ar_add_invoice.php" class="btn btn-success"><i class="bi bi-receipt me-2"></i>New Invoice</a>
   </div>
   <?php endif; ?>
 </div>
@@ -59,9 +59,9 @@ $res = $conn->query("SELECT i.*, c.customer_name FROM ar_invoices i JOIN ar_cust
             </td>
             <?php if (has_permission('budget_manage')): ?>
             <td>
-              <a href="#" class="btn btn-sm btn-info disabled" title="View Details"><i class="bi bi-eye"></i></a>
-              <a href="#" class="btn btn-sm btn-success disabled" title="Record Payment"><i class="bi bi-cash"></i></a>
-              <a href="#" class="btn btn-sm btn-warning disabled" title="Edit"><i class="bi bi-pencil-square"></i></a>
+              <a href="/erp_project/modules/accounts/ar_view_invoice.php?id=<?php echo (int)$row['id']; ?>" class="btn btn-sm btn-info" title="View Details"><i class="bi bi-eye"></i></a>
+              <a href="/erp_project/modules/accounts/ar_record_payment.php?invoice_id=<?php echo (int)$row['id']; ?>" class="btn btn-sm btn-success" title="Record Payment"><i class="bi bi-cash"></i></a>
+              <a href="/erp_project/modules/accounts/ar_edit_invoice.php?id=<?php echo (int)$row['id']; ?>" class="btn btn-sm btn-warning" title="Edit"><i class="bi bi-pencil-square"></i></a>
             </td>
             <?php endif; ?>
           </tr>

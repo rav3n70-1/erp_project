@@ -15,7 +15,7 @@ $res = $conn->query("SELECT * FROM bank_accounts ORDER BY account_name ASC");
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h1><?php echo $page_title; ?></h1>
   <?php if (has_permission('budget_manage')): ?>
-  <a href="#" class="btn btn-primary disabled"><i class="bi bi-plus-circle me-2"></i>Add Bank Account</a>
+  <a href="/erp_project/modules/accounts/add_bank_account.php" class="btn btn-primary"><i class="bi bi-plus-circle me-2"></i>Add Bank Account</a>
   <?php endif; ?>
 </div>
 
@@ -46,9 +46,9 @@ $res = $conn->query("SELECT * FROM bank_accounts ORDER BY account_name ASC");
             <td><?php echo htmlspecialchars($row['created_at']); ?></td>
             <?php if (has_permission('budget_manage')): ?>
             <td>
-              <a href="#" class="btn btn-sm btn-info disabled" title="View Transactions"><i class="bi bi-list-ul"></i></a>
-              <a href="#" class="btn btn-sm btn-success disabled" title="Record Transaction"><i class="bi bi-plus-circle"></i></a>
-              <a href="#" class="btn btn-sm btn-warning disabled" title="Edit"><i class="bi bi-pencil-square"></i></a>
+              <a href="/erp_project/modules/accounts/view_bank_account.php?id=<?php echo (int)$row['id']; ?>" class="btn btn-sm btn-info" title="View Transactions"><i class="bi bi-list-ul"></i></a>
+              <a href="/erp_project/modules/accounts/record_bank_transaction.php?bank_account_id=<?php echo (int)$row['id']; ?>" class="btn btn-sm btn-success" title="Record Transaction"><i class="bi bi-plus-circle"></i></a>
+              <a href="/erp_project/modules/accounts/edit_bank_account.php?id=<?php echo (int)$row['id']; ?>" class="btn btn-sm btn-warning" title="Edit"><i class="bi bi-pencil-square"></i></a>
             </td>
             <?php endif; ?>
           </tr>
