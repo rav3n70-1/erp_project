@@ -1,0 +1,3 @@
+product_name,sku,category_name,price,quantity_in_stock,description,reorder_point
+Sample Product 1,SKU-001,Default,99.99,10,Example description,5
+Sample Product 2,SKU-002,Default,49.50,25,Another item,10 

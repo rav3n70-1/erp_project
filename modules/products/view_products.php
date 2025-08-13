@@ -21,10 +21,14 @@ $result = $conn->query($sql);
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1><?php echo $page_title; ?></h1>
+    <div class="d-flex gap-2">
     <?php // Only show 'Add New' button to users with permission
     if (has_permission(['Manager', 'Procurement Officer'])): ?>
         <a href="add_product.php" class="btn btn-primary"><i class="bi bi-plus-circle me-2"></i>Add New Product</a>
+        <a href="bulk_import.php" class="btn btn-success"><i class="bi bi-upload me-2"></i>Bulk Import</a>
     <?php endif; ?>
+        <a href="export_products_csv.php" class="btn btn-outline-secondary"><i class="bi bi-download me-2"></i>Export CSV</a>
+    </div>
 </div>
 
 <?php
@@ -37,7 +41,7 @@ $result = $conn->query($sql);
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table table-hover data-table">
                 <thead>
                     <tr>
                         <th>SKU</th>
@@ -55,17 +59,20 @@ $result = $conn->query($sql);
                                 <td><?php echo htmlspecialchars($row['sku']); ?></td>
                                 <td><?php echo htmlspecialchars($row['product_name']); ?></td>
                                 <td><?php echo htmlspecialchars($row['category_name']); ?></td>
-                                <td class="text-end fw-bold"><?php echo $row['quantity_in_stock']; ?></td>
-                                <td class="text-end">$<?php echo number_format($row['price'], 2); ?></td>
-                                <td>
-                                    <?php // Show Edit button to Manager and Officer
-                                    if (has_permission(['Manager', 'Procurement Officer'])): ?>
-                                        <a href="edit_product.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></a>
+                                <td class="text-end fw-bold">
+                                    <?php echo (int)$row['quantity_in_stock']; ?>
+                                    <?php if ((int)$row['reorder_point'] > 0 && (int)$row['quantity_in_stock'] <= (int)$row['reorder_point']): ?>
+                                        <span class="badge bg-danger ms-2">Low</span>
                                     <?php endif; ?>
-                                    
-                                    <?php // Show Delete button to Manager only
-                                    if (has_permission('Manager')): ?>
-                                        <button type="button" class="btn btn-sm btn-danger"
+                                </td>
+                                <td class="text-end">৳<?php echo number_format($row['price'], 2); ?></td>
+                                <td>
+                                    <?php if (has_permission(['Manager', 'Procurement Officer'])): ?>
+                                        <a href="edit_product.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                        <a href="adjust_stock.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-info" title="Adjust Stock"><i class="bi bi-boxes"></i></a>
+                                    <?php endif; ?>
+                                    <?php if (has_permission('Manager')): ?>
+                                        <button type="button" class="btn btn-sm btn-danger" title="Delete"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#deleteProductModal"
                                                 data-id="<?php echo $row['id']; ?>">
