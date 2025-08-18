@@ -50,6 +50,7 @@ $chart_labels_json = json_encode($chart_labels);
 $chart_data_json = json_encode($chart_data);
 
 // --- Fetch data for Accounts Receivable vs Payable Chart ---
+$from_date = date('Y-m-01', strtotime('-5 months'));
 $sql_ar_ap_monthly = "
     SELECT 
         'AR' as type, 
@@ -57,7 +58,7 @@ $sql_ar_ap_monthly = "
         YEAR(invoice_date) as year,
         SUM(total) as amount 
     FROM ar_invoices 
-    WHERE invoice_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+    WHERE invoice_date >= '$from_date'
     GROUP BY YEAR(invoice_date), MONTH(invoice_date)
     
     UNION ALL
@@ -68,33 +69,28 @@ $sql_ar_ap_monthly = "
         YEAR(bill_date) as year,
         SUM(total) as amount
     FROM ap_bills
-    WHERE bill_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+    WHERE bill_date >= '$from_date'
     GROUP BY YEAR(bill_date), MONTH(bill_date)
-    
-    ORDER BY year, month";
+";
 
 $ar_ap_result = $conn->query($sql_ar_ap_monthly);
-$ar_data = [];
-$ap_data = [];
-$month_labels = [];
 $temp_data = [];
-
 while ($row = $ar_ap_result->fetch_assoc()) {
     $month_key = $row['year'] . '-' . str_pad($row['month'], 2, '0', STR_PAD_LEFT);
-    if (!in_array(date('M Y', strtotime($month_key . '-01')), $month_labels)) {
-        $month_labels[] = date('M Y', strtotime($month_key . '-01'));
-    }
-    $temp_data[$month_key][$row['type']] = $row['amount'];
+    $temp_data[$month_key][$row['type']] = (float)$row['amount'];
 }
 
-// Fill missing months and organize data
+$month_labels = [];
+$ar_data = [];
+$ap_data = [];
 for ($i = 5; $i >= 0; $i--) {
     $month_key = date('Y-m', strtotime("-$i months"));
-    $ar_data[] = $temp_data[$month_key]['AR'] ?? 0;
-    $ap_data[] = $temp_data[$month_key]['AP'] ?? 0;
+    $month_labels[] = date('M Y', strtotime($month_key . '-01'));
+    $ar_data[] = $temp_data[$month_key]['AR'] ?? 0.0;
+    $ap_data[] = $temp_data[$month_key]['AP'] ?? 0.0;
 }
 
-$ar_ap_labels_json = json_encode(array_slice($month_labels, -6));
+$ar_ap_labels_json = json_encode($month_labels);
 $ar_data_json = json_encode($ar_data);
 $ap_data_json = json_encode($ap_data);
 

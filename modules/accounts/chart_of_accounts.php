@@ -19,6 +19,25 @@ $result = $conn->query("SELECT * FROM chart_of_accounts ORDER BY account_code AS
   <?php endif; ?>
 </div>
 
+<?php if (isset($_GET['deleted'])): ?>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  Account deleted successfully.
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<?php endif; ?>
+<?php if (isset($_GET['in_use'])): ?>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  Cannot delete account: it is referenced by journal entries.
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<?php endif; ?>
+<?php if (isset($_GET['has_children'])): ?>
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  Cannot delete account: it has child accounts. Reassign or delete children first.
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<?php endif; ?>
+
 <div class="card">
   <div class="card-header"><h5>Accounts</h5></div>
   <div class="card-body">
@@ -37,8 +56,8 @@ $result = $conn->query("SELECT * FROM chart_of_accounts ORDER BY account_code AS
               <td><?php echo htmlspecialchars($row['created_at']); ?></td>
               <?php if (has_permission('budget_manage')): ?>
               <td>
-                <a href="#" class="btn btn-sm btn-warning disabled" title="Edit"><i class="bi bi-pencil-square"></i></a>
-                <a href="#" class="btn btn-sm btn-danger disabled" title="Delete"><i class="bi bi-trash"></i></a>
+                <a href="/erp_project/modules/accounts/edit_account.php?id=<?php echo (int)$row['id']; ?>" class="btn btn-sm btn-warning" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                <a href="/erp_project/modules/accounts/handle_delete_account.php?id=<?php echo (int)$row['id']; ?>" class="btn btn-sm btn-danger" title="Delete" onclick="return confirm('Delete this account? This cannot be undone.');"><i class="bi bi-trash"></i></a>
               </td>
               <?php endif; ?>
             </tr>
