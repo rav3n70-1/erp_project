@@ -48,7 +48,7 @@ if (isset($_SESSION['supplier_id'])) {
                     </div>
                 </form>
                 <div class="text-center mt-3">
-                    <a href="portal_login.php" class="small">« Back to Portal Selection</a>
+                    <a href="login.php" class="small">« Back to Portal Selection</a>
                 </div>
             </div>
         </div>
