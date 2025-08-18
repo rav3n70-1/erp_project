@@ -326,7 +326,7 @@
     </div>
 
     <div class="footer-info">
-        <p>&copy;</p>
+        <p></p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
