@@ -275,7 +275,7 @@
     <div class="dashboard-container">
         <div class="container">
             <div class="dashboard-header">
-                <h1>Welcome to ERP System</h1>
+                <h1>Welcome to Management System</h1>
                 <p>Choose your portal to access your personalized dashboard and tools</p>
             </div>
             
@@ -326,7 +326,7 @@
     </div>
 
     <div class="footer-info">
-        <p>&copy; 2024 ERP System. All rights reserved. | Built with modern technology</p>
+        <p>&copy;</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

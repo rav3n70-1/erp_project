@@ -194,54 +194,54 @@ $account_type_colors_json = json_encode(array_values(array_intersect_key($accoun
         <div class="row text-center">
             <?php if (has_permission('po_create')): ?>
             <div class="col-lg-2 col-md-4 col-6 mb-3">
-                <a href="/erp_project/modules/purchase_orders/create_po.php" class="text-decoration-none text-dark">
-                    <i class="bi bi-receipt-cutoff display-6"></i>
+                <a href="/erp_project/modules/purchase_orders/create_po.php" class="text-decoration-none quick-actions-button">
+                    <i class="bi bi-receipt-cutoff display-6 quick-actions-icon"></i>
                     <p class="mt-1 mb-0">New PO</p>
                 </a>
             </div>
             <?php endif; ?>
              <?php if (has_permission('hr_manage')): ?>
             <div class="col-lg-2 col-md-4 col-6 mb-3">
-                <a href="/erp_project/modules/hr/add_employee.php" class="text-decoration-none text-dark">
-                    <i class="bi bi-person-plus-fill display-6"></i>
+                <a href="/erp_project/modules/hr/add_employee.php" class="text-decoration-none quick-actions-button">
+                    <i class="bi bi-person-plus-fill display-6 quick-actions-icon"></i>
                     <p class="mt-1 mb-0">Add Employee</p>
                 </a>
             </div>
             <?php endif; ?>
             <?php if (has_permission('invoice_manage')): ?>
             <div class="col-lg-2 col-md-4 col-6 mb-3">
-                <a href="/erp_project/modules/finance/log_invoice.php" class="text-decoration-none text-dark">
-                    <i class="bi bi-journal-plus display-6"></i>
+                <a href="/erp_project/modules/finance/log_invoice.php" class="text-decoration-none quick-actions-button">
+                    <i class="bi bi-journal-plus display-6 quick-actions-icon"></i>
                     <p class="mt-1 mb-0">Log Invoice</p>
                 </a>
             </div>
             <?php endif; ?>
             <?php if (has_permission('budget_manage')): ?>
             <div class="col-lg-2 col-md-4 col-6 mb-3">
-                <a href="/erp_project/modules/accounts/add_account.php" class="text-decoration-none text-dark">
-                    <i class="bi bi-plus-circle-fill display-6"></i>
+                <a href="/erp_project/modules/accounts/add_account.php" class="text-decoration-none quick-actions-button">
+                    <i class="bi bi-plus-circle-fill display-6 quick-actions-icon"></i>
                     <p class="mt-1 mb-0">Add Account</p>
                 </a>
             </div>
             <?php endif; ?>
             <?php if (has_permission('project_create')): ?>
             <div class="col-lg-2 col-md-4 col-6 mb-3">
-                <a href="/erp_project/modules/projects/add_project.php" class="text-decoration-none text-dark">
-                    <i class="bi bi-folder-plus display-6"></i>
+                <a href="/erp_project/modules/projects/add_project.php" class="text-decoration-none quick-actions-button">
+                    <i class="bi bi-folder-plus display-6 quick-actions-icon"></i>
                     <p class="mt-1 mb-0">New Project</p>
                 </a>
             </div>
             <?php endif; ?>
             <div class="col-lg-2 col-md-4 col-6 mb-3">
-                <a href="/erp_project/modules/reports/purchase_history.php" class="text-decoration-none text-dark">
-                    <i class="bi bi-file-earmark-bar-graph-fill display-6"></i>
+                <a href="/erp_project/modules/reports/purchase_history.php" class="text-decoration-none quick-actions-button">
+                    <i class="bi bi-file-earmark-bar-graph-fill display-6 quick-actions-icon"></i>
                     <p class="mt-1 mb-0">View Reports</p>
                 </a>
             </div>
              <?php if (has_permission('user_manage')): ?>
             <div class="col-lg-2 col-md-4 col-6 mb-3">
-                <a href="/erp_project/modules/admin/manage_users.php" class="text-decoration-none text-dark">
-                    <i class="bi bi-people-fill display-6"></i>
+                <a href="/erp_project/modules/admin/manage_users.php" class="text-decoration-none quick-actions-button">
+                    <i class="bi bi-people-fill display-6 quick-actions-icon"></i>
                     <p class="mt-1 mb-0">Manage Users</p>
                 </a>
             </div>

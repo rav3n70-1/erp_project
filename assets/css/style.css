@@ -474,3 +474,165 @@ html[data-bs-theme="dark"] .glass-card-portal {
         font-size: 2.2rem;
     }
 }
+
+/* --- QUICK ACTIONS THEME RESPONSIVE STYLING --- */
+/* Light mode - black text */
+html[data-bs-theme="light"] .quick-actions-button,
+html[data-bs-theme="light"] .text-dark {
+    color: #212529 !important;
+}
+
+/* Dark mode - white text */
+html[data-bs-theme="dark"] .quick-actions-button,
+html[data-bs-theme="dark"] .text-dark {
+    color: #ffffff !important;
+}
+
+/* Quick Actions icon styling for better visibility */
+.quick-actions-icon {
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.quick-actions-button:hover .quick-actions-icon {
+    transform: scale(1.1);
+    color: var(--erp-brand-primary) !important;
+}
+
+html[data-bs-theme="dark"] .quick-actions-button:hover .quick-actions-icon {
+    color: #4facfe !important;
+}
+
+/* Enhanced outline buttons for dark mode */
+html[data-bs-theme="dark"] .btn-outline-primary {
+    color: #ffffff;
+    border-color: #4facfe;
+}
+
+html[data-bs-theme="dark"] .btn-outline-primary:hover {
+    background-color: #4facfe;
+    border-color: #4facfe;
+    color: #000;
+}
+
+html[data-bs-theme="dark"] .btn-outline-secondary {
+    color: #ffffff;
+    border-color: #6c757d;
+}
+
+html[data-bs-theme="dark"] .btn-outline-secondary:hover {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #ffffff;
+}
+
+html[data-bs-theme="dark"] .btn-outline-success {
+    color: #ffffff;
+    border-color: #198754;
+}
+
+html[data-bs-theme="dark"] .btn-outline-success:hover {
+    background-color: #198754;
+    border-color: #198754;
+    color: #ffffff;
+}
+
+html[data-bs-theme="dark"] .btn-outline-warning {
+    color: #ffffff;
+    border-color: #ffc107;
+}
+
+html[data-bs-theme="dark"] .btn-outline-warning:hover {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #000;
+}
+
+/* --- COMPREHENSIVE THEME RESPONSIVE ELEMENTS --- */
+/* Handle all text-dark elements throughout the system */
+html[data-bs-theme="dark"] .text-dark {
+    color: #ffffff !important;
+}
+
+/* Special handling for badges and status indicators */
+html[data-bs-theme="dark"] .bg-warning.text-dark {
+    background-color: #ffc107 !important;
+    color: #000000 !important;
+}
+
+html[data-bs-theme="dark"] .bg-info.text-dark {
+    background-color: #0dcaf0 !important;
+    color: #000000 !important;
+}
+
+html[data-bs-theme="dark"] .bg-light.text-dark {
+    background-color: #495057 !important;
+    color: #ffffff !important;
+    border-color: #6c757d !important;
+}
+
+/* Dashboard cards with text-dark */
+html[data-bs-theme="dark"] .card.bg-warning.text-dark {
+    background-color: #ffc107 !important;
+    color: #000000 !important;
+}
+
+html[data-bs-theme="dark"] .card.bg-warning.text-dark .card-footer {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+    color: #000000 !important;
+}
+
+/* Links on warning/info cards */
+html[data-bs-theme="dark"] .card.bg-warning .card-footer.text-dark,
+html[data-bs-theme="dark"] .bg-warning .text-dark,
+html[data-bs-theme="dark"] .bg-info .text-dark {
+    color: #000000 !important;
+}
+
+/* Badge improvements for dark mode */
+html[data-bs-theme="dark"] .badge.bg-light {
+    background-color: #495057 !important;
+    color: #ffffff !important;
+    border-color: #6c757d !important;
+}
+
+html[data-bs-theme="dark"] .badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #000000 !important;
+}
+
+html[data-bs-theme="dark"] .badge.bg-info {
+    background-color: #0dcaf0 !important;
+    color: #000000 !important;
+}
+
+/* Quick Actions hover effects enhancement */
+.quick-actions-button {
+    display: block;
+    padding: 1rem 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.quick-actions-button:hover {
+    background-color: rgba(13, 110, 253, 0.08);
+    transform: translateY(-2px);
+    text-decoration: none !important;
+}
+
+html[data-bs-theme="dark"] .quick-actions-button:hover {
+    background-color: rgba(79, 172, 254, 0.15);
+}
+
+/* General link color improvements for dark mode */
+html[data-bs-theme="dark"] a {
+    color: #4facfe;
+}
+
+html[data-bs-theme="dark"] a:hover {
+    color: #7dd3fc;
+}
+
+/* Ensure card footer links maintain proper contrast */
+html[data-bs-theme="dark"] .card-footer a {
+    color: inherit;
+}
