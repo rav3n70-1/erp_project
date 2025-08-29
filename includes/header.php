@@ -22,24 +22,44 @@ ob_start(function($buffer){ return preg_replace('/\$(?=\d)/u', '৳', $buffer); 
 </head>
 <body>
 
+<!-- Modern Loading Screen (for dashboard) -->
+<?php if (isset($page_title) && $page_title === 'Dashboard'): ?>
+<div class="modern-loading-screen" id="modernLoadingScreen">
+    <div class="loading-animation">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+    </div>
+    <div class="loading-text">LOADING</div>
+    <div class="loading-progress">
+        <div class="loading-progress-bar"></div>
+    </div>
+</div>
+<?php endif; ?>
+
+<!-- Animated Particles Background (for dashboard) -->
+<?php if (isset($page_title) && $page_title === 'Dashboard'): ?>
+<div id="particles-js"></div>
+<?php endif; ?>
+
 <div class="d-flex" id="wrapper">
     <div class="bg-dark border-right" id="sidebar-wrapper">
         <div class="sidebar-heading text-white fw-semibold d-flex align-items-center gap-2"><span class="brand-logo">E</span><span>ERP System</span> </div>
         <div class="list-group list-group-flush">
-            <a href="/erp_project/dashboard.php" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+            <a href="/erp_project/dashboard.php" class="list-group-item list-group-item-action bg-dark text-white modern-sidebar-item"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
             
             <?php if (has_permission('hr_view') || has_permission('hr_manage')): ?>
-            <a href="/erp_project/modules/hr/view_employees.php" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-person-rolodex me-2"></i>HR</a>
+            <a href="/erp_project/modules/hr/view_employees.php" class="list-group-item list-group-item-action bg-dark text-white modern-sidebar-item"><i class="bi bi-person-rolodex me-2"></i>HR</a>
             <?php endif; ?>
 
             <?php if (has_permission('supplier_view') || has_permission('po_create')): ?>
-            <a href="/erp_project/modules/suppliers/view_suppliers.php" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-people-fill me-2"></i>Suppliers</a>
+            <a href="/erp_project/modules/suppliers/view_suppliers.php" class="list-group-item list-group-item-action bg-dark text-white modern-sidebar-item"><i class="bi bi-people-fill me-2"></i>Suppliers</a>
             <?php endif; ?>
             <?php if (has_permission('client_manage')): ?>
-            <a href="/erp_project/modules/clients/view_clients.php" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-person-square me-2"></i>Clients</a>
+            <a href="/erp_project/modules/clients/view_clients.php" class="list-group-item list-group-item-action bg-dark text-white modern-sidebar-item"><i class="bi bi-person-square me-2"></i>Clients</a>
             <?php endif; ?>
             <?php if (has_permission('inventory_view') || has_permission('asset_view') || has_permission('product_view') || has_permission('po_create')): ?>
-            <a href="#productSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-box-seam me-2"></i>Products & Inventory</a>
+            <a href="#productSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white modern-sidebar-item"><i class="bi bi-box-seam me-2"></i>Products & Inventory</a>
             <div class="collapse" id="productSubmenu">
                 <a href="/erp_project/modules/products/view_products.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Products</a>
                 <a href="/erp_project/modules/products/manage_categories.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Categories</a>
@@ -50,15 +70,15 @@ ob_start(function($buffer){ return preg_replace('/\$(?=\d)/u', '৳', $buffer); 
             <?php endif; ?>
 
             <?php if (has_permission('po_view') || has_permission('po_create')): ?>
-            <a href="/erp_project/modules/purchase_orders/view_pos.php" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-receipt me-2"></i>Purchase Orders</a>
+            <a href="/erp_project/modules/purchase_orders/view_pos.php" class="list-group-item list-group-item-action bg-dark text-white modern-sidebar-item"><i class="bi bi-receipt me-2"></i>Purchase Orders</a>
             <?php endif; ?>
 
             <?php if (has_permission('inventory_view') || has_permission('procurement_view')): ?>
-            <a href="/erp_project/modules/deliveries/view_deliveries.php" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-truck me-2"></i>Deliveries</a>
+            <a href="/erp_project/modules/deliveries/view_deliveries.php" class="list-group-item list-group-item-action bg-dark text-white modern-sidebar-item"><i class="bi bi-truck me-2"></i>Deliveries</a>
             <?php endif; ?>
             
             <?php if (has_permission('finance_view') || has_permission('payment_manage') || has_permission('budget_manage')): ?>
-            <a href="#financeSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-cash-coin me-2"></i>Finance</a>
+            <a href="#financeSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white modern-sidebar-item"><i class="bi bi-cash-coin me-2"></i>Finance</a>
             <div class="collapse" id="financeSubmenu">
                 <a href="/erp_project/modules/finance/manage_budgets.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Manage Budgets</a>
                 <a href="/erp_project/modules/finance/view_payments.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">All Payments</a>
@@ -67,7 +87,7 @@ ob_start(function($buffer){ return preg_replace('/\$(?=\d)/u', '৳', $buffer); 
             <?php endif; ?>
             
             <?php if (has_permission('finance_view') || has_permission('reports_full_access')): ?>
-            <a href="#accountsSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-bank me-2"></i>Accounts</a>
+            <a href="#accountsSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white modern-sidebar-item"><i class="bi bi-bank me-2"></i>Accounts</a>
             <div class="collapse" id="accountsSubmenu">
                 <a href="/erp_project/modules/accounts/chart_of_accounts.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Chart of Accounts</a>
                 <a href="/erp_project/modules/accounts/journal_entries.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Journal Entries</a>
@@ -81,11 +101,11 @@ ob_start(function($buffer){ return preg_replace('/\$(?=\d)/u', '৳', $buffer); 
             <?php endif; ?>
             
             <?php if (has_permission('project_full_access') || has_permission('project_create')): ?>
-            <a href="/erp_project/modules/projects/view_projects.php" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-kanban-fill me-2"></i>Projects</a>
+            <a href="/erp_project/modules/projects/view_projects.php" class="list-group-item list-group-item-action bg-dark text-white modern-sidebar-item"><i class="bi bi-kanban-fill me-2"></i>Projects</a>
             <?php endif; ?>
 
             <?php if (has_permission('reports_full_access') || has_permission('reports_po_only')): ?>
-            <a href="#reportsSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-bar-chart-line-fill me-2"></i>Reports</a>
+            <a href="#reportsSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white modern-sidebar-item"><i class="bi bi-bar-chart-line-fill me-2"></i>Reports</a>
             <div class="collapse" id="reportsSubmenu">
                 <a href="/erp_project/modules/reports/purchase_history.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Purchase History</a>
                 <a href="/erp_project/modules/reports/supplier_performance.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Supplier Performance</a>
@@ -93,7 +113,7 @@ ob_start(function($buffer){ return preg_replace('/\$(?=\d)/u', '৳', $buffer); 
             <?php endif; ?>
             
             <?php if (has_permission('user_manage') || has_permission('supplier_info_approve')): ?>
-            <a href="#adminSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-person-badge-fill me-2"></i>Administration</a>
+            <a href="#adminSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action bg-dark text-white modern-sidebar-item"><i class="bi bi-person-badge-fill me-2"></i>Administration</a>
             <div class="collapse" id="adminSubmenu">
                 <?php if (has_permission('user_manage')): ?><a href="/erp_project/modules/admin/manage_users.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Manage Users</a><?php endif; ?>
                 <?php if (has_permission('supplier_info_approve')): ?><a href="/erp_project/modules/admin/review_supplier_changes.php" class="list-group-item list-group-item-action bg-secondary text-white ps-5">Supplier Changes</a><?php endif; ?>
@@ -117,7 +137,7 @@ ob_start(function($buffer){ return preg_replace('/\$(?=\d)/u', '৳', $buffer); 
                             <button class="btn btn-outline-secondary" id="density-toggle" type="button" aria-label="Toggle density" data-bs-toggle="tooltip" title="Compact density (Alt+D)"><i class="bi bi-arrows-collapse"></i></button>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-bell-fill"></i><span class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger" id="notification-count" style="display: none;"></span></a>
+                            <a class="nav-link" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-bell-fill"></i><span class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger modern-badge" id="notification-count" style="display: none;"></span></a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" id="notification-list">
                                 <li><a class="dropdown-item text-muted text-center" href="#">No new notifications</a></li>
                             </ul>

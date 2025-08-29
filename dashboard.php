@@ -125,144 +125,263 @@ $account_type_counts_json = json_encode($account_type_counts);
 $account_type_colors_json = json_encode(array_values(array_intersect_key($account_type_colors, array_flip($account_type_labels))));
 ?>
 
-<div class="d-flex justify-content-between align-items-center">
-    <h1 class="mt-4 text-gradient">Dashboard</h1>
+<!-- Modern Dashboard Header -->
+<div class="modern-dashboard-header fade-in-up">
+    <h1 class="modern-dashboard-title">Dashboard</h1>
+    <p class="modern-dashboard-subtitle">Welcome back, <?php echo htmlspecialchars($_SESSION['username']); ?>! Here's your system overview.</p>
 </div>
-<p class="lead mb-4">Welcome back, <?php echo htmlspecialchars($_SESSION['username']); ?>! Here is a summary of system activity.</p>
 
-<!-- Main KPI Cards -->
-<div class="row">
+<!-- Main KPI Cards with Modern Design -->
+<div class="row mb-5">
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card dashboard-card bg-warning text-dark h-100">
-            <div class="card-body"><div><div class="fs-1 fw-bold" data-count-up="<?php echo $pending_pos_count; ?>">0</div><div class="text-uppercase">POs Awaiting Approval</div></div><i class="bi bi-patch-question-fill stat-icon"></i></div>
-            <a class="card-footer text-dark d-flex" href="/erp_project/modules/purchase_orders/view_pos.php?filter_status=Pending">View Details <i class="bi bi-arrow-right-short ms-auto"></i></a>
+        <div class="modern-dashboard-card h-100 floating-element reveal">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="modern-icon-container">
+                        <i class="bi bi-patch-question-fill"></i>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <div class="fs-1 fw-bold modern-counter" data-count-up="<?php echo $pending_pos_count; ?>">0</div>
+                    <div class="text-uppercase small opacity-75">POs Awaiting Approval</div>
+                    <div class="status-indicator status-warning mt-2">
+                        <div class="status-dot"></div>
+                        <span>Pending</span>
+                    </div>
+                </div>
+            </div>
+            <a class="card-footer text-white d-flex align-items-center" href="/erp_project/modules/purchase_orders/view_pos.php?filter_status=Pending">
+                View Details <i class="bi bi-arrow-right-short ms-auto"></i>
+            </a>
         </div>
     </div>
+    
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card dashboard-card bg-primary text-white h-100">
-             <div class="card-body"><div><div class="fs-1 fw-bold" data-count-up="<?php echo $suppliers_count; ?>">0</div><div class="text-uppercase">Total Suppliers</div></div><i class="bi bi-people-fill stat-icon"></i></div>
-            <a class="card-footer text-white d-flex" href="/erp_project/modules/suppliers/view_suppliers.php">View Details <i class="bi bi-arrow-right-short ms-auto"></i></a>
+        <div class="modern-dashboard-card h-100 floating-element reveal">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="modern-icon-container">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <div class="fs-1 fw-bold modern-counter" data-count-up="<?php echo $suppliers_count; ?>">0</div>
+                    <div class="text-uppercase small opacity-75">Total Suppliers</div>
+                    <div class="status-indicator status-info mt-2">
+                        <div class="status-dot"></div>
+                        <span>Active</span>
+                    </div>
+                </div>
+            </div>
+            <a class="card-footer text-white d-flex align-items-center" href="/erp_project/modules/suppliers/view_suppliers.php">
+                View Details <i class="bi bi-arrow-right-short ms-auto"></i>
+            </a>
         </div>
     </div>
+    
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card dashboard-card bg-info text-white h-100">
-             <div class="card-body"><div><div class="fs-1 fw-bold" data-count-up="<?php echo $projects_count; ?>">0</div><div class="text-uppercase">In-Progress Projects</div></div><i class="bi bi-kanban-fill stat-icon"></i></div>
-            <a class="card-footer text-white d-flex" href="/erp_project/modules/projects/view_projects.php">View Details <i class="bi bi-arrow-right-short ms-auto"></i></a>
+        <div class="modern-dashboard-card h-100 floating-element reveal">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="modern-icon-container">
+                        <i class="bi bi-kanban-fill"></i>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <div class="fs-1 fw-bold modern-counter" data-count-up="<?php echo $projects_count; ?>">0</div>
+                    <div class="text-uppercase small opacity-75">In-Progress Projects</div>
+                    <div class="status-indicator status-success mt-2">
+                        <div class="status-dot"></div>
+                        <span>Running</span>
+                    </div>
+                </div>
+            </div>
+            <a class="card-footer text-white d-flex align-items-center" href="/erp_project/modules/projects/view_projects.php">
+                View Details <i class="bi bi-arrow-right-short ms-auto"></i>
+            </a>
         </div>
     </div>
+    
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card dashboard-card bg-success text-white h-100">
-             <div class="card-body"><div><div class="fs-1 fw-bold" data-count-up="<?php echo (float)$month_spend; ?>" data-currency>0</div><div class="text-uppercase">Spend This Month</div></div><i class="bi bi-cash-coin stat-icon"></i></div>
-            <a class="card-footer text-white d-flex" href="/erp_project/modules/reports/purchase_history.php">View Reports <i class="bi bi-arrow-right-short ms-auto"></i></a>
+        <div class="modern-dashboard-card h-100 floating-element reveal">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="modern-icon-container">
+                        <i class="bi bi-cash-coin"></i>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <div class="fs-1 fw-bold modern-counter" data-count-up="<?php echo (float)$month_spend; ?>" data-currency>0</div>
+                    <div class="text-uppercase small opacity-75">Spend This Month</div>
+                    <div class="status-indicator status-success mt-2">
+                        <div class="status-dot"></div>
+                        <span>Budget</span>
+                    </div>
+                </div>
+            </div>
+            <a class="card-footer text-white d-flex align-items-center" href="/erp_project/modules/reports/purchase_history.php">
+                View Reports <i class="bi bi-arrow-right-short ms-auto"></i>
+            </a>
         </div>
     </div>
 </div>
 
 <!-- Financial Overview Cards -->
 <?php if (has_permission('finance_view')): ?>
-<div class="row">
+<div class="row mb-5">
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card dashboard-card bg-dark text-white h-100">
-            <div class="card-body"><div><div class="fs-1 fw-bold" data-count-up="<?php echo (float)$total_cash; ?>" data-currency>0</div><div class="text-uppercase">Total Cash & Bank</div></div><i class="bi bi-bank stat-icon"></i></div>
-            <a class="card-footer text-white d-flex" href="/erp_project/modules/accounts/bank_accounts.php">View Details <i class="bi bi-arrow-right-short ms-auto"></i></a>
+        <div class="modern-dashboard-card h-100 floating-element reveal">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="modern-icon-container">
+                        <i class="bi bi-bank"></i>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <div class="fs-1 fw-bold modern-counter" data-count-up="<?php echo (float)$total_cash; ?>" data-currency>0</div>
+                    <div class="text-uppercase small opacity-75">Total Cash & Bank</div>
+                </div>
+            </div>
+            <a class="card-footer text-white d-flex align-items-center" href="/erp_project/modules/accounts/bank_accounts.php">
+                View Details <i class="bi bi-arrow-right-short ms-auto"></i>
+            </a>
         </div>
     </div>
+    
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card dashboard-card bg-gradient-blue text-white h-100">
-            <div class="card-body"><div><div class="fs-1 fw-bold" data-count-up="<?php echo (float)$ar_outstanding; ?>" data-currency>0</div><div class="text-uppercase">Outstanding Receivables</div></div><i class="bi bi-receipt stat-icon"></i></div>
-            <a class="card-footer text-white d-flex" href="/erp_project/modules/accounts/accounts_receivable.php">View Details <i class="bi bi-arrow-right-short ms-auto"></i></a>
+        <div class="modern-dashboard-card h-100 floating-element reveal">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="modern-icon-container">
+                        <i class="bi bi-receipt"></i>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <div class="fs-1 fw-bold modern-counter" data-count-up="<?php echo (float)$ar_outstanding; ?>" data-currency>0</div>
+                    <div class="text-uppercase small opacity-75">Outstanding Receivables</div>
+                </div>
+            </div>
+            <a class="card-footer text-white d-flex align-items-center" href="/erp_project/modules/accounts/accounts_receivable.php">
+                View Details <i class="bi bi-arrow-right-short ms-auto"></i>
+            </a>
         </div>
     </div>
+    
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card dashboard-card bg-gradient-orange text-white h-100">
-            <div class="card-body"><div><div class="fs-1 fw-bold" data-count-up="<?php echo (float)$ap_outstanding; ?>" data-currency>0</div><div class="text-uppercase">Outstanding Payables</div></div><i class="bi bi-receipt-cutoff stat-icon"></i></div>
-            <a class="card-footer text-white d-flex" href="/erp_project/modules/accounts/accounts_payable.php">View Details <i class="bi bi-arrow-right-short ms-auto"></i></a>
+        <div class="modern-dashboard-card h-100 floating-element reveal">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="modern-icon-container">
+                        <i class="bi bi-receipt-cutoff"></i>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <div class="fs-1 fw-bold modern-counter" data-count-up="<?php echo (float)$ap_outstanding; ?>" data-currency>0</div>
+                    <div class="text-uppercase small opacity-75">Outstanding Payables</div>
+                </div>
+            </div>
+            <a class="card-footer text-white d-flex align-items-center" href="/erp_project/modules/accounts/accounts_payable.php">
+                View Details <i class="bi bi-arrow-right-short ms-auto"></i>
+            </a>
         </div>
     </div>
+    
     <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card dashboard-card bg-gradient-green text-white h-100">
-            <div class="card-body"><div><div class="fs-1 fw-bold" data-count-up="<?php echo (float)$monthly_revenue; ?>" data-currency>0</div><div class="text-uppercase">Revenue This Month</div></div><i class="bi bi-graph-up-arrow stat-icon"></i></div>
-            <a class="card-footer text-white d-flex" href="/erp_project/modules/accounts/accounts_receivable.php">View Details <i class="bi bi-arrow-right-short ms-auto"></i></a>
+        <div class="modern-dashboard-card h-100 floating-element reveal">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="modern-icon-container">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <div class="fs-1 fw-bold modern-counter" data-count-up="<?php echo (float)$monthly_revenue; ?>" data-currency>0</div>
+                    <div class="text-uppercase small opacity-75">Revenue This Month</div>
+                </div>
+            </div>
+            <a class="card-footer text-white d-flex align-items-center" href="/erp_project/modules/accounts/accounts_receivable.php">
+                View Details <i class="bi bi-arrow-right-short ms-auto"></i>
+            </a>
         </div>
     </div>
 </div>
 <?php endif; ?>
 
-<div class="card mb-4">
-    <div class="card-header"><i class="bi bi-lightning-charge-fill me-1"></i>Quick Actions</div>
-    <div class="card-body">
-        <div class="row text-center">
-            <?php if (has_permission('po_create')): ?>
-            <div class="col-lg-2 col-md-4 col-6 mb-3">
-                <a href="/erp_project/modules/purchase_orders/create_po.php" class="text-decoration-none quick-actions-button">
-                    <i class="bi bi-receipt-cutoff display-6 quick-actions-icon"></i>
-                    <p class="mt-1 mb-0">New PO</p>
-                </a>
-            </div>
-            <?php endif; ?>
-             <?php if (has_permission('hr_manage')): ?>
-            <div class="col-lg-2 col-md-4 col-6 mb-3">
-                <a href="/erp_project/modules/hr/add_employee.php" class="text-decoration-none quick-actions-button">
-                    <i class="bi bi-person-plus-fill display-6 quick-actions-icon"></i>
-                    <p class="mt-1 mb-0">Add Employee</p>
-                </a>
-            </div>
-            <?php endif; ?>
-            <?php if (has_permission('invoice_manage')): ?>
-            <div class="col-lg-2 col-md-4 col-6 mb-3">
-                <a href="/erp_project/modules/finance/log_invoice.php" class="text-decoration-none quick-actions-button">
-                    <i class="bi bi-journal-plus display-6 quick-actions-icon"></i>
-                    <p class="mt-1 mb-0">Log Invoice</p>
-                </a>
-            </div>
-            <?php endif; ?>
-            <?php if (has_permission('budget_manage')): ?>
-            <div class="col-lg-2 col-md-4 col-6 mb-3">
-                <a href="/erp_project/modules/accounts/add_account.php" class="text-decoration-none quick-actions-button">
-                    <i class="bi bi-plus-circle-fill display-6 quick-actions-icon"></i>
-                    <p class="mt-1 mb-0">Add Account</p>
-                </a>
-            </div>
-            <?php endif; ?>
-            <?php if (has_permission('project_create')): ?>
-            <div class="col-lg-2 col-md-4 col-6 mb-3">
-                <a href="/erp_project/modules/projects/add_project.php" class="text-decoration-none quick-actions-button">
-                    <i class="bi bi-folder-plus display-6 quick-actions-icon"></i>
-                    <p class="mt-1 mb-0">New Project</p>
-                </a>
-            </div>
-            <?php endif; ?>
-            <div class="col-lg-2 col-md-4 col-6 mb-3">
-                <a href="/erp_project/modules/reports/purchase_history.php" class="text-decoration-none quick-actions-button">
-                    <i class="bi bi-file-earmark-bar-graph-fill display-6 quick-actions-icon"></i>
-                    <p class="mt-1 mb-0">View Reports</p>
-                </a>
-            </div>
-             <?php if (has_permission('user_manage')): ?>
-            <div class="col-lg-2 col-md-4 col-6 mb-3">
-                <a href="/erp_project/modules/admin/manage_users.php" class="text-decoration-none quick-actions-button">
-                    <i class="bi bi-people-fill display-6 quick-actions-icon"></i>
-                    <p class="mt-1 mb-0">Manage Users</p>
-                </a>
-            </div>
-            <?php endif; ?>
-        </div>
+<!-- Modern Quick Actions -->
+<div class="modern-chart-container reveal">
+    <div class="d-flex align-items-center mb-3">
+        <i class="bi bi-lightning-charge-fill me-2"></i>
+        <h5 class="mb-0 text-white">Quick Actions</h5>
+    </div>
+    <div class="modern-quick-actions">
+        <?php if (has_permission('po_create')): ?>
+        <a href="/erp_project/modules/purchase_orders/create_po.php" class="modern-action-item text-decoration-none">
+            <i class="bi bi-receipt-cutoff modern-action-icon"></i>
+            <p class="mb-0 text-white">New PO</p>
+        </a>
+        <?php endif; ?>
+        
+        <?php if (has_permission('hr_manage')): ?>
+        <a href="/erp_project/modules/hr/add_employee.php" class="modern-action-item text-decoration-none">
+            <i class="bi bi-person-plus-fill modern-action-icon"></i>
+            <p class="mb-0 text-white">Add Employee</p>
+        </a>
+        <?php endif; ?>
+        
+        <?php if (has_permission('invoice_manage')): ?>
+        <a href="/erp_project/modules/finance/log_invoice.php" class="modern-action-item text-decoration-none">
+            <i class="bi bi-journal-plus modern-action-icon"></i>
+            <p class="mb-0 text-white">Log Invoice</p>
+        </a>
+        <?php endif; ?>
+        
+        <?php if (has_permission('budget_manage')): ?>
+        <a href="/erp_project/modules/accounts/add_account.php" class="modern-action-item text-decoration-none">
+            <i class="bi bi-plus-circle-fill modern-action-icon"></i>
+            <p class="mb-0 text-white">Add Account</p>
+        </a>
+        <?php endif; ?>
+        
+        <?php if (has_permission('project_create')): ?>
+        <a href="/erp_project/modules/projects/add_project.php" class="modern-action-item text-decoration-none">
+            <i class="bi bi-folder-plus modern-action-icon"></i>
+            <p class="mb-0 text-white">New Project</p>
+        </a>
+        <?php endif; ?>
+        
+        <a href="/erp_project/modules/reports/purchase_history.php" class="modern-action-item text-decoration-none">
+            <i class="bi bi-file-earmark-bar-graph-fill modern-action-icon"></i>
+            <p class="mb-0 text-white">View Reports</p>
+        </a>
+        
+        <?php if (has_permission('user_manage')): ?>
+        <a href="/erp_project/modules/admin/manage_users.php" class="modern-action-item text-decoration-none">
+            <i class="bi bi-people-fill modern-action-icon"></i>
+            <p class="mb-0 text-white">Manage Users</p>
+        </a>
+        <?php endif; ?>
     </div>
 </div>
 
-<!-- Charts Section -->
+<!-- Charts Section with Modern Design -->
 <div class="row">
     <div class="col-lg-8">
-        <div class="card mb-4">
-            <div class="card-header"><i class="bi bi-bar-chart-line-fill me-1"></i>Spend Analysis by Supplier</div>
-            <div class="card-body"><canvas id="spendBySupplierChart" width="100%" height="30"></canvas></div>
+        <div class="modern-chart-container reveal">
+            <div class="d-flex align-items-center mb-3">
+                <i class="bi bi-bar-chart-line-fill me-2 text-white"></i>
+                <h5 class="mb-0 text-white">Spend Analysis by Supplier</h5>
+            </div>
+            <canvas id="spendBySupplierChart" width="100%" height="30"></canvas>
         </div>
     </div>
     <div class="col-lg-4">
         <?php if (has_permission('finance_view')): ?>
-        <div class="card mb-4">
-            <div class="card-header"><i class="bi bi-pie-chart-fill me-1"></i>Account Types Distribution</div>
-            <div class="card-body"><canvas id="accountTypesChart" width="100%" height="60"></canvas></div>
+        <div class="modern-chart-container reveal">
+            <div class="d-flex align-items-center mb-3">
+                <i class="bi bi-pie-chart-fill me-2 text-white"></i>
+                <h5 class="mb-0 text-white">Account Types Distribution</h5>
+            </div>
+            <canvas id="accountTypesChart" width="100%" height="60"></canvas>
         </div>
         <?php endif; ?>
     </div>
@@ -271,9 +390,12 @@ $account_type_colors_json = json_encode(array_values(array_intersect_key($accoun
 <?php if (has_permission('finance_view')): ?>
 <div class="row">
     <div class="col-lg-12">
-        <div class="card mb-4">
-            <div class="card-header"><i class="bi bi-graph-up me-1"></i>Accounts Receivable vs Payable Trends (Last 6 Months)</div>
-            <div class="card-body"><canvas id="arApTrendsChart" width="100%" height="25"></canvas></div>
+        <div class="modern-chart-container reveal">
+            <div class="d-flex align-items-center mb-3">
+                <i class="bi bi-graph-up me-2 text-white"></i>
+                <h5 class="mb-0 text-white">Accounts Receivable vs Payable Trends (Last 6 Months)</h5>
+            </div>
+            <canvas id="arApTrendsChart" width="100%" height="25"></canvas>
         </div>
     </div>
 </div>
@@ -283,8 +405,13 @@ $account_type_colors_json = json_encode(array_values(array_intersect_key($accoun
 $conn->close();
 include('includes/footer.php');
 ?>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+// Modern Chart Configuration
+Chart.defaults.color = '#ffffff';
+Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+
 // Spend by Supplier Chart
 const spendCtx = document.getElementById('spendBySupplierChart');
 new Chart(spendCtx, { 
@@ -294,22 +421,43 @@ new Chart(spendCtx, {
         datasets: [{ 
             label: 'Total Spend (৳)', 
             data: <?php echo $chart_data_json; ?>, 
-            backgroundColor: 'rgba(0, 123, 255, 0.7)', 
-            borderColor: 'rgba(0, 123, 255, 1)', 
-            borderWidth: 1 
+            backgroundColor: 'rgba(102, 126, 234, 0.8)', 
+            borderColor: 'rgba(102, 126, 234, 1)', 
+            borderWidth: 2,
+            borderRadius: 8,
+            borderSkipped: false,
         }] 
     }, 
     options: { 
         responsive: true,
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#ffffff'
+                }
+            }
+        },
         scales: { 
             y: { 
-                beginAtZero: true, 
+                beginAtZero: true,
+                grid: {
+                    color: 'rgba(255, 255, 255, 0.1)'
+                },
                 ticks: { 
+                    color: '#ffffff',
                     callback: function(value) { 
                         return '৳' + value.toLocaleString(); 
                     } 
                 } 
-            } 
+            },
+            x: {
+                grid: {
+                    color: 'rgba(255, 255, 255, 0.1)'
+                },
+                ticks: {
+                    color: '#ffffff'
+                }
+            }
         } 
     } 
 });
@@ -323,16 +471,26 @@ new Chart(accountTypesCtx, {
         labels: <?php echo $account_type_labels_json; ?>,
         datasets: [{
             data: <?php echo $account_type_counts_json; ?>,
-            backgroundColor: <?php echo $account_type_colors_json; ?>,
-            borderWidth: 2,
-            borderColor: '#fff'
+            backgroundColor: [
+                'rgba(102, 126, 234, 0.8)',
+                'rgba(118, 75, 162, 0.8)',
+                'rgba(255, 107, 107, 0.8)',
+                'rgba(79, 172, 254, 0.8)',
+                'rgba(238, 90, 36, 0.8)'
+            ],
+            borderWidth: 3,
+            borderColor: 'rgba(255, 255, 255, 0.2)'
         }]
     },
     options: {
         responsive: true,
         plugins: {
             legend: {
-                position: 'bottom'
+                position: 'bottom',
+                labels: {
+                    color: '#ffffff',
+                    padding: 20
+                }
             }
         }
     }
@@ -347,37 +505,101 @@ new Chart(arApCtx, {
         datasets: [{
             label: 'Accounts Receivable (৳)',
             data: <?php echo $ar_data_json; ?>,
-            borderColor: '#28a745',
-            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+            borderColor: 'rgba(16, 185, 129, 1)',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
             tension: 0.4,
-            fill: true
+            fill: true,
+            borderWidth: 3,
+            pointBackgroundColor: 'rgba(16, 185, 129, 1)',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 6
         }, {
             label: 'Accounts Payable (৳)',
             data: <?php echo $ap_data_json; ?>,
-            borderColor: '#dc3545',
-            backgroundColor: 'rgba(220, 53, 69, 0.1)',
+            borderColor: 'rgba(239, 68, 68, 1)',
+            backgroundColor: 'rgba(239, 68, 68, 0.1)',
             tension: 0.4,
-            fill: true
+            fill: true,
+            borderWidth: 3,
+            pointBackgroundColor: 'rgba(239, 68, 68, 1)',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 6
         }]
     },
     options: {
         responsive: true,
+        interaction: {
+            intersect: false,
+            mode: 'index'
+        },
         scales: {
             y: {
                 beginAtZero: true,
+                grid: {
+                    color: 'rgba(255, 255, 255, 0.1)'
+                },
                 ticks: {
+                    color: '#ffffff',
                     callback: function(value) {
                         return '৳' + value.toLocaleString();
                     }
+                }
+            },
+            x: {
+                grid: {
+                    color: 'rgba(255, 255, 255, 0.1)'
+                },
+                ticks: {
+                    color: '#ffffff'
                 }
             }
         },
         plugins: {
             legend: {
-                position: 'top'
+                position: 'top',
+                labels: {
+                    color: '#ffffff',
+                    usePointStyle: true,
+                    padding: 20
+                }
             }
         }
     }
 });
 <?php endif; ?>
+
+// Initialize all modern dashboard enhancements
+document.addEventListener('DOMContentLoaded', function() {
+    // Show welcome toast after loading
+    setTimeout(() => {
+        if (window.erpToast) {
+            erpToast('Welcome', 'success');
+        }
+    }, 2000);
+    
+    // Initialize modern enhancements functions from script.js
+    if (typeof initParticles === 'function') initParticles();
+    if (typeof initScrollReveal === 'function') initScrollReveal();
+    if (typeof initModernCounters === 'function') initModernCounters();
+    if (typeof initFloatingActionButton === 'function') initFloatingActionButton();
+    if (typeof initModernCardEffects === 'function') initModernCardEffects();
+    if (typeof initProgressRings === 'function') initProgressRings();
+    if (typeof initPageTransitions === 'function') initPageTransitions();
+    if (typeof initMouseParallax === 'function') initMouseParallax();
+    if (typeof initModernNotifications === 'function') initModernNotifications();
+    
+    // Initialize staggered animations with delay
+    setTimeout(() => {
+        if (typeof initStaggeredAnimations === 'function') {
+            initStaggeredAnimations();
+        }
+    }, 500);
+    
+    // Add reveal class to elements that should animate on scroll
+    document.querySelectorAll('.modern-dashboard-card, .modern-chart-container').forEach(el => {
+        el.classList.add('reveal');
+    });
+});
 </script>

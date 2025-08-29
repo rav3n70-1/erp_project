@@ -2,6 +2,27 @@
 // We will put all our page initializations inside this one listener.
 document.addEventListener('DOMContentLoaded', function() {
 
+    // --- MODERN LOADING SCREEN MANAGEMENT ---
+    function initModernLoadingScreen() {
+        const loadingScreen = document.getElementById('modernLoadingScreen');
+        if (loadingScreen) {
+            // Hide loading screen after page is fully loaded
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    loadingScreen.classList.add('hidden');
+                    setTimeout(() => {
+                        loadingScreen.remove();
+                    }, 500);
+                }, 1200); // Show for at least 1.2 seconds for effect
+            });
+        }
+    }
+
+    // Initialize loading screen management if on dashboard
+    if (window.location.pathname.includes('dashboard.php') || window.location.pathname.endsWith('/')) {
+        initModernLoadingScreen();
+    }
+
     // Apply persisted theme early
     const storedTheme = localStorage.getItem('erp|theme');
     if (storedTheme === 'dark' || storedTheme === 'light') {
@@ -472,3 +493,500 @@ if (notificationCountElement) {
     hide(){ const el = document.getElementById('loading-overlay'); if(el) el.classList.remove('show'); }
   };
 })();
+
+// --- MODERN DASHBOARD ENHANCEMENTS ---
+
+// Particles.js Configuration and Initialization
+function initParticles() {
+    // Create particles container if it doesn't exist
+    if (!document.getElementById('particles-js')) {
+        const particlesContainer = document.createElement('div');
+        particlesContainer.id = 'particles-js';
+        document.body.insertBefore(particlesContainer, document.body.firstChild);
+    }
+
+    // Simple custom particle system (lightweight alternative to particles.js library)
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.zIndex = '-1';
+    canvas.style.pointerEvents = 'none';
+    
+    document.getElementById('particles-js').appendChild(canvas);
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const particles = [];
+    const particleCount = 80;
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.vx = (Math.random() - 0.5) * 0.5;
+            this.vy = (Math.random() - 0.5) * 0.5;
+            this.radius = Math.random() * 2 + 1;
+            this.opacity = Math.random() * 0.5 + 0.2;
+        }
+
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+            ctx.fill();
+        }
+    }
+
+    // Initialize particles
+    for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        particles.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+
+        // Draw connections between nearby particles
+        particles.forEach((particle, i) => {
+            particles.slice(i + 1).forEach(otherParticle => {
+                const dx = particle.x - otherParticle.x;
+                const dy = particle.y - otherParticle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 100) {
+                    ctx.beginPath();
+                    ctx.moveTo(particle.x, particle.y);
+                    ctx.lineTo(otherParticle.x, otherParticle.y);
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 100)})`;
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+            });
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+}
+
+// Scroll Reveal Animation
+function initScrollReveal() {
+    const revealElements = document.querySelectorAll('.reveal');
+    
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    revealElements.forEach(element => {
+        revealObserver.observe(element);
+    });
+}
+
+// Modern Counter Animation Enhancement
+function initModernCounters() {
+    const counters = document.querySelectorAll('.modern-counter[data-count-up]');
+    
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                counterObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    counters.forEach(counter => {
+        counterObserver.observe(counter);
+    });
+}
+
+function animateCounter(element) {
+    const target = parseFloat(element.getAttribute('data-count-up'));
+    const duration = 2000;
+    const startTime = performance.now();
+    const isCurrency = element.hasAttribute('data-currency');
+
+    function updateCounter(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for smooth animation
+        const easeOutExpo = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        const current = target * easeOutExpo;
+        
+        if (isCurrency) {
+            element.textContent = '৳' + Math.floor(current).toLocaleString();
+        } else {
+            element.textContent = Math.floor(current).toLocaleString();
+        }
+
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        }
+    }
+
+    requestAnimationFrame(updateCounter);
+}
+
+// Floating Action Button Functionality
+function initFloatingActionButton() {
+    // Check if FAB already exists
+    if (document.querySelector('.floating-action-btn')) return;
+
+    const fab = document.createElement('button');
+    fab.className = 'floating-action-btn';
+    fab.innerHTML = '<i class="bi bi-plus"></i>';
+    fab.setAttribute('title', 'Quick Actions');
+    
+    // Create dropdown menu
+    const fabMenu = document.createElement('div');
+    fabMenu.className = 'fab-menu';
+    fabMenu.style.cssText = `
+        position: fixed;
+        bottom: 150px;
+        right: 30px;
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 999;
+    `;
+
+    const quickActions = [
+        { icon: 'receipt-cutoff', text: 'New PO', href: '/erp_project/modules/purchase_orders/create_po.php' },
+        { icon: 'person-plus-fill', text: 'Add Employee', href: '/erp_project/modules/hr/add_employee.php' },
+        { icon: 'journal-plus', text: 'Log Invoice', href: '/erp_project/modules/finance/log_invoice.php' },
+        { icon: 'folder-plus', text: 'New Project', href: '/erp_project/modules/projects/add_project.php' }
+    ];
+
+    quickActions.forEach(action => {
+        const actionBtn = document.createElement('a');
+        actionBtn.href = action.href;
+        actionBtn.className = 'btn btn-light btn-sm rounded-circle fab-action';
+        actionBtn.style.cssText = `
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transform: scale(0);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        `;
+        actionBtn.innerHTML = `<i class="bi bi-${action.icon}"></i>`;
+        actionBtn.setAttribute('title', action.text);
+        fabMenu.appendChild(actionBtn);
+    });
+
+    let fabOpen = false;
+    fab.addEventListener('click', () => {
+        fabOpen = !fabOpen;
+        fabMenu.style.display = fabOpen ? 'flex' : 'none';
+        fab.innerHTML = fabOpen ? '<i class="bi bi-x"></i>' : '<i class="bi bi-plus"></i>';
+        
+        // Animate menu items
+        const actions = fabMenu.querySelectorAll('.fab-action');
+        actions.forEach((action, index) => {
+            setTimeout(() => {
+                action.style.transform = fabOpen ? 'scale(1)' : 'scale(0)';
+            }, index * 50);
+        });
+    });
+
+    document.body.appendChild(fab);
+    document.body.appendChild(fabMenu);
+}
+
+// Modern Card Hover Effects
+function initModernCardEffects() {
+    const cards = document.querySelectorAll('.modern-dashboard-card');
+    
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            card.style.setProperty('--mouse-x', x + 'px');
+            card.style.setProperty('--mouse-y', y + 'px');
+        });
+    });
+}
+
+// Progress Ring Animation
+function initProgressRings() {
+    const rings = document.querySelectorAll('.progress-ring-path');
+    
+    rings.forEach(ring => {
+        const progress = ring.getAttribute('data-progress') || 0;
+        const circumference = 2 * Math.PI * 45; // 45 is the radius
+        const offset = circumference - (progress / 100) * circumference;
+        
+        ring.style.strokeDasharray = circumference;
+        ring.style.strokeDashoffset = circumference;
+        
+        // Animate on scroll into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        ring.style.strokeDashoffset = offset;
+                    }, 500);
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+        
+        observer.observe(ring);
+    });
+}
+
+// Smooth Page Transitions
+function initPageTransitions() {
+    // Add page transition overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'page-transition-overlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+    `;
+    overlay.innerHTML = '<div class="modern-loading"></div>';
+    document.body.appendChild(overlay);
+
+    // Intercept navigation clicks
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('a[href]');
+        if (!link || link.target === '_blank') return;
+        
+        const href = link.getAttribute('href');
+        if (href.startsWith('#') || href.startsWith('javascript:') || href.includes('mailto:')) return;
+        
+        e.preventDefault();
+        
+        overlay.style.opacity = '1';
+        overlay.style.visibility = 'visible';
+        
+        setTimeout(() => {
+            window.location.href = href;
+        }, 300);
+    });
+}
+
+// Staggered Animation for Grid Items
+function initStaggeredAnimations() {
+    const gridItems = document.querySelectorAll('.col-lg-3, .col-md-6, .modern-action-item');
+    
+    gridItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(30px)';
+        item.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        
+        setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+}
+
+// Mouse Parallax Effect
+function initMouseParallax() {
+    let mouseX = 0, mouseY = 0;
+    let currentX = 0, currentY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+    });
+
+    function updateParallax() {
+        currentX += (mouseX - currentX) * 0.1;
+        currentY += (mouseY - currentY) * 0.1;
+
+        const parallaxElements = document.querySelectorAll('.floating-element');
+        parallaxElements.forEach((element, index) => {
+            const speed = (index + 1) * 0.02;
+            const x = currentX * speed * 50;
+            const y = currentY * speed * 50;
+            element.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        requestAnimationFrame(updateParallax);
+    }
+
+    updateParallax();
+}
+
+// Enhanced Notification System
+function initModernNotifications() {
+    // Override the existing erpToast function with modern styling
+    window.erpToast = function(message, type = 'info', duration = 4000) {
+        const container = document.getElementById('toast-container') || createToastContainer();
+        
+        const toast = document.createElement('div');
+        toast.className = `modern-toast modern-toast-${type}`;
+        toast.style.cssText = `
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        `;
+
+        const icon = getToastIcon(type);
+        toast.innerHTML = `
+            <i class="bi bi-${icon}" style="font-size: 1.2rem; color: ${getToastColor(type)};"></i>
+            <span style="color: #333; font-weight: 500;">${message}</span>
+            <button onclick="this.parentElement.remove()" style="background: none; border: none; color: #666; font-size: 1.2rem; cursor: pointer; margin-left: auto;">×</button>
+        `;
+
+        container.appendChild(toast);
+
+        // Trigger animation
+        requestAnimationFrame(() => {
+            toast.style.transform = 'translateX(0)';
+        });
+
+        // Auto remove
+        setTimeout(() => {
+            toast.style.transform = 'translateX(100%)';
+            setTimeout(() => toast.remove(), 300);
+        }, duration);
+    };
+
+    function createToastContainer() {
+        const container = document.createElement('div');
+        container.id = 'toast-container';
+        container.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1080;
+            max-width: 350px;
+        `;
+        document.body.appendChild(container);
+        return container;
+    }
+
+    function getToastIcon(type) {
+        const icons = {
+            success: 'check-circle-fill',
+            error: 'exclamation-triangle-fill',
+            warning: 'exclamation-circle-fill',
+            info: 'info-circle-fill'
+        };
+        return icons[type] || icons.info;
+    }
+
+    function getToastColor(type) {
+        const colors = {
+            success: '#10b981',
+            error: '#ef4444',
+            warning: '#f59e0b',
+            info: '#3b82f6'
+        };
+        return colors[type] || colors.info;
+    }
+}
+
+// Make functions globally available for dashboard initialization
+window.initParticles = initParticles;
+window.initScrollReveal = initScrollReveal;
+window.initModernCounters = initModernCounters;
+window.initFloatingActionButton = initFloatingActionButton;
+window.initModernCardEffects = initModernCardEffects;
+window.initProgressRings = initProgressRings;
+window.initPageTransitions = initPageTransitions;
+window.initStaggeredAnimations = initStaggeredAnimations;
+window.initMouseParallax = initMouseParallax;
+window.initModernNotifications = initModernNotifications;
+
+// Auto-initialize modern enhancements for dashboard pages
+if (window.location.pathname.includes('dashboard.php') || window.location.pathname.endsWith('/') || window.location.pathname.includes('modern-dashboard-demo.html')) {
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize particles system
+        initParticles();
+        
+        // Initialize scroll reveal
+        initScrollReveal();
+        
+        // Initialize modern counters
+        initModernCounters();
+        
+        // Initialize floating action button
+        initFloatingActionButton();
+        
+        // Initialize modern card effects
+        initModernCardEffects();
+        
+        // Initialize progress rings
+        initProgressRings();
+        
+        // Initialize page transitions
+        initPageTransitions();
+        
+        // Initialize staggered animations with delay
+        setTimeout(initStaggeredAnimations, 500);
+        
+        // Initialize mouse parallax
+        initMouseParallax();
+        
+        // Initialize modern notifications
+        initModernNotifications();
+        
+        // Add reveal class to elements that should animate on scroll
+        document.querySelectorAll('.card, .modern-dashboard-card, .modern-chart-container').forEach(el => {
+            el.classList.add('reveal');
+        });
+    });
+}
