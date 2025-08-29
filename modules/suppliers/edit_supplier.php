@@ -1,7 +1,7 @@
 <?php
 $page_title = "Edit Supplier";
 include('../../includes/header.php');
-if (!has_permission('po_edit')) { header('Location: /erp_project/index.php?status=access_denied'); exit(); }
+if (!has_permission('po_edit')) { header('Location: /erp_project/dashboard.php?status=access_denied'); exit(); }
 include('../../includes/db.php');
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) { die("Invalid supplier ID."); }
@@ -23,7 +23,7 @@ $supplier = $result->fetch_assoc();
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item"><a href="view_suppliers.php">Suppliers</a></li>
     <li class="breadcrumb-item"><a href="view_supplier_details.php?id=<?php echo $supplier_id; ?>"><?php echo htmlspecialchars($supplier['supplier_name']); ?></a></li>
     <li class="breadcrumb-item active" aria-current="page">Edit</li>

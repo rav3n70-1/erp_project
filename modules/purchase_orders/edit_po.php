@@ -1,7 +1,7 @@
 <?php
 $page_title = "Edit Purchase Order";
 include('../../includes/header.php');
-if (!has_permission('po_edit')) { header('Location: /erp_project/index.php?status=access_denied'); exit(); }
+if (!has_permission('po_edit')) { header('Location: /erp_project/dashboard.php?status=access_denied'); exit(); }
 include('../../includes/db.php');
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) { die("Invalid PO ID."); }

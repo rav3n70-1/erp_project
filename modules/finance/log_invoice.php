@@ -3,7 +3,7 @@ $page_title = "Log New Invoice";
 include('../../includes/header.php');
 
 if (!has_permission('invoice_manage')) {
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 
@@ -21,7 +21,7 @@ $pos_result = $conn->query($sql_pos);
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item"><a href="view_invoices.php">Manage Invoices</a></li>
     <li class="breadcrumb-item active" aria-current="page">Log Invoice</li>
   </ol>

@@ -6,7 +6,7 @@ include('../../includes/permissions.php');
 
 // STEP 1: Check for permission BEFORE any HTML is printed.
 if (!has_permission('project_full_access') && !has_permission('project_create')) {
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 
@@ -31,7 +31,7 @@ $can_manage_full = has_permission('project_full_access');
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">Projects</li>
   </ol>
 </nav>

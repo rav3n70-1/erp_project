@@ -7,7 +7,7 @@ $project_id = $_GET['id'];
 
 // Check for a base level of permission to view this page
 if (!has_permission('project_full_access') && !has_permission('project_create') && !has_permission('project_my_tasks_view')) {
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 
@@ -39,7 +39,7 @@ $task_statuses = ['To Do', 'In Progress', 'Done', 'Blocked'];
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item"><a href="view_projects.php">Projects</a></li>
     <li class="breadcrumb-item active" aria-current="page"><?php echo htmlspecialchars($project['project_name']); ?></li>
   </ol>

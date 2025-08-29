@@ -40,7 +40,7 @@ $new_po_number = 'PO-' . date('Y') . '-' . str_pad($last_po_id + 1, 4, '0', STR_
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item"><a href="view_pos.php">Purchase Orders</a></li>
     <li class="breadcrumb-item active" aria-current="page">Create PO</li>
   </ol>

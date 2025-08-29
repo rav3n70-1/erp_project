@@ -3,14 +3,14 @@ $page_title = "Import Products";
 include('../../includes/header.php');
 
 if (!has_permission('user_manage')) { // Using user_manage as a proxy for this admin-level task
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 ?>
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item">Administration</li>
     <li class="breadcrumb-item active" aria-current="page">Import Products</li>
   </ol>

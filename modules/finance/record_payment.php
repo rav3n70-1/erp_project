@@ -37,7 +37,7 @@ $balance_due = $po['total_amount'] - $total_paid;
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item"><a href="/erp_project/modules/purchase_orders/view_pos.php">Purchase Orders</a></li>
     <li class="breadcrumb-item"><a href="/erp_project/modules/purchase_orders/view_po_details.php?id=<?php echo $po_id; ?>"><?php echo htmlspecialchars($po['po_number']); ?></a></li>
     <li class="breadcrumb-item active" aria-current="page">Record Payment</li>

@@ -2,7 +2,7 @@
 include('../../includes/db.php');
 include('../../includes/session_check.php');
 include('../../includes/permissions.php');
-if (!has_permission(['Manager','Procurement Officer'])) { header('Location: /erp_project/index.php?status=access_denied'); exit(); }
+if (!has_permission(['Manager','Procurement Officer'])) { header('Location: /erp_project/dashboard.php?status=access_denied'); exit(); }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_POST['raw_text']) || !isset($_POST['map'])) {
   header('Location: bulk_import.php'); exit();

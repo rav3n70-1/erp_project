@@ -5,7 +5,7 @@ include('../../includes/permissions.php');
 
 // We now check for the specific 'supplier_delete' permission
 if (!has_permission('supplier_delete')) {
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 

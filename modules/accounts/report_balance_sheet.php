@@ -3,7 +3,7 @@ $page_title = "Balance Sheet";
 include('../../includes/header.php');
 include('../../includes/db.php');
 include('../../includes/accounts_schema.php');
-if (!has_permission('finance_view')) { header('Location: /erp_project/index.php?status=access_denied'); exit(); }
+if (!has_permission('finance_view')) { header('Location: /erp_project/dashboard.php?status=access_denied'); exit(); }
 $conn = connect_db();
 ensure_accounts_schema($conn);
 $as_of = isset($_GET['as_of']) && $_GET['as_of'] !== '' ? $_GET['as_of'] : '';

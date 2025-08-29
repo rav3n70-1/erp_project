@@ -1,7 +1,7 @@
 <?php
 $page_title = "Financial Reports";
 include('../../includes/header.php');
-if (!has_permission('finance_view')) { header('Location: /erp_project/index.php?status=access_denied'); exit(); }
+if (!has_permission('finance_view')) { header('Location: /erp_project/dashboard.php?status=access_denied'); exit(); }
 ?>
 <div class="d-flex justify-content-between align-items-center mb-4"><h1><?php echo $page_title; ?></h1></div>
 <div class="row g-3">

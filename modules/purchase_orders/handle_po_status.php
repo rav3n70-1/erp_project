@@ -24,7 +24,7 @@ if (function_exists('log_audit_trail')) {
 
 if (!has_permission('po_approve')) {
     // This is not the error, but we leave the check in.
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 

@@ -3,14 +3,14 @@ include('../../includes/db.php');
 include('../../includes/session_check.php');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: index.php');
+    header('Location: dashboard.php');
     exit();
 }
 
 $required_fields = ['current_password', 'new_password', 'confirm_password'];
 foreach ($required_fields as $field) {
     if (empty($_POST[$field])) {
-        header('Location: index.php?status=error_missing');
+        header('Location: dashboard.php?status=error_missing');
         exit();
     }
 }
@@ -22,7 +22,7 @@ $confirm_password = $_POST['confirm_password'];
 
 // 1. Check if the new password and confirmation match
 if ($new_password !== $confirm_password) {
-    header("Location: index.php?status=error_mismatch");
+    header("Location: dashboard.php?status=error_mismatch");
     exit();
 }
 
@@ -37,7 +37,7 @@ $user = $stmt_user->get_result()->fetch_assoc();
 
 // 3. Verify the submitted "current password" against the stored hash
 if (!password_verify($current_password, $user['password'])) {
-    header("Location: index.php?status=error_current_password");
+    header("Location: dashboard.php?status=error_current_password");
     exit();
 }
 
@@ -51,9 +51,9 @@ $stmt_update->bind_param("si", $new_hashed_password, $current_user_id);
 
 if ($stmt_update->execute()) {
     log_audit_trail($conn, "User changed their own password", 'User', $current_user_id);
-    header("Location: index.php?status=success_password");
+    header("Location: dashboard.php?status=success_password");
 } else {
-    header("Location: index.php?status=error_db");
+    header("Location: dashboard.php?status=error_db");
 }
 
 $stmt_update->close();

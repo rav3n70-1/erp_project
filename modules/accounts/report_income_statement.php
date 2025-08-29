@@ -3,7 +3,7 @@ $page_title = "Income Statement";
 include('../../includes/header.php');
 include('../../includes/db.php');
 include('../../includes/accounts_schema.php');
-if (!has_permission('finance_view')) { header('Location: /erp_project/index.php?status=access_denied'); exit(); }
+if (!has_permission('finance_view')) { header('Location: /erp_project/dashboard.php?status=access_denied'); exit(); }
 $conn = connect_db();
 ensure_accounts_schema($conn);
 $from_date = isset($_GET['from_date']) && $_GET['from_date'] !== '' ? $_GET['from_date'] : '';

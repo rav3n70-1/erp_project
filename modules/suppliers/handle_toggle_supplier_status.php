@@ -4,7 +4,7 @@ include('../../includes/session_check.php');
 include('../../includes/permissions.php');
 
 if (!has_permission('supplier_delete')) { // Use the delete permission for this action
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 

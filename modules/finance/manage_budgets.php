@@ -5,7 +5,7 @@ include('../../includes/db.php');
 
 // We need to check if the user can either manage budgets OR view finance in general
 if (!has_permission('budget_manage') && !has_permission('finance_view')) {
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 
@@ -34,7 +34,7 @@ $can_manage_budget = has_permission('budget_manage');
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item">Finance</li>
     <li class="breadcrumb-item active" aria-current="page">Manage Budgets</li>
   </ol>

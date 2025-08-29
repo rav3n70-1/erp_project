@@ -5,7 +5,7 @@ include('../../includes/permissions.php');
 
 // Since we don't have a specific permission for this yet, we'll check for a general one.
 if (!has_permission('po_create')) { // Assuming a procurement officer can add suppliers
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 

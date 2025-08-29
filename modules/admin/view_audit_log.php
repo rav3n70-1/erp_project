@@ -5,7 +5,7 @@ include('../../includes/header.php'); // This will automatically check for login
 // This entire page is for Admins only.
 if (!has_permission('Admin')) {
     // Redirect non-admins to the dashboard.
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 
@@ -27,7 +27,7 @@ $result = $conn->query($sql);
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item">Administration</li>
     <li class="breadcrumb-item active" aria-current="page">Audit Log</li>
   </ol>

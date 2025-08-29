@@ -26,7 +26,7 @@ ob_start(function($buffer){ return preg_replace('/\$(?=\d)/u', '৳', $buffer); 
     <div class="bg-dark border-right" id="sidebar-wrapper">
         <div class="sidebar-heading text-white fw-semibold d-flex align-items-center gap-2"><span class="brand-logo">E</span><span>ERP System</span> </div>
         <div class="list-group list-group-flush">
-            <a href="/erp_project/index.php" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+            <a href="/erp_project/dashboard.php" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
             
             <?php if (has_permission('hr_view') || has_permission('hr_manage')): ?>
             <a href="/erp_project/modules/hr/view_employees.php" class="list-group-item list-group-item-action bg-dark text-white"><i class="bi bi-person-rolodex me-2"></i>HR</a>
@@ -140,7 +140,7 @@ ob_start(function($buffer){ return preg_replace('/\$(?=\d)/u', '৳', $buffer); 
             <div class="erp-breadcrumbs">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page"><?php echo isset($page_title) ? htmlspecialchars($page_title) : 'Dashboard'; ?></li>
                     </ol>
                 </nav>

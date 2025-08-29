@@ -12,7 +12,7 @@ echo "<h1>Debug: Page loaded successfully</h1>";
 
 if (!has_permission(['Manager','Procurement Officer'])) { 
     echo "<div class='alert alert-danger'>Permission denied</div>";
-    header('Location: /erp_project/index.php?status=access_denied'); 
+    header('Location: /erp_project/dashboard.php?status=access_denied'); 
     exit(); 
 }
 

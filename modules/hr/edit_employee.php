@@ -3,7 +3,7 @@ $page_title = "Edit Employee";
 include('../../includes/header.php');
 
 if (!has_permission('hr_manage')) {
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 
@@ -41,7 +41,7 @@ $users_result = $stmt_users->get_result();
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item"><a href="view_employees.php">Manage Employees</a></li>
     <li class="breadcrumb-item active" aria-current="page">Edit Employee</li>
   </ol>

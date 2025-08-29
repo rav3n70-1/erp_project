@@ -3,7 +3,7 @@ $page_title = "New Bill";
 include('../../includes/header.php');
 include('../../includes/db.php');
 include('../../includes/accounts_schema.php');
-if (!has_permission('budget_manage')) { header('Location: /erp_project/index.php?status=access_denied'); exit(); }
+if (!has_permission('budget_manage')) { header('Location: /erp_project/dashboard.php?status=access_denied'); exit(); }
 $conn = connect_db();
 ensure_accounts_schema($conn);
 $vendors = $conn->query("SELECT id, vendor_name FROM ap_vendors ORDER BY vendor_name");

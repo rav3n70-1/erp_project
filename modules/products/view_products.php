@@ -14,7 +14,7 @@ $result = $conn->query($sql);
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">Products</li>
   </ol>
 </nav>

@@ -3,7 +3,7 @@ $page_title = "Adjust Stock";
 include('../../includes/header.php');
 include('../../includes/db.php');
 include('../../includes/permissions.php');
-if (!has_permission(['Manager','Procurement Officer'])) { header('Location: /erp_project/index.php?status=access_denied'); exit(); }
+if (!has_permission(['Manager','Procurement Officer'])) { header('Location: /erp_project/dashboard.php?status=access_denied'); exit(); }
 $conn = connect_db();
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if ($id<=0) { header('Location: view_products.php'); exit(); }

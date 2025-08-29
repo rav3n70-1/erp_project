@@ -3,7 +3,7 @@ $page_title = "Add New Asset";
 include('../../includes/header.php');
 
 if (!has_permission('asset_manage')) {
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 
@@ -23,7 +23,7 @@ $asset_statuses = ['In Stock', 'In Use', 'Under Maintenance', 'Retired'];
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item"><a href="view_assets.php">Manage Assets</a></li>
     <li class="breadcrumb-item active" aria-current="page">Add Asset</li>
   </ol>

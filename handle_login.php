@@ -49,7 +49,7 @@ if ($result->num_rows === 1) {
         $_SESSION['role_name'] = $user['role_name'];
         $_SESSION['permissions'] = $permissions;
 
-        header('Location: index.php');
+        header('Location: dashboard.php');
         exit();
     }
 }

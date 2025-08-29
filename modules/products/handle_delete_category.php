@@ -6,7 +6,7 @@ include('../../includes/session_check.php');
 include('../../includes/permissions.php');
 if (!has_permission('Admin')) {
     // If user is not an Admin, redirect them away.
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 

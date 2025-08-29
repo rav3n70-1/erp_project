@@ -1,7 +1,7 @@
 <?php
 $page_title = "Manage Users";
 include('../../includes/header.php');
-if (!has_permission('user_manage')) { header('Location: /erp_project/index.php?status=access_denied'); exit(); }
+if (!has_permission('user_manage')) { header('Location: /erp_project/dashboard.php?status=access_denied'); exit(); }
 include('../../includes/db.php');
 $conn = connect_db();
 $sql_roles = "SELECT id, role_name FROM roles ORDER BY role_name ASC";
@@ -12,7 +12,7 @@ $users_result = $conn->query($sql_users);
 ?>
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item">Administration</li>
     <li class="breadcrumb-item active" aria-current="page">Manage Users</li>
   </ol>

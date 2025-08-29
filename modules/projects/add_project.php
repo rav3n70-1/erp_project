@@ -1,7 +1,7 @@
 <?php
 $page_title = "Create New Project";
 include('../../includes/header.php');
-if (!has_permission('project_create')) { header('Location: /erp_project/index.php?status=access_denied'); exit(); }
+if (!has_permission('project_create')) { header('Location: /erp_project/dashboard.php?status=access_denied'); exit(); }
 include('../../includes/db.php');
 $conn = connect_db();
 
@@ -31,7 +31,7 @@ $clients_result = $conn->query($sql_clients);
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item"><a href="view_projects.php">Projects</a></li>
     <li class="breadcrumb-item active" aria-current="page">Create Project</li>
   </ol>

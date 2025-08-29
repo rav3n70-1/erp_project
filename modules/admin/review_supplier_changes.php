@@ -4,7 +4,7 @@ include('../../includes/header.php');
 
 // This page is for users with the 'supplier_info_approve' permission
 if (!has_permission('supplier_info_approve')) {
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 
@@ -27,7 +27,7 @@ $result = $conn->query($sql);
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item">Administration</li>
     <li class="breadcrumb-item active" aria-current="page">Review Supplier Changes</li>
   </ol>

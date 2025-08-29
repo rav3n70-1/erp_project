@@ -5,7 +5,7 @@ include('../../includes/header.php');
 // Use a permission key that a Procurement Officer or Manager would have.
 // The System Admin has all permissions by default.
 if (!has_permission('po_edit')) { 
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 
@@ -52,7 +52,7 @@ $unlinked_suppliers_result = $stmt_unlinked->get_result();
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item"><a href="view_products.php">Products</a></li>
     <li class="breadcrumb-item active" aria-current="page">Edit: <?php echo htmlspecialchars($product['product_name']); ?></li>
   </ol>

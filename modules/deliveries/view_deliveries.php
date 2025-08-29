@@ -2,7 +2,7 @@
 $page_title = "All Deliveries";
 include('../../includes/header.php');
 if (!has_permission('inventory_view') && !has_permission('procurement_view')) {
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 include('../../includes/db.php');
@@ -22,7 +22,7 @@ $delivery_statuses = ['Shipped', 'In Transit', 'Delivered', 'Delayed'];
 ?>
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">Deliveries</li>
   </ol>
 </nav>

@@ -4,7 +4,7 @@ include('../../includes/header.php');
 
 // This page is for HR Managers/Admins only
 if (!has_permission('hr_manage')) {
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 
@@ -22,7 +22,7 @@ $users_result = $conn->query($sql_users);
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item"><a href="view_employees.php">Manage Employees</a></li>
     <li class="breadcrumb-item active" aria-current="page">Add Employee</li>
   </ol>

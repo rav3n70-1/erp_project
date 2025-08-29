@@ -7,7 +7,7 @@ include('../../includes/permissions.php');
 // Our has_permission() function automatically allows 'System Admin'.
 // We check for a specific key that ONLY the admin will have.
 if (!has_permission('user_manage')) { // Using 'user_manage' as a proxy for top-level admin actions
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 

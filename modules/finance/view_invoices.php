@@ -3,7 +3,7 @@ $page_title = "Manage Invoices";
 include('../../includes/header.php');
 
 if (!has_permission('invoice_view') && !has_permission('invoice_manage')) {
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 
@@ -23,7 +23,7 @@ $can_approve = has_permission('invoice_approve');
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item">Finance</li>
     <li class="breadcrumb-item active" aria-current="page">Manage Invoices</li>
   </ol>

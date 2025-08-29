@@ -3,7 +3,7 @@ $page_title = "Edit User";
 include('../../includes/header.php');
 
 if (!has_permission('user_manage')) {
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 
@@ -30,7 +30,7 @@ $roles_result = $conn->query($sql_roles);
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item"><a href="manage_users.php">Manage Users</a></li>
     <li class="breadcrumb-item active" aria-current="page">Edit User</li>
   </ol>

@@ -3,7 +3,7 @@ $page_title = "Record AR Payment";
 include('../../includes/header.php');
 include('../../includes/db.php');
 include('../../includes/accounts_schema.php');
-if (!has_permission('budget_manage')) { header('Location: /erp_project/index.php?status=access_denied'); exit(); }
+if (!has_permission('budget_manage')) { header('Location: /erp_project/dashboard.php?status=access_denied'); exit(); }
 $conn = connect_db();
 ensure_accounts_schema($conn);
 $invoice_id = isset($_GET['invoice_id']) ? (int)$_GET['invoice_id'] : 0;

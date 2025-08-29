@@ -3,7 +3,7 @@ include('../../includes/db.php');
 include('../../includes/accounts_schema.php');
 include('../../includes/session_check.php');
 include('../../includes/permissions.php');
-if (!has_permission('finance_view')) { header('Location: /erp_project/index.php?status=access_denied'); exit(); }
+if (!has_permission('finance_view')) { header('Location: /erp_project/dashboard.php?status=access_denied'); exit(); }
 $conn = connect_db();
 ensure_accounts_schema($conn);
 $to_date = isset($_GET['to_date']) && $_GET['to_date'] !== '' ? $_GET['to_date'] : '';

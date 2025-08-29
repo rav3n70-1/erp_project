@@ -15,7 +15,7 @@ if (isset($_GET['status']) && $_GET['status'] == 'error') {
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item"><a href="view_suppliers.php">Suppliers</a></li>
     <li class="breadcrumb-item active" aria-current="page">Add New Supplier</li>
   </ol>

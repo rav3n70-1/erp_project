@@ -3,7 +3,7 @@ $page_title = "Edit Budget";
 include('../../includes/header.php');
 include('../../includes/db.php');
 if (!has_permission('Manager')) {
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 
@@ -29,7 +29,7 @@ $departments_result = $conn->query($sql_departments);
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item"><a href="manage_budgets.php">Manage Budgets</a></li>
     <li class="breadcrumb-item active" aria-current="page">Edit Budget</li>
   </ol>

@@ -3,7 +3,7 @@ $page_title = "Bulk Import Products";
 include('../../includes/header.php');
 include('../../includes/db.php');
 
-if (!has_permission(['Manager','Procurement Officer'])) { header('Location: /erp_project/index.php?status=access_denied'); exit(); }
+if (!has_permission(['Manager','Procurement Officer'])) { header('Location: /erp_project/dashboard.php?status=access_denied'); exit(); }
 
 $status = $_GET['status'] ?? '';
 $created = $_GET['created'] ?? '';

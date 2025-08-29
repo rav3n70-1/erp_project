@@ -3,14 +3,14 @@ $page_title = "Add New Client";
 include('../../includes/header.php');
 
 if (!has_permission('client_manage')) {
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 ?>
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item"><a href="view_clients.php">Clients</a></li>
     <li class="breadcrumb-item active" aria-current="page">Add Client</li>
   </ol>

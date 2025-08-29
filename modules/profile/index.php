@@ -26,7 +26,7 @@ $employee = $stmt_employee->get_result()->fetch_assoc();
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/erp_project/index.php">Home</a></li>
+    <li class="breadcrumb-item"><a href="/erp_project/dashboard.php">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">My Profile</li>
   </ol>
 </nav>

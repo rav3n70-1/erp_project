@@ -5,7 +5,7 @@ include('../../includes/permissions.php');
 
 // Check if the user has the specific permission to approve projects
 if (!has_permission('project_approve')) {
-    header('Location: /erp_project/index.php?status=access_denied');
+    header('Location: /erp_project/dashboard.php?status=access_denied');
     exit();
 }
 
