@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('pageshow', () => TopProgress.end());
 
-    // --- 7. Intersection-based reveal for cards/rows ---
+    // --- 7. Intersection-based reveal for cards/rows (ALL PAGES) ---
     try {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.card, .table, .list-group-item').forEach(el => observer.observe(el));
     } catch (e) {}
 
-    // --- 8. Button ripple effect ---
+    // --- 8. Button ripple effect (ALL PAGES) ---
     document.body.addEventListener('click', function(e){
         const button = e.target.closest('.btn');
         if(!button) return;
@@ -246,6 +246,233 @@ document.addEventListener('DOMContentLoaded', function() {
             requestAnimationFrame(tick);
         });
     } catch (e) {}
+
+    // --- MODERN ENHANCEMENTS FOR ALL PAGES ---
+    
+    // Initialize page backgrounds for non-dashboard pages
+    function initPageBackgrounds() {
+        const pageBackground = document.querySelector('.page-background');
+        const pageOverlay = document.querySelector('.modern-page-overlay');
+        
+        if (pageBackground || pageOverlay) {
+            // Make sure they're visible
+            if (pageBackground) {
+                pageBackground.style.opacity = '1';
+                pageBackground.style.visibility = 'visible';
+            }
+            if (pageOverlay) {
+                pageOverlay.style.opacity = '1';
+                pageOverlay.style.visibility = 'visible';
+            }
+        }
+    }
+    
+    // Apply subtle reveal animations to all cards on any page
+    function initUniversalAnimations() {
+        const revealElements = document.querySelectorAll('.card:not(.modern-dashboard-card)');
+        revealElements.forEach((el, index) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease';
+            
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, index * 100 + 200);
+        });
+
+        // Also animate other page elements
+        const otherElements = document.querySelectorAll('h1, .alert, .breadcrumb');
+        otherElements.forEach((el, index) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(15px)';
+            el.style.transition = 'all 0.5s ease';
+            
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, index * 50 + 100);
+        });
+    }
+
+    // Enhanced form interactions for all pages
+    function initModernFormInteractions() {
+        const formControls = document.querySelectorAll('.form-control, .form-select');
+        formControls.forEach(input => {
+            // Add focus glow effect
+            input.addEventListener('focus', (e) => {
+                e.target.style.transform = 'scale(1.02)';
+                e.target.style.boxShadow = '0 0 0 0.25rem rgba(13, 110, 253, 0.15)';
+            });
+            
+            input.addEventListener('blur', (e) => {
+                e.target.style.transform = 'scale(1)';
+                e.target.style.boxShadow = 'none';
+            });
+
+            // Add typing animation
+            input.addEventListener('input', (e) => {
+                e.target.style.borderColor = 'var(--erp-brand-primary)';
+                setTimeout(() => {
+                    e.target.style.borderColor = '';
+                }, 300);
+            });
+        });
+
+        // Enhanced button interactions
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('mouseenter', (e) => {
+                e.target.style.transform = 'translateY(-2px)';
+            });
+            
+            btn.addEventListener('mouseleave', (e) => {
+                e.target.style.transform = 'translateY(0)';
+            });
+        });
+    }
+
+    // Modern hover effects for tables
+    function initModernTableEffects() {
+        const tables = document.querySelectorAll('.table');
+        tables.forEach(table => {
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                row.addEventListener('mouseenter', (e) => {
+                    e.target.style.transform = 'translateX(3px)';
+                    e.target.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                    e.target.style.background = 'rgba(13, 110, 253, 0.08)';
+                });
+                
+                row.addEventListener('mouseleave', (e) => {
+                    e.target.style.transform = 'translateX(0)';
+                    e.target.style.boxShadow = 'none';
+                    e.target.style.background = '';
+                });
+            });
+        });
+    }
+
+    // Add smooth transitions to DataTables
+    function initDataTableEnhancements() {
+        // Wait for DataTables to initialize
+        setTimeout(() => {
+            const datatableElements = document.querySelectorAll('.dataTables_wrapper input, .dataTables_wrapper select');
+            datatableElements.forEach(el => {
+                el.style.transition = 'all 0.3s ease';
+                el.addEventListener('focus', (e) => {
+                    e.target.style.transform = 'scale(1.02)';
+                });
+                el.addEventListener('blur', (e) => {
+                    e.target.style.transform = 'scale(1)';
+                });
+            });
+
+            // Enhance pagination
+            const paginationLinks = document.querySelectorAll('.dataTables_paginate .paginate_button');
+            paginationLinks.forEach(link => {
+                link.style.transition = 'all 0.3s ease';
+                link.addEventListener('mouseenter', (e) => {
+                    e.target.style.transform = 'translateY(-1px)';
+                });
+                link.addEventListener('mouseleave', (e) => {
+                    e.target.style.transform = 'translateY(0)';
+                });
+            });
+        }, 500);
+    }
+
+    // Modern card hover enhancements
+    function initModernCardEffects() {
+        const cards = document.querySelectorAll('.card:not(.modern-dashboard-card)');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', (e) => {
+                e.target.style.transform = 'translateY(-4px)';
+                e.target.style.boxShadow = '0 12px 40px rgba(31, 38, 135, 0.25)';
+            });
+            
+            card.addEventListener('mouseleave', (e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '';
+            });
+        });
+    }
+
+    // Enhanced alert animations
+    function initAlertAnimations() {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach((alert, index) => {
+            alert.style.opacity = '0';
+            alert.style.transform = 'translateX(-20px)';
+            alert.style.transition = 'all 0.5s ease';
+            
+            setTimeout(() => {
+                alert.style.opacity = '1';
+                alert.style.transform = 'translateX(0)';
+            }, index * 100 + 300);
+        });
+    }
+
+    // Apply modern styling to dynamically loaded content
+    function observeNewContent() {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === 1) { // Element node
+                        // Re-apply modern effects to new content
+                        if (node.classList.contains('card')) {
+                            initModernCardEffects();
+                        }
+                        if (node.querySelector('.form-control, .form-select')) {
+                            initModernFormInteractions();
+                        }
+                        if (node.querySelector('.table')) {
+                            initModernTableEffects();
+                        }
+                    }
+                });
+            });
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+
+    // Initialize all modern features with proper timing
+    function initAllModernFeatures() {
+        // Initialize page backgrounds first
+        initPageBackgrounds();
+        
+        // Then animations with staggered timing
+        setTimeout(() => {
+            initUniversalAnimations();
+        }, 100);
+        
+        setTimeout(() => {
+            initModernFormInteractions();
+            initModernTableEffects();
+            initModernCardEffects();
+            initAlertAnimations();
+        }, 300);
+        
+        setTimeout(() => {
+            initDataTableEnhancements();
+        }, 800);
+        
+        // Start observing for new content
+        observeNewContent();
+    }
+
+    // Initialize modern features based on page type
+    if (document.body.classList.contains('dashboard-page')) {
+        // Dashboard-specific initialization is handled by the dashboard script
+        setTimeout(initAllModernFeatures, 200);
+    } else {
+        // For all other pages, apply modern enhancements immediately
+        initAllModernFeatures();
+    }
 });
 
 

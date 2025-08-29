@@ -722,6 +722,85 @@ html[data-bs-theme="dark"] .card-footer a {
 
 /* --- MODERN DASHBOARD ENHANCEMENTS --- */
 
+/* Page Background for non-dashboard pages */
+.page-background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -2;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background-size: 200% 200%;
+    animation: subtleGradientShift 20s ease infinite;
+    opacity: 1;
+    visibility: visible;
+}
+
+html[data-bs-theme="dark"] .page-background {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+@keyframes subtleGradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Modern enhancement overlay for all pages */
+.modern-page-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 1;
+    visibility: visible;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(13, 110, 253, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(79, 172, 254, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(102, 126, 234, 0.03) 0%, transparent 50%);
+}
+
+html[data-bs-theme="dark"] .modern-page-overlay {
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(79, 172, 254, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(13, 110, 253, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(102, 126, 234, 0.05) 0%, transparent 50%);
+}
+
+/* Force visibility of background elements */
+body:not(.dashboard-page) .page-background,
+body:not(.dashboard-page) .modern-page-overlay {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Body classes for different page types */
+body.dashboard-page {
+    overflow-x: hidden;
+}
+
+body.erp-page {
+    background: transparent !important;
+    position: relative;
+}
+
+/* Ensure main wrapper is positioned properly */
+body.erp-page #wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+/* Make sure content is above background */
+body.erp-page .container-fluid {
+    position: relative;
+    z-index: 2;
+}
+
 /* Animated Particle Background */
 #particles-js {
     position: fixed;
@@ -1084,6 +1163,34 @@ html[data-bs-theme="dark"] .modern-dashboard-card {
     z-index: 2;
 }
 
+.modern-dashboard-card .card-footer {
+    position: relative;
+    z-index: 3;
+    pointer-events: auto;
+}
+
+.modern-dashboard-card .card-footer a {
+    position: relative;
+    z-index: 4;
+    pointer-events: auto;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    margin: -0.75rem -1.25rem;
+    border-radius: 0 0 20px 20px;
+    transition: all 0.3s ease;
+}
+
+.modern-dashboard-card .card-footer a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+    color: inherit;
+    text-decoration: none;
+}
+
 .modern-dashboard-card::after {
     content: '';
     position: absolute;
@@ -1094,6 +1201,8 @@ html[data-bs-theme="dark"] .modern-dashboard-card {
     background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent);
     opacity: 0;
     transition: opacity 0.3s ease;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .modern-dashboard-card:hover::after {
@@ -1160,3 +1269,329 @@ html[data-bs-theme="dark"] .modern-dashboard-card {
 .status-warning .status-dot { background: #f59e0b; }
 .status-danger .status-dot { background: #ef4444; }
 .status-info .status-dot { background: #3b82f6; }
+
+/* --- SITE-WIDE MODERN ENHANCEMENTS --- */
+
+/* Apply modern styling to all pages */
+body:not(.login-page) {
+    background: transparent !important;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Page backgrounds are now handled by dedicated elements in header.php */
+
+/* Modern page containers */
+.container-fluid {
+    position: relative;
+    z-index: 1;
+}
+
+/* Enhanced cards throughout the site - make sure these apply to ALL cards */
+body:not(.dashboard-page) .card,
+body:not(.dashboard-page) .modal-content,
+body:not(.dashboard-page) .dropdown-menu {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15) !important;
+    transition: all 0.3s ease !important;
+}
+
+html[data-bs-theme="dark"] body:not(.dashboard-page) .card,
+html[data-bs-theme="dark"] body:not(.dashboard-page) .modal-content,
+html[data-bs-theme="dark"] body:not(.dashboard-page) .dropdown-menu {
+    background: rgba(33, 37, 41, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Ensure card hover effects work on all pages */
+body:not(.dashboard-page) .card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.25) !important;
+}
+
+html[data-bs-theme="dark"] body:not(.dashboard-page) .card:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Modern form styling throughout site */
+body:not(.dashboard-page) .form-control, 
+body:not(.dashboard-page) .form-select {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    transition: all 0.3s ease !important;
+}
+
+body:not(.dashboard-page) .form-control:focus, 
+body:not(.dashboard-page) .form-select:focus {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-color: var(--erp-brand-primary) !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15) !important;
+    transform: scale(1.02) !important;
+}
+
+html[data-bs-theme="dark"] body:not(.dashboard-page) .form-control,
+html[data-bs-theme="dark"] body:not(.dashboard-page) .form-select {
+    background: rgba(33, 37, 41, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #fff !important;
+}
+
+html[data-bs-theme="dark"] body:not(.dashboard-page) .form-control:focus,
+html[data-bs-theme="dark"] body:not(.dashboard-page) .form-select:focus {
+    background: rgba(33, 37, 41, 0.95) !important;
+    border-color: #4facfe !important;
+    box-shadow: 0 0 0 0.25rem rgba(79, 172, 254, 0.15) !important;
+}
+
+/* Modern table styling for all pages */
+body:not(.dashboard-page) .table {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+    border-radius: 0.75rem !important;
+    overflow: hidden !important;
+}
+
+html[data-bs-theme="dark"] body:not(.dashboard-page) .table {
+    background: rgba(33, 37, 41, 0.8) !important;
+}
+
+body:not(.dashboard-page) .table thead th {
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.1), rgba(13, 110, 253, 0.05)) !important;
+    border-bottom: 2px solid rgba(13, 110, 253, 0.2) !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    font-size: 0.875rem !important;
+}
+
+html[data-bs-theme="dark"] body:not(.dashboard-page) .table thead th {
+    background: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(79, 172, 254, 0.05)) !important;
+    border-bottom: 2px solid rgba(79, 172, 254, 0.2) !important;
+}
+
+/* Table row hover effects */
+body:not(.dashboard-page) .table tbody tr {
+    transition: all 0.3s ease !important;
+}
+
+body:not(.dashboard-page) .table tbody tr:hover {
+    background: rgba(13, 110, 253, 0.08) !important;
+    transform: translateX(3px) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+html[data-bs-theme="dark"] body:not(.dashboard-page) .table tbody tr:hover {
+    background: rgba(79, 172, 254, 0.1) !important;
+}
+
+/* Modern button enhancements for all pages */
+body:not(.dashboard-page) .btn {
+    backdrop-filter: blur(10px) !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.3px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    transition: all 0.3s ease !important;
+}
+
+body:not(.dashboard-page) .btn::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent) !important;
+    transition: left 0.5s !important;
+}
+
+body:not(.dashboard-page) .btn:hover::before {
+    left: 100% !important;
+}
+
+body:not(.dashboard-page) .btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+}
+
+/* Modern navbar enhancements */
+body:not(.dashboard-page) .navbar {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+html[data-bs-theme="dark"] body:not(.dashboard-page) .navbar {
+    background: rgba(33, 37, 41, 0.9) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Modern breadcrumb styling */
+body:not(.dashboard-page) .erp-breadcrumbs,
+body:not(.dashboard-page) .breadcrumb {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    border-radius: 0.75rem !important;
+    padding: 0.75rem 1rem !important;
+}
+
+html[data-bs-theme="dark"] body:not(.dashboard-page) .erp-breadcrumbs,
+html[data-bs-theme="dark"] body:not(.dashboard-page) .breadcrumb {
+    background: rgba(33, 37, 41, 0.7) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Modern alert styling */
+body:not(.dashboard-page) .alert {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-radius: 0.75rem !important;
+}
+
+html[data-bs-theme="dark"] body:not(.dashboard-page) .alert {
+    background: rgba(33, 37, 41, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Modern DataTables styling */
+body:not(.dashboard-page) .dataTables_wrapper {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 0.75rem !important;
+    padding: 1.5rem !important;
+    backdrop-filter: blur(5px) !important;
+}
+
+body:not(.dashboard-page) .dataTables_wrapper .dataTables_filter input,
+body:not(.dashboard-page) .dataTables_wrapper .dataTables_length select {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-radius: 0.5rem !important;
+    transition: all 0.3s ease !important;
+}
+
+body:not(.dashboard-page) .dataTables_wrapper .dataTables_filter input:focus,
+body:not(.dashboard-page) .dataTables_wrapper .dataTables_length select:focus {
+    transform: scale(1.02) !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15) !important;
+}
+
+html[data-bs-theme="dark"] body:not(.dashboard-page) .dataTables_wrapper .dataTables_filter input,
+html[data-bs-theme="dark"] body:not(.dashboard-page) .dataTables_wrapper .dataTables_length select {
+    background: rgba(33, 37, 41, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+}
+
+/* Modern pagination styling */
+body:not(.dashboard-page) .pagination .page-link {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s ease !important;
+    margin: 0 2px !important;
+    border-radius: 0.5rem !important;
+}
+
+body:not(.dashboard-page) .pagination .page-link:hover {
+    background: var(--erp-brand-primary) !important;
+    border-color: var(--erp-brand-primary) !important;
+    transform: translateY(-2px) !important;
+    color: white !important;
+}
+
+html[data-bs-theme="dark"] body:not(.dashboard-page) .pagination .page-link {
+    background: rgba(33, 37, 41, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+}
+
+/* Page content animations */
+body:not(.dashboard-page) .container-fluid > * {
+    animation: fadeInUp 0.6s ease-out !important;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Modern badges */
+body:not(.dashboard-page) .badge {
+    backdrop-filter: blur(5px) !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.3px !important;
+    padding: 0.5em 0.75em !important;
+}
+
+/* List group modern styling */
+body:not(.dashboard-page) .list-group-item {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+body:not(.dashboard-page) .list-group-item:hover {
+    background: rgba(13, 110, 253, 0.1) !important;
+    transform: translateX(3px) !important;
+}
+
+html[data-bs-theme="dark"] body:not(.dashboard-page) .list-group-item {
+    background: rgba(33, 37, 41, 0.7) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+html[data-bs-theme="dark"] body:not(.dashboard-page) .list-group-item:hover {
+    background: rgba(79, 172, 254, 0.1) !important;
+}
+
+/* Modern progress bars */
+.progress {
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, var(--erp-brand-primary), #4facfe);
+}
+
+/* Modern scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--erp-brand-primary), #4facfe);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #4facfe, var(--erp-brand-primary));
+}
+
+/* Ensure text readability */
+.text-muted {
+    color: rgba(108, 117, 125, 0.8) !important;
+}
+
+html[data-bs-theme="dark"] .text-muted {
+    color: rgba(173, 181, 189, 0.8) !important;
+}
