@@ -3,7 +3,7 @@ session_start();
 $_SESSION = array();
 session_destroy();
 
-// CORRECTED: Redirect to the new portal login page
-header("location: portal_login.php");
+// Redirect to the landing page
+header("location: index.html");
 exit;
 ?>

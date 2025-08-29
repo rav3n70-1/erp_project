@@ -136,8 +136,8 @@
             
             <div class="mt-4">
                 <p class="text-muted mb-3">Expected Launch: <strong>Coming Soon</strong></p>
-                <a href="portal_login.php" class="back-btn">
-                    <i class="bi bi-arrow-left me-2"></i>Back to Portal Selection
+                <a href="index.html" class="back-btn">
+                    <i class="bi bi-arrow-left me-2"></i>Back to Home
                 </a>
             </div>
         </div>

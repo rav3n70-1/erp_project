@@ -62,7 +62,7 @@ if (isset($_SESSION['user_id'])) {
                 </div>
                 
                 <div class="text-center mt-3">
-                    <a href="portal_login.php" class="small">« Back to Portal Selection</a>
+                    <a href="index.html" class="small">« Back to Home</a>
                 </div>
             </div>
         </div>
